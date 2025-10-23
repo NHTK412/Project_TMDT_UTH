@@ -1,0 +1,10 @@
+spring.application.name=clothingstore
+server.port=
+server.servlet.context-path=
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+spring.datasource.driver-class-name=
+
+spring.jpa.hibernate.ddl-auto=
+# spring.jpa.show-sql=
