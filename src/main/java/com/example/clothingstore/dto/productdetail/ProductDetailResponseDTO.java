@@ -1,4 +1,4 @@
-package com.example.clothingstore.dto;
+package com.example.clothingstore.dto.productdetail;
 
 import com.example.clothingstore.model.ProductDetail;
 
@@ -13,20 +13,20 @@ public class ProductDetailResponseDTO {
 
     private Integer detailId;
 
-    private String color;
+    // private String color;
 
     private String size;
 
     private Integer quantity;
 
-    private String productImage;
+    // private String productImage;
 
     public ProductDetailResponseDTO(ProductDetail productDetail) {
         this.detailId = productDetail.getDetailId();
-        this.color = productDetail.getColor();
+        // this.color = productDetail.getColor();
         this.size = productDetail.getSize();
         this.quantity = productDetail.getQuantity();
-        this.productImage = productDetail.getProductImage();
+        // this.productImage = productDetail.getProductImage();
     }
 
 }

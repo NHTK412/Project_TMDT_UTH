@@ -29,8 +29,8 @@ public class ProductDetail extends Base {
     @Column(name = "DetailId")
     private Integer detailId;
 
-    @Column(name = "Color")
-    private String color;
+    // @Column(name = "Color")
+    // private String color;
 
     @Column(name = "Size")
     private String size;
@@ -38,12 +38,16 @@ public class ProductDetail extends Base {
     @Column(name = "Quantity")
     private Integer quantity;
 
-    @Column(name = "ProductImage")
-    private String productImage;
+    // @Column(name = "ProductImage")
+    // private String productImage;
+
+    // @ManyToOne
+    // @JoinColumn(name = "ProductId")
+    // private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "ProductId")
-    private Product product;
+    @JoinColumn(name = "ProductColor")
+    private ProductColor productColor;
 
     @ManyToMany(mappedBy = "productDetails")
     private List<PromotionGroup> promotionGroups;
@@ -55,3 +59,5 @@ public class ProductDetail extends Base {
     private List<OrderDetail> orderDetails;
 
 }
+
+

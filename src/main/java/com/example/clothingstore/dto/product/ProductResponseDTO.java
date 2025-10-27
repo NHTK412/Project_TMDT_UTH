@@ -1,7 +1,9 @@
-package com.example.clothingstore.dto;
+package com.example.clothingstore.dto.product;
 
 import java.util.List;
 
+import com.example.clothingstore.dto.ReviewResponseDTO;
+import com.example.clothingstore.dto.productcolor.ProductColorResponseDTO;
 import com.example.clothingstore.model.Product;
 
 import lombok.AllArgsConstructor;
@@ -23,7 +25,7 @@ public class ProductResponseDTO {
 
     private String productImage;
 
-    private List<ProductDetailResponseDTO> productDetails;
+    private List<ProductColorResponseDTO> productColors;
 
     private List<ReviewResponseDTO> reviews;
 
@@ -33,10 +35,10 @@ public class ProductResponseDTO {
         this.unitPrice = product.getUnitPrice();
         this.description = product.getDescription();
         this.productImage = product.getProductImage();
-        this.productDetails = product.getProductDetails()
+        this.productColors = product.getProductColors()
                 .stream()
-                .map((productDetail) -> {
-                    return new ProductDetailResponseDTO(productDetail);
+                .map((producrColor) -> {
+                    return new ProductColorResponseDTO(producrColor);
                 })
                 .toList();
         this.reviews = product.getReviews()

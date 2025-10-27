@@ -2,6 +2,7 @@ package com.example.clothingstore.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,12 +40,17 @@ public class Product extends Base {
     @Column(name = "ProductImage")
     private String productImage;
 
-    @OneToMany(mappedBy = "product")
-    private List<ProductDetail> productDetails;
+    // @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval =
+    // true)
+    // private List<ProductDetail> productDetails;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductColor> productColors;
 
     @ManyToMany(mappedBy = "products")
     private List<Category> categories;
 
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
+
 }
