@@ -1,5 +1,6 @@
 package com.example.clothingstore.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -41,6 +42,21 @@ public class FileUploadService {
         FileUploadResponse fileUploadResponse = new FileUploadResponse();
         fileUploadResponse.setFileName(newFileName);
         fileUploadResponse.setFileName(destinationPath.toString());
+
+        return fileUploadResponse;
+    }
+
+    public FileUploadResponse deleteImage(String fileName) {
+        FileUploadResponse fileUploadResponse = new FileUploadResponse();
+
+        Path destinationPath = Paths.get(imagePathString).resolve(fileName);
+
+        File image = destinationPath.toFile();
+
+        fileUploadResponse.setFileName(image.getName());
+        fileUploadResponse.setFilePath(image.getPath());
+
+        image.delete();
 
         return fileUploadResponse;
     }
