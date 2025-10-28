@@ -1,11 +1,14 @@
 package com.example.clothingstore.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -43,5 +46,42 @@ public class FileUploadService {
         fileUploadResponse.setFileName(destinationPath.toString());
 
         return fileUploadResponse;
+    }
+
+    public FileUploadResponse deleteImage(String fileName) {
+        FileUploadResponse fileUploadResponse = new FileUploadResponse();
+
+        Path destinationPath = Paths.get(imagePathString).resolve(fileName);
+
+        File image = destinationPath.toFile();
+
+        fileUploadResponse.setFileName(image.getName());
+        fileUploadResponse.setFilePath(image.getPath());
+
+        image.delete();
+
+        return fileUploadResponse;
+    }
+
+    public List<FileUploadResponse> uploadMultipleImage(List<MultipartFile> files) throws IOException {
+        List<FileUploadResponse> fileUploadResponses = new ArrayList<>();
+        for (MultipartFile file : files) {
+            String originalFileName = file.getOriginalFilename();
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+
+            String newFileName = timestamp + "_" + originalFileName;
+            Path destinationPath = Paths.get(imagePathString).resolve(newFileName);
+
+            Files.createDirectories(destinationPath.getParent());
+
+            file.transferTo(destinationPath);
+
+            FileUploadResponse fileUploadResponse = new FileUploadResponse();
+            fileUploadResponse.setFileName(newFileName);
+            fileUploadResponse.setFileName(destinationPath.toString());
+
+            fileUploadResponses.add(fileUploadResponse);
+        }
+        return fileUploadResponses;
     }
 }
