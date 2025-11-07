@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý khách - Tenbrand</title> <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="header__logo">Tenbrand</div>
+        <nav class="header__dieu_huong">
+            <ul>
+                <li><a href="index.html">Tổng quan</a></li> 
+                <li><a href="Ban_hang.html">Bán hàng</a></li>
+                <li class="dang_chon"><a href="Khach.html">Khách</a></li>
+                <li><a href="Kho.html">Kho</a></li>
+                <li><a href="Marketing.html">Marketing</a></li>
+                <li><a href="BaoCao.html">Báo cáo</a></li>
+            </ul>
+        </nav>
+        <div class="header__hanh_dong">
+            <div class="thanh_tim_kiem">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Tìm kiếm...">
+            </div>
+            <i class="fas fa-user-circle icon_hanh_dong"></i>
+            <i class="fas fa-bell icon_hanh_dong"></i>
+        </div>
+    </header>
+
+    <main class="noi_dung_chinh">
+        <nav class="breadcrumb">
+            <a href="index.html">Trang chủ</a> / <span>Khách</span>
+        </nav>
+        <h1>Quản lý khách</h1>
+
+        <section class="luoi_thong_ke">
+            <div class="the_thong_ke">
+                <div class="the_thong_ke__bieu_tuong"><i class="fas fa-users"></i></div>
+                <div class="the_thong_ke__thong_tin">
+                    <span class="the_thong_ke__gia_tri">1212</span>
+                    <span class="the_thong_ke__nhan">Tổng số khách hàng</span>
+                </div>
+            </div>
+            <div class="the_thong_ke">
+                <div class="the_thong_ke__bieu_tuong"><i class="fas fa-user-check" style="color: #27ae60;"></i></div>
+                <div class="the_thong_ke__thong_tin">
+                    <span class="the_thong_ke__gia_tri">300</span>
+                    <span class="the_thong_ke__nhan">Đang hoạt động</span>
+                </div>
+            </div>
+            <div class="the_thong_ke">
+                <div class="the_thong_ke__bieu_tuong"><i class="fas fa-crown" style="color: #f39c12;"></i></div>
+                <div class="the_thong_ke__thong_tin">
+                    <span class="the_thong_ke__gia_tri">5</span>
+                    <span class="the_thong_ke__nhan">Khách VIP</span>
+                </div>
+            </div>
+            <div class="the_thong_ke">
+                <div class="the_thong_ke__bieu_tuong"><i class="fas fa-user-plus"></i></div>
+                <div class="the_thong_ke__thong_tin">
+                    <span class="the_thong_ke__gia_tri">212</span>
+                    <span class="the_thong_ke__nhan">Khách mới tháng này</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="bo_loc_don_hang">
+            <div class="thanh_tim_kiem_lon">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Tìm tên, SĐT, Email...">
+            </div>
+            <div class="nhom_bo_loc">
+                <select class="bo_loc_dropdown">
+                    <option value="">Tất cả cấp độ</option>
+                    <option value="vip">VIP</option>
+                    <option value="vang">Vàng</option>
+                    <option value="bac">Bạc</option>
+                </select>
+                <select class="bo_loc_dropdown">
+                    <option value="">Trạng thái</option>
+                    <option value="hoat_dong">Hoạt động</option>
+                    <option value="khong_hoat_dong">Không hoạt động</option>
+                </select>
+                <select class="bo_loc_dropdown">
+                    <option value="">Sắp xếp</option>
+                    <option value="moi_nhat">Mới nhất</option>
+                    <option value="cu_nhat">Cũ nhất</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="khu_vuc_bang">
+            <table class="bang_khach_hang">
+                <thead>
+                    <tr>
+                        <th>Khách hàng</th>
+                        <th>Số điện thoại</th>
+                        <th>Cấp độ</th>
+                        <th>Đơn hàng</th>
+                        <th>Tổng chi tiêu</th>
+                        <th>Ngày tham gia</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Vũ Quốc Huy</td>
+                        <td>0708123456</td>
+                        <td><span class="cap_do cap_do--bac">Bạc</span></td>
+                        <td>20 đơn</td>
+                        <td>1.500.000đ</td>
+                        <td>12/12/2005</td>
+                        <td><span class="trang_thai_khach trang_thai_khach--hoat_dong">Hoạt động</span></td>
+                    </tr>
+                    <tr>
+                        <td>Trần Nhật Đông</td>
+                        <td>0909123456</td>
+                        <td><span class="cap_do cap_do--vang">Vàng</span></td>
+                        <td>107 đơn</td>
+                        <td>15.000.000đ</td>
+                        <td>12/12/2005</td>
+                        <td><span class="trang_thai_khach trang_thai_khach--hoat_dong">Hoạt động</span></td>
+                    </tr>
+                    <tr>
+                        <td>Phó Hà Nguyên Binh</td>
+                        <td>0808123456</td>
+                        <td><span class="cap_do cap_do--thuong">Thường</span></td>
+                        <td>1 đơn</td>
+                        <td>100.000đ</td>
+                        <td>12/12/2005</td>
+                        <td><span class="trang_thai_khach trang_thai_khach--khong_hoat_dong">Không HĐ</span></td>
+                    </tr>
+                    <tr>
+                        <td>Nguyễn Khuyên</td>
+                        <td>0606123456</td>
+                        <td><span class="cap_do cap_do--vip">VIP</span></td>
+                        <td>700 đơn</td>
+                        <td>50.000.000đ</td>
+                        <td>12/12/2005</td>
+                        <td><span class="trang_thai_khach trang_thai_khach--hoat_dong">Hoạt động</span></td>
+                    </tr>
+                    <tr>
+                        <td>Khang DZ</td>
+                        <td>0505123456</td>
+                        <td><span class="cap_do cap_do--thuong">Thường</span></td>
+                        <td>2 đơn</td>
+                        <td>250.000đ</td>
+                        <td>12/12/2005</td>
+                        <td><span class="trang_thai_khach trang_thai_khach--khong_hoat_dong">Không HĐ</span></td>
+                    </tr>
+                    </tbody>
+            </table>
+        </section>
+
+        <nav class="phan_trang">
+            <a href="#" class="nut_dieu_huong"><i class="fas fa-chevron-left"></i></a>
+            <a href="#" class="trang_hien_tai">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#" class="nut_dieu_huong"><i class="fas fa-chevron-right"></i></a>
+        </nav>
+
+    </main>
+    <footer class="footer">
+        <div class="footer__noi_dung">
+            <div class="footer__cot">
+                <h4>Tenbrand</h4>
+                <p>Thương hiệu thời trang hàng đầu Việt Nam, mang đến những sản phẩm chất lượng cao với thiết kế hiện đại và phong cách.</p>
+            </div>
+            <div class="footer__cot">
+                <h4>Về chúng tôi</h4>
+                <ul>
+                    <li><a href="#">Giới thiệu</a></li>
+                    <li><a href="#">Cửa hàng</a></li>
+                    <li><a href="#">Sản phẩm</a></li>
+                    <li><a href="#">Tin tức</a></li>
+                </ul>
+            </div>
+            <div class="footer__cot">
+                <h4>Hỗ trợ khách hàng</h4>
+                <ul>
+                    <li><a href="#">Tìm kiếm</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                </ul>
+            </div>
+            <div class="footer__cot">
+                <h4>Chính sách</h4>
+                <ul>
+                    <li><a href="#">Thanh toán</a></li>
+                    <li><a href="#">Bảo mật</a></li>
+                    <li><a href="#">Điều khoản</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer__chan_trang">
+            <p>© 2025 Tenbrand - All rights reserved.</p>
+            <div class="icon_mang_xa_hoi">
+                <span>Theo dõi chúng tôi:</span>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

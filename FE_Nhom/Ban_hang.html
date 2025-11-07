@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bán hàng - Tenbrand</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header__logo">Tenbrand</div>
+        <nav class="header__dieu_huong">
+            <ul>
+                <li><a href="index.html">Tổng quan</a></li>
+                <li class="dang_chon"><a href="Ban_hang.html">Bán hàng</a></li>
+                <li><a href="Khach.html">Khách</a></li>
+                <li><a href="Kho.html">Kho</a></li>
+                <li><a href="Marketing.html">Marketing</a></li>
+                <li><a href="BaoCao.html">Báo cáo</a></li>
+            </ul>
+        </nav>
+        <div class="header__hanh_dong">
+            <div class="thanh_tim_kiem">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Tìm kiếm...">
+            </div>
+            <i class="fas fa-user-circle icon_hanh_dong"></i>
+            <i class="fas fa-bell icon_hanh_dong"></i>
+        </div>
+    </header>
+
+    <main class="noi_dung_chinh">
+        <nav class="breadcrumb">
+            <a href="index.html">Trang chủ</a> / <span>Bán hàng</span>
+        </nav>
+        <h1>Đơn hàng</h1>
+
+        <section class="tom_tat_don_hang">
+            <div class="tom_tat_item">
+                <i class="fas fa-box-open icon-trang-thai"></i>
+                <div class="tom_tat_chi_tiet">
+                    <strong>156</strong>
+                    <span>Tất cả</span>
+                </div>
+            </div>
+            <div class="tom_tat_item">
+                <i class="fas fa-check-circle icon-trang-thai" style="color: #27ae60;"></i>
+                <div class="tom_tat_chi_tiet">
+                    <strong>90</strong>
+                    <span>Hoàn thành</span>
+                </div>
+            </div>
+            <div class="tom_tat_item">
+                <i class="fas fa-clock icon-trang-thai" style="color: #f39c12;"></i>
+                <div class="tom_tat_chi_tiet">
+                    <strong>40</strong>
+                    <span>Chờ xử lý</span>
+                </div>
+            </div>
+            <div class="tom_tat_item">
+                <i class="fas fa-spinner icon-trang-thai" style="color: #3498db;"></i>
+                <div class="tom_tat_chi_tiet">
+                    <strong>20</strong>
+                    <span>Đang xử lý</span>
+                </div>
+            </div>
+            <div class="tom_tat_item">
+                <i class="fas fa-truck icon-trang-thai" style="color: #e74c3c;"></i>
+                <div class="tom_tat_chi_tiet">
+                    <strong>1</strong>
+                    <span>Đang giao</span>
+                </div>
+            </div>
+            <div class="tom_tat_item">
+                <i class="fas fa-times-circle icon-trang-thai" style="color: #999;"></i>
+                <div class="tom_tat_chi_tiet">
+                    <strong>5</strong>
+                    <span>Đã hủy</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="bo_loc_don_hang">
+            <div class="thanh_tim_kiem_lon">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Tìm đơn hàng theo mã, tên khách hàng...">
+            </div>
+            <div class="nhom_bo_loc">
+                <select class="bo_loc_dropdown">
+                    <option value="">Trạng thái</option>
+                    <option value="cho_xu_ly">Chờ xử lý</option>
+                    <option value="dang_xu_ly">Đang xử lý</option>
+                    <option value="dang_giao">Đang giao</option>
+                </select>
+                <select class="bo_loc_dropdown">
+                    <option value="">Sắp xếp</option>
+                    <option value="moi_nhat">Mới nhất</option>
+                    <option value="cu_nhat">Cũ nhất</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="danh_sach_don_hang">
+
+            <div class="the_don_hang">
+                <div class="don_hang__dau_the">
+                    <h3>#QH121205</h3>
+                    <span class="trang_thai trang_thai--cho_xu_ly">Chờ xử lý</span>
+                </div>
+                <div class="don_hang__thong_tin">
+                    <div>
+                        <span>Khách hàng: <strong>Vũ Quốc Huy</strong></span>
+                        <span>Ngày đặt: <strong>2/2/2025 - 3:00</strong></span>
+                    </div>
+                    <div>
+                        <span>SĐT: <strong>0708123456</strong></span>
+                        <span>Tổng tiền: <strong class="gia_tien">550.000đ</strong></span>
+                    </div>
+                </div>
+                <div class="don_hang__san_pham_list">
+                    <div class="san_pham_item">
+                        <img src="./Picture/ao(8).png" alt="Sản phẩm">
+                        <div class="san_pham_item__chi_tiet">
+                            <span>Áo</span>
+                            <span>Số lượng: 1 x 250.000đ</span>
+                        </div>
+                    </div>
+                    <div class="san_pham_item">
+                        <img src="./Picture/Quan_jean.png" alt="Sản phẩm">
+                        <div class="san_pham_item__chi_tiet">
+                            <span>Quần jean</span>
+                            <span>Số lượng: 1 x 300.000đ</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="don_hang__hanh_dong">
+                    <button class="nut_hanh_dong nut--phu"><i class="fas fa-eye"></i> Chi tiết</button>
+                    <button class="nut_hanh_dong nut--chinh"><i class="fas fa-check"></i> Xác nhận</button>
+                    <button class="nut_hanh_dong nut--huy"><i class="fas fa-times"></i> Hủy đơn</button>
+                    <button class="nut_hanh_dong nut--phu"><i class="fas fa-print"></i> In đơn</button>
+                </div>
+            </div>
+
+            <div class="the_don_hang">
+                <div class="don_hang__dau_the">
+                    <h3>#QH121206</h3>
+                    <span class="trang_thai trang_thai--dang_xu_ly">Đang xử lý</span>
+                </div>
+                <div class="don_hang__thong_tin">
+                    <div>
+                        <span>Khách hàng: <strong>Vũ Quốc Huy</strong></span>
+                        <span>Ngày đặt: <strong>2/2/2025 - 3:00</strong></span>
+                    </div>
+                    <div>
+                        <span>SĐT: <strong>0708123456</strong></span>
+                        <span>Tổng tiền: <strong class="gia_tien">550.000đ</strong></span>
+                    </div>
+                </div>
+                <div class="don_hang__hanh_dong">
+                    <button class="nut_hanh_dong nut--phu"><i class="fas fa-eye"></i> Chi tiết</button>
+                    <button class="nut_hanh_dong nut--chinh"><i class="fas fa-truck"></i> Giao hàng</button>
+                    <button class="nut_hanh_dong nut--phu"><i class="fas fa-comment"></i> Nhắn tin</button>
+                    <button class="nut_hanh_dong nut--phu"><i class="fas fa-print"></i> In đơn</button>
+                </div>
+            </div>
+
+            <div class="the_don_hang">
+                <div class="don_hang__dau_the">
+                    <h3>#QH121207</h3>
+                    <span class="trang_thai trang_thai--dang_giao">Đang giao</span>
+                </div>
+                <div class="don_hang__thong_tin">
+                    <div>
+                        <span>Khách hàng: <strong>Vũ Quốc Huy</strong></span>
+                        <span>Ngày đặt: <strong>2/2/2025 - 3:00</strong></span>
+                    </div>
+                    <div>
+                        <span>SĐT: <strong>0708123456</strong></span>
+                        <span>Tổng tiền: <strong class="gia_tien">550.000đ</strong></span>
+                    </div>
+                </div>
+                <div class="don_hang__hanh_dong">
+                    <button class="nut_hanh_dong nut--phu"><i class="fas fa-eye"></i> Chi tiết</button>
+                    <button class="nut_hanh_dong nut--chinh"><i class="fas fa-check-double"></i> Đã giao</button>
+                    <button class="nut_hanh_dong nut--phu"><i class="fas fa-comment"></i> Nhắn tin</button>
+                    <button class="nut_hanh_dong nut--phu"><i class="fas fa-map-marker-alt"></i> Theo dõi</button>
+                </div>
+            </div>
+        </section>
+
+        <nav class="phan_trang">
+            <a href="#" class="nut_dieu_huong"><i class="fas fa-chevron-left"></i></a>
+            <a href="#" class="trang_hien_tai">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#" class="nut_dieu_huong"><i class="fas fa-chevron-right"></i></a>
+        </nav>
+
+    </main>
+    <footer class="footer">
+        <div class="footer__noi_dung">
+            <div class="footer__cot">
+                <h4>Tenbrand</h4>
+                <p>Thương hiệu thời trang hàng đầu Việt Nam, mang đến những sản phẩm chất lượng cao với thiết kế hiện
+                    đại và phong cách.</p>
+            </div>
+            <div class="footer__cot">
+                <h4>Về chúng tôi</h4>
+                <ul>
+                    <li><a href="#">Giới thiệu</a></li>
+                    <li><a href="#">Cửa hàng</a></li>
+                    <li><a href="#">Sản phẩm</a></li>
+                    <li><a href="#">Tin tức</a></li>
+                </ul>
+            </div>
+            <div class="footer__cot">
+                <h4>Hỗ trợ khách hàng</h4>
+                <ul>
+                    <li><a href="#">Tìm kiếm</a></li>
+                    <li><a href="#">Chính sách đổi trả</a></li>
+                    <li><a href="#">Câu hỏi thường gặp</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                </ul>
+            </div>
+            <div class="footer__cot">
+                <h4>Chính sách</h4>
+                <ul>
+                    <li><a href="#">Thanh toán</a></li>
+                    <li><a href="#">Bảo mật</a></li>
+                    <li><a href="#">Điều khoản</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer__chan_trang">
+            <p>© 2025 Tenbrand - All rights reserved.</p>
+            <div class="icon_mang_xa_hoi">
+                <span>Theo dõi chúng tôi:</span>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
