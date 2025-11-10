@@ -2,8 +2,12 @@ package com.example.clothingstore.model;
 
 import java.time.LocalDateTime;
 
+import com.example.clothingstore.enums.AccountStatusEnum;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,8 +30,9 @@ public class Account extends Base {
     @Column(name = "AccountId")
     private Integer accountId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "Status")
-    private String status;
+    private AccountStatusEnum status;
 
     @Column(name = "UserName")
     private String userName;
