@@ -2,8 +2,12 @@ package com.example.clothingstore.model;
 
 import java.util.List;
 
+import com.example.clothingstore.enums.CategoryStatusEnum;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,8 +38,9 @@ public class Category extends Base {
     @Column(name = "Description")
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "Status")
-    private String status;
+    private CategoryStatusEnum status;
 
     @ManyToMany
     @JoinTable(name = "Category_Product", joinColumns = @JoinColumn(name = "CategoryId"), inverseJoinColumns = @JoinColumn(name = "ProductId"))
