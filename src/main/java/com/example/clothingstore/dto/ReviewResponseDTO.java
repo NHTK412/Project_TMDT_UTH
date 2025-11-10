@@ -1,4 +1,4 @@
-package com.example.clothingstore.dto.review;
+package com.example.clothingstore.dto;
 
 import com.example.clothingstore.model.Review;
 
