@@ -26,53 +26,56 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/membership-tier")
 public class MembershipTierController {
 
-    @Autowired
-    private MembershipTierService membershipTierService;
+        @Autowired
+        private MembershipTierService membershipTierService;
 
-    @GetMapping
-    public ResponseEntity<ApiResponse<List<MembershipTierResponseDTO>>> getAllMembershipTier(
-            @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size) {
+        @GetMapping
+        public ResponseEntity<ApiResponse<List<MembershipTierResponseDTO>>> getAllMembershipTier(
+                        @RequestParam(defaultValue = "1") Integer page,
+                        @RequestParam(defaultValue = "10") Integer size) {
 
-        Pageable pageable = PageRequest.of(page - 1, size);
+                Pageable pageable = PageRequest.of(page - 1, size);
 
-        List<MembershipTierResponseDTO> membershipTierResponseDTOs = membershipTierService
-                .getAllMembershipTier(pageable);
+                List<MembershipTierResponseDTO> membershipTierResponseDTOs = membershipTierService
+                                .getAllMembershipTier(pageable);
 
-        return ResponseEntity
-                .ok(new ApiResponse<List<MembershipTierResponseDTO>>(null, null, membershipTierResponseDTOs));
-    }
+                return ResponseEntity
+                                .ok(new ApiResponse<List<MembershipTierResponseDTO>>(true, null,
+                                                membershipTierResponseDTOs));
+        }
 
-    @PostMapping
-    public ResponseEntity<ApiResponse<MembershipTierResponseDTO>> createMembershipTier(
-            @RequestBody MembershipTierRequestDTO membershipTierRequestDTO) {
+        @PostMapping
+        public ResponseEntity<ApiResponse<MembershipTierResponseDTO>> createMembershipTier(
+                        @RequestBody MembershipTierRequestDTO membershipTierRequestDTO) {
 
-        MembershipTierResponseDTO membershipTierResponseDTO = membershipTierService
-                .createMembershipTier(membershipTierRequestDTO);
+                MembershipTierResponseDTO membershipTierResponseDTO = membershipTierService
+                                .createMembershipTier(membershipTierRequestDTO);
 
-        return ResponseEntity
-                .ok(new ApiResponse<MembershipTierResponseDTO>(null, null, membershipTierResponseDTO));
-    }
+                return ResponseEntity
+                                .ok(new ApiResponse<MembershipTierResponseDTO>(true, null, membershipTierResponseDTO));
+        }
 
-    @DeleteMapping("/{membershipTieId}")
-    public ResponseEntity<ApiResponse<MembershipTierResponseDTO>> deleteMembershipTier(
-            @PathVariable Integer membershipTieId) {
+        @DeleteMapping("/{membershipTieId}")
+        public ResponseEntity<ApiResponse<MembershipTierResponseDTO>> deleteMembershipTier(
+                        @PathVariable Integer membershipTieId) {
 
-        MembershipTierResponseDTO membershipTierResponseDTO = membershipTierService
-                .deleteMembershipTier(membershipTieId);
+                MembershipTierResponseDTO membershipTierResponseDTO = membershipTierService
+                                .deleteMembershipTier(membershipTieId);
 
-        return ResponseEntity
-                .ok(new ApiResponse<MembershipTierResponseDTO>(null, null, membershipTierResponseDTO));
-    }
+                return ResponseEntity
+                                .ok(new ApiResponse<MembershipTierResponseDTO>(true, null, membershipTierResponseDTO));
+        }
 
-    @PutMapping("/{membershipTieId}")
-    public ResponseEntity<ApiResponse<MembershipTierResponseDTO>> updateMembershipTier(
-            @PathVariable Integer membershipTieId, @RequestBody MembershipTierRequestDTO membershipTierRequestDTO) {
+        @PutMapping("/{membershipTieId}")
+        public ResponseEntity<ApiResponse<MembershipTierResponseDTO>> updateMembershipTier(
+                        @PathVariable Integer membershipTieId,
+                        @RequestBody MembershipTierRequestDTO membershipTierRequestDTO) {
 
-        MembershipTierResponseDTO membershipTierResponseDTO = membershipTierService
-                .updateMembershipTier(membershipTieId, membershipTierRequestDTO);
+                MembershipTierResponseDTO membershipTierResponseDTO = membershipTierService
+                                .updateMembershipTier(membershipTieId, membershipTierRequestDTO);
 
-        return ResponseEntity
-                .ok(new ApiResponse<MembershipTierResponseDTO>(null, null, membershipTierResponseDTO));
-    }
+                return ResponseEntity
+                                .ok(new ApiResponse<MembershipTierResponseDTO>(true, null, membershipTierResponseDTO));
+        }
 
 }
