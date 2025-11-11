@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,20 +49,25 @@ public class CustomerController {
         return ResponseEntity.ok(new ApiResponse<List<CustomerSummaryDTO>>(true, null, customerSummaryDTO));
     }
 
-    @PostMapping("/{accountId}")
-    public ResponseEntity<ApiResponse<CustomerResponseDTO>> createCustomer(@PathVariable Integer accountId,
+    @PostMapping
+    public ResponseEntity<ApiResponse<CustomerResponseDTO>> createCustomer(
             @RequestBody CustomerRequestDTO customerRequestDTO) {
 
-        CustomerResponseDTO customerResponseDTO = customerService.createCustomer(accountId, customerRequestDTO);
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+        CustomerResponseDTO customerResponseDTO = customerService.createCustomer(customerRequestDTO);
 
         return ResponseEntity.ok(new ApiResponse<CustomerResponseDTO>(true, null, customerResponseDTO));
     }
 
-    @PutMapping("/{accountId}")
-    public ResponseEntity<ApiResponse<CustomerResponseDTO>> updateCustomer(@PathVariable Integer accountId,
+    @PutMapping("/{customerId}") // dành cho admin
+    public ResponseEntity<ApiResponse<CustomerResponseDTO>> updateCustomer(@PathVariable Integer customerId,
             @RequestBody CustomerRequestDTO customerRequestDTO) {
+        
 
-        CustomerResponseDTO customerResponseDTO = customerService.updateCustomer(accountId, customerRequestDTO);
+        // BCryptPasswordEncoder bCryptPasswordEncoder = BCryptPasswordEncoder();
+
+        CustomerResponseDTO customerResponseDTO = customerService.updateCustomer(customerId, customerRequestDTO);
 
         return ResponseEntity.ok(new ApiResponse<CustomerResponseDTO>(true, null, customerResponseDTO));
     }

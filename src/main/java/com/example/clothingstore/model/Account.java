@@ -1,56 +1,56 @@
-package com.example.clothingstore.model;
+// package com.example.clothingstore.model;
 
-import java.time.LocalDateTime;
+// import java.time.LocalDateTime;
 
-import com.example.clothingstore.enums.AccountStatusEnum;
+// import com.example.clothingstore.enums.AccountStatusEnum;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+// import jakarta.persistence.Column;
+// import jakarta.persistence.Entity;
+// import jakarta.persistence.EnumType;
+// import jakarta.persistence.Enumerated;
+// import jakarta.persistence.FetchType;
+// import jakarta.persistence.GeneratedValue;
+// import jakarta.persistence.GenerationType;
+// import jakarta.persistence.Id;
+// import jakarta.persistence.OneToOne;
+// import jakarta.persistence.Table;
+// import lombok.AllArgsConstructor;
+// import lombok.Data;
+// import lombok.EqualsAndHashCode;
+// import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "Account")
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class Account extends Base {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "AccountId")
-    private Integer accountId;
+// @Entity
+// @Table(name = "Account")
+// @NoArgsConstructor
+// @AllArgsConstructor
+// @Data
+// @EqualsAndHashCode(callSuper = true)
+// public class Account extends Base {
+//     @Id
+//     @GeneratedValue(strategy = GenerationType.IDENTITY)
+//     @Column(name = "AccountId")
+//     private Integer accountId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "Status")
-    private AccountStatusEnum status;
+//     @Enumerated(EnumType.STRING)
+//     @Column(name = "Status")
+//     private AccountStatusEnum status;
 
-    @Column(name = "UserName")
-    private String userName;
+//     @Column(name = "UserName")
+//     private String userName;
 
-    @Column(name = "Password")
-    private String password;
+//     @Column(name = "Password")
+//     private String password;
 
-    @Column(name = "Role")
-    private String role;
+//     @Column(name = "Role")
+//     private String role;
 
-    @Column(name = "LastLogin")
-    private LocalDateTime lastLogin;
+//     @Column(name = "LastLogin")
+//     private LocalDateTime lastLogin;
 
-    @OneToOne(mappedBy = "account")
-    private Customer customer;
+//     @OneToOne(mappedBy = "account")
+//     private Customer customer;
 
-    @OneToOne(mappedBy = "account")
-    private Admin admin;
+//     @OneToOne(mappedBy = "account")
+//     private Admin admin;
 
-}
+// }

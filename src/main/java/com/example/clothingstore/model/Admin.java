@@ -2,6 +2,8 @@ package com.example.clothingstore.model;
 
 import java.time.LocalDateTime;
 
+import com.example.clothingstore.enums.AccountStatusEnum;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,8 +41,21 @@ public class Admin extends Base {
     @Column(name = "Address")
     private String address;
 
-    @OneToOne
-    @JoinColumn(name = "AccountId")
-    private Account account;
+    // @OneToOne
+    // @JoinColumn(name = "AccountId")
+    // private Account account;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Status")
+    private AccountStatusEnum status;
+
+    @Column(name = "UserName")
+    private String userName;
+
+    @Column(name = "Password")
+    private String password;
+
+    @Column(name = "LastLogin")
+    private LocalDateTime lastLogin;
 
 }

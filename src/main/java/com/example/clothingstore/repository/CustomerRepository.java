@@ -32,6 +32,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     // """, countQuery = "SELECT COUNT(c) FROM Customer c")
     // Page<Customer> findAllWithAccountAndMembershipTier(Pageable pageable);
 
-    Optional<Customer> findByAccount_AccountId(Integer AccountId);
+    // Optional<Customer> findByAccount_AccountId(Integer AccountId);
 
 }

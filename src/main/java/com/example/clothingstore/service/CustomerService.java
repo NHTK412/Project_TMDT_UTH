@@ -13,9 +13,9 @@ import com.example.clothingstore.dto.customer.CustomerSummaryDTO;
 import com.example.clothingstore.enums.AccountStatusEnum;
 import com.example.clothingstore.exception.customer.NotFoundException;
 import com.example.clothingstore.mapper.CustomerMapper;
-import com.example.clothingstore.model.Account;
+// import com.example.clothingstore.model.Account;
 import com.example.clothingstore.model.Customer;
-import com.example.clothingstore.repository.AccountRepository;
+// import com.example.clothingstore.repository.AccountRepository;
 import com.example.clothingstore.repository.CustomerRepository;
 
 import jakarta.transaction.Transactional;
@@ -26,8 +26,8 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @Autowired
-    private AccountRepository accountRepository;
+    // @Autowired
+    // private AccountRepository accountRepository;
 
     public CustomerResponseDTO getCustomerById(Integer customerId) {
 
@@ -65,7 +65,7 @@ public class CustomerService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Mã khách hàng không hợp lệ"));
 
-        customer.getAccount().setStatus(AccountStatusEnum.INACTIVE);
+        customer.setStatus(AccountStatusEnum.INACTIVE);
 
         customerRepository.save(customer);
 
@@ -73,16 +73,13 @@ public class CustomerService {
     }
 
     @Transactional
-    public CustomerResponseDTO createCustomer(Integer accountId, CustomerRequestDTO customerRequestDTO) {
+    public CustomerResponseDTO createCustomer(CustomerRequestDTO customerRequestDTO) {
 
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new NotFoundException("Tài khoản không tồn tại"));
-
+        // Account account = accountRepository.findById(accountId)
+        // .orElseThrow(() -> new NotFoundException("Tài khoản không tồn tại"));
         Customer customer = new Customer();
 
-        customer.setAccount(account);
-
-        customer = CustomerMapper.convertCustomerRequestDTOToModel(customerRequestDTO, customer);
+        customer = CustomerMapper.convertCustomerRequestDTOToModel(customerRequestDTO,customer);
 
         customerRepository.save(customer);
 
@@ -90,10 +87,10 @@ public class CustomerService {
     }
 
     @Transactional
-    public CustomerResponseDTO updateCustomer(Integer accountId, CustomerRequestDTO customerRequestDTO) {
+    public CustomerResponseDTO updateCustomer(Integer customerId, CustomerRequestDTO customerRequestDTO) {
 
-        Customer customer = customerRepository.findByAccount_AccountId(accountId)
-                .orElseThrow(() -> new NotFoundException("Không tìm ra khách hàng"));
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new NotFoundException("Mã khách hàng không hợp lệ"));
 
         customer = CustomerMapper.convertCustomerRequestDTOToModel(customerRequestDTO, customer);
 
