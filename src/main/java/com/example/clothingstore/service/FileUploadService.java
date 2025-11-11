@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.clothingstore.dto.fileupload.FileUploadResponse;
+import com.example.clothingstore.dto.fileupload.FileUploadResponseDTO;
 
 @Service
 public class FileUploadService {
@@ -22,7 +22,7 @@ public class FileUploadService {
     @Value("${image-upload-path}")
     private String imagePathString;
 
-    public FileUploadResponse uploadImage(MultipartFile file) throws IOException {
+    public FileUploadResponseDTO uploadImage(MultipartFile file) throws IOException {
 
         String originalFileName = file.getOriginalFilename();
 
@@ -41,30 +41,30 @@ public class FileUploadService {
         // Thực hiện lưu file
         file.transferTo(destinationPath);
 
-        FileUploadResponse fileUploadResponse = new FileUploadResponse();
-        fileUploadResponse.setFileName(newFileName);
-        fileUploadResponse.setFileName(destinationPath.toString());
+        FileUploadResponseDTO fileUploadResponseDTO = new FileUploadResponseDTO();
+        fileUploadResponseDTO.setFileName(newFileName);
+        fileUploadResponseDTO.setFileName(destinationPath.toString());
 
-        return fileUploadResponse;
+        return fileUploadResponseDTO;
     }
 
-    public FileUploadResponse deleteImage(String fileName) {
-        FileUploadResponse fileUploadResponse = new FileUploadResponse();
+    public FileUploadResponseDTO deleteImage(String fileName) {
+        FileUploadResponseDTO fileUploadResponseDTO = new FileUploadResponseDTO();
 
         Path destinationPath = Paths.get(imagePathString).resolve(fileName);
 
         File image = destinationPath.toFile();
 
-        fileUploadResponse.setFileName(image.getName());
-        fileUploadResponse.setFilePath(image.getPath());
+        fileUploadResponseDTO.setFileName(image.getName());
+        fileUploadResponseDTO.setFilePath(image.getPath());
 
         image.delete();
 
-        return fileUploadResponse;
+        return fileUploadResponseDTO;
     }
 
-    public List<FileUploadResponse> uploadMultipleImage(List<MultipartFile> files) throws IOException {
-        List<FileUploadResponse> fileUploadResponses = new ArrayList<>();
+    public List<FileUploadResponseDTO> uploadMultipleImage(List<MultipartFile> files) throws IOException {
+        List<FileUploadResponseDTO> fileUploadResponseDTOs = new ArrayList<>();
         for (MultipartFile file : files) {
             String originalFileName = file.getOriginalFilename();
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
@@ -76,12 +76,12 @@ public class FileUploadService {
 
             file.transferTo(destinationPath);
 
-            FileUploadResponse fileUploadResponse = new FileUploadResponse();
-            fileUploadResponse.setFileName(newFileName);
-            fileUploadResponse.setFileName(destinationPath.toString());
+            FileUploadResponseDTO fileUploadResponseDTO = new FileUploadResponseDTO();
+            fileUploadResponseDTO.setFileName(newFileName);
+            fileUploadResponseDTO.setFileName(destinationPath.toString());
 
-            fileUploadResponses.add(fileUploadResponse);
+            fileUploadResponseDTOs.add(fileUploadResponseDTO);
         }
-        return fileUploadResponses;
+        return fileUploadResponseDTOs;
     }
 }

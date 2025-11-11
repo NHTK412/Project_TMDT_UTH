@@ -3,6 +3,8 @@ package com.example.clothingstore.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.clothingstore.dto.review.ReviewRequestDTO;
@@ -30,10 +32,10 @@ public class ReviewService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public List<ReviewResponseDTO> getALLReviewByProductId(Integer productId) {
-        List<Review> reviews = reviewRepository.findByProduct_ProductId(productId);
+    public List<ReviewResponseDTO> getALLReviewByProductId(Integer productId, Pageable pageable) {
+        Page<Review> reviews = reviewRepository.findByProduct_ProductId(productId, pageable);
 
-        return reviews.stream()
+        return reviews
                 .map((review) -> ReviewMapper.convertModelToReviewResponseDTO(review))
                 .toList();
     }
@@ -44,7 +46,7 @@ public class ReviewService {
                 .orElseThrow(() -> new NotFoundException("Invalid product code"));
 
         Customer customer = customerRepository.findById(1) // CODE CUNG CHO LAM XONG SPRING SECURIY CONTEXT
-                .orElseThrow(() -> new NotFoundException("Mã khách hàng không hợp lệ"));
+                .orElseThrow(() -> new NotFoundException("Invalid customer code"));
 
         Review review = new Review();
 
@@ -62,15 +64,13 @@ public class ReviewService {
 
     @Transactional
     public ReviewResponseDTO updateReview(Integer productId, Integer reviewId, ReviewRequestDTO reviewRequestDTO) {
-        // Product product = productRepository.findById(productId)
-        // .orElseThrow(() -> new NotFoundException("Invalid product code"));
 
-        // Customer customer = customerRepository.findById(1) // CODE CUNG CHO LAM XONG
-        // SPRING SECURIY CONTEXT
-        // .orElseThrow(() -> new NotFoundException("Mã khách hàng không hợp lệ"));
-
-        Review review = reviewRepository.findByReviewIdAndProduct_ProductId(reviewId, productId)
+        Review review = reviewRepository.findByReviewIdAndProduct_ProductId(reviewId,
+                productId)
                 .orElseThrow(() -> new NotFoundException("Invalid review code"));
+
+        // Review review = reviewRepository.findById(reviewId)
+        // .orElseThrow(() -> new NotFoundException("Invalid review code"));
 
         review = ReviewMapper.convertReviewRequestDTOtoModel(reviewRequestDTO, review);
 
@@ -78,5 +78,18 @@ public class ReviewService {
 
         return ReviewMapper.convertModelToReviewResponseDTO(review);
 
+    }
+
+    @Transactional
+    public ReviewResponseDTO deleteReview(Integer productId, Integer reviewId) {
+
+        Review review = reviewRepository.findByReviewIdAndProduct_ProductId(reviewId, productId)
+                .orElseThrow(() -> new NotFoundException("Invalid review code"));
+
+        ReviewResponseDTO reviewResponseDTO = ReviewMapper.convertModelToReviewResponseDTO(review);
+
+        reviewRepository.delete(review);
+
+        return reviewResponseDTO;
     }
 }

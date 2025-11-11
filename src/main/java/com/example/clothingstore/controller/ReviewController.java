@@ -1,6 +1,7 @@
 package com.example.clothingstore.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.clothingstore.dto.review.ReviewRequestDTO;
@@ -11,47 +12,59 @@ import com.example.clothingstore.util.ApiResponse;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
-@RequestMapping("/review")
+@RequestMapping("/product/{productId}/reviews")
 public class ReviewController {
 
     @Autowired
     private ReviewService reviewService;
 
-    @GetMapping("/{productId}")
+    @GetMapping
     public ResponseEntity<ApiResponse<List<ReviewResponseDTO>>> getALLReviewByProductId(
-            @RequestParam Integer productId) {
-        // return new String();
-        List<ReviewResponseDTO> responseDTOs = reviewService.getALLReviewByProductId(productId);
+            @PathVariable Integer productId, @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "5") Integer size) {
 
-        return ResponseEntity.ok(new ApiResponse<List<ReviewResponseDTO>>(true, null, responseDTOs));
+        Pageable pageable = PageRequest.of(page - 1, size);
+        List<ReviewResponseDTO> reviewResponseDTOs = reviewService.getALLReviewByProductId(productId, pageable);
+
+        return ResponseEntity.ok(new ApiResponse<List<ReviewResponseDTO>>(true, null, reviewResponseDTOs));
     }
 
-    @PostMapping("/{productId}")
-    public ResponseEntity<ApiResponse<ReviewResponseDTO>> createReviewByProductId(@RequestParam Integer productId,
+    @PostMapping
+    public ResponseEntity<ApiResponse<ReviewResponseDTO>> createReviewByProductId(@PathVariable Integer productId,
             ReviewRequestDTO reviewRequestDTO) {
-        // return new String();
 
-        ReviewResponseDTO responseDTO = reviewService.createReviewByProductId(productId, reviewRequestDTO);
+        ReviewResponseDTO reviewResponseDTO = reviewService.createReviewByProductId(productId, reviewRequestDTO);
 
-        return ResponseEntity.ok(new ApiResponse<ReviewResponseDTO>(true, null, responseDTO));
+        return ResponseEntity.ok(new ApiResponse<ReviewResponseDTO>(true, null, reviewResponseDTO));
     }
 
-    @PutMapping("/{productId}/{reviewId}")
-    public ResponseEntity<ApiResponse<ReviewResponseDTO>> updateReview(@RequestParam Integer productId,
-            @RequestParam Integer reviewId,
+    @PutMapping("/{reviewId}")
+    public ResponseEntity<ApiResponse<ReviewResponseDTO>> updateReview(@PathVariable Integer productId,
+            @PathVariable Integer reviewId,
             ReviewRequestDTO reviewRequestDTO) {
-        // return new String();
 
-        ReviewResponseDTO responseDTO = reviewService.updateReview(productId, reviewId, reviewRequestDTO);
+        ReviewResponseDTO reviewResponseDTO = reviewService.updateReview(productId, reviewId, reviewRequestDTO);
 
-        return ResponseEntity.ok(new ApiResponse<ReviewResponseDTO>(true, null, responseDTO));
+        return ResponseEntity.ok(new ApiResponse<ReviewResponseDTO>(true, null, reviewResponseDTO));
+    }
+
+    @DeleteMapping("/{reviewId}")
+    public ResponseEntity<ApiResponse<ReviewResponseDTO>> deleteReview(@PathVariable Integer productId,
+            @PathVariable Integer reviewId) {
+
+        ReviewResponseDTO reviewResponseDTO = reviewService.deleteReview(productId, reviewId);
+
+        return ResponseEntity.ok(new ApiResponse<ReviewResponseDTO>(true, null, reviewResponseDTO));
     }
 
 }
