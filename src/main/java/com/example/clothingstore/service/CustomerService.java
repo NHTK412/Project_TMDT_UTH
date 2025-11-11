@@ -63,7 +63,7 @@ public class CustomerService {
     public CustomerResponseDTO deleteCustomer(Integer customerId) {
 
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new NotFoundException("Mã khách hàng không hợp lệ"));
+                .orElseThrow(() -> new NotFoundException("Invalid review code"));
 
         customer.setStatus(AccountStatusEnum.INACTIVE);
 
@@ -79,7 +79,7 @@ public class CustomerService {
         // .orElseThrow(() -> new NotFoundException("Tài khoản không tồn tại"));
         Customer customer = new Customer();
 
-        customer = CustomerMapper.convertCustomerRequestDTOToModel(customerRequestDTO,customer);
+        customer = CustomerMapper.convertCustomerRequestDTOToModel(customerRequestDTO, customer);
 
         customerRepository.save(customer);
 
@@ -90,7 +90,7 @@ public class CustomerService {
     public CustomerResponseDTO updateCustomer(Integer customerId, CustomerRequestDTO customerRequestDTO) {
 
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new NotFoundException("Mã khách hàng không hợp lệ"));
+                .orElseThrow(() -> new NotFoundException("Invalid review code"));
 
         customer = CustomerMapper.convertCustomerRequestDTOToModel(customerRequestDTO, customer);
 

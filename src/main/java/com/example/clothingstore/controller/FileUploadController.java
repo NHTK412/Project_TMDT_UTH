@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.clothingstore.dto.fileupload.FileUploadResponse;
+import com.example.clothingstore.dto.fileupload.FileUploadResponseDTO;
 import com.example.clothingstore.service.FileUploadService;
 import com.example.clothingstore.util.ApiResponse;
 
@@ -27,10 +27,10 @@ public class FileUploadController {
 
     // Consumer để nói kiểu gửi lên
     @PostMapping(value = "/image", consumes = "multipart/form-data")
-    public ResponseEntity<ApiResponse<FileUploadResponse>> uploadImage(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<ApiResponse<FileUploadResponseDTO>> uploadImage(@RequestParam("file") MultipartFile file) {
         try {
-            FileUploadResponse fileUploadResponse = fileUploadService.uploadImage(file);
-            return ResponseEntity.ok(new ApiResponse<>(true, null, fileUploadResponse));
+            FileUploadResponseDTO fileUploadResponseDTO = fileUploadService.uploadImage(file);
+            return ResponseEntity.ok(new ApiResponse<>(true, null, fileUploadResponseDTO));
         } catch (IOException e) {
             return ResponseEntity.status(500)
                     .body(new ApiResponse<>(false, "Unable to save file due to I/O error:" + e.getMessage(), null));
@@ -38,11 +38,11 @@ public class FileUploadController {
     }
 
     @PostMapping(value = "/multiple", consumes = "multipart/form-data")
-    public ResponseEntity<ApiResponse<List<FileUploadResponse>>> uploadMultipleImage(
+    public ResponseEntity<ApiResponse<List<FileUploadResponseDTO>>> uploadMultipleImage(
             @RequestParam("files") List<MultipartFile> files) {
         try {
-            List<FileUploadResponse> fileUploadResponses = fileUploadService.uploadMultipleImage(files);
-            return ResponseEntity.ok(new ApiResponse<>(true, null, fileUploadResponses));
+            List<FileUploadResponseDTO> fileUploadResponseDTOs = fileUploadService.uploadMultipleImage(files);
+            return ResponseEntity.ok(new ApiResponse<>(true, null, fileUploadResponseDTOs));
         } catch (IOException e) {
             return ResponseEntity.status(500)
                     .body(new ApiResponse<>(false, "Unable to save file due to I/O error:" + e.getMessage(), null));
@@ -50,9 +50,9 @@ public class FileUploadController {
     }
 
     @DeleteMapping("/{fileName}")
-    public ResponseEntity<ApiResponse<FileUploadResponse>> deleteImage(@PathVariable String fileName) {
-        FileUploadResponse fileUploadResponse = fileUploadService.deleteImage(fileName);
-        return ResponseEntity.ok(new ApiResponse<>(true, null, fileUploadResponse));
+    public ResponseEntity<ApiResponse<FileUploadResponseDTO>> deleteImage(@PathVariable String fileName) {
+        FileUploadResponseDTO fileUploadResponseDTO = fileUploadService.deleteImage(fileName);
+        return ResponseEntity.ok(new ApiResponse<>(true, null, fileUploadResponseDTO));
     }
 
 }
