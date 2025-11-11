@@ -1,5 +1,7 @@
 package com.example.clothingstore.mapper;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import com.example.clothingstore.dto.customer.CustomerRequestDTO;
 import com.example.clothingstore.dto.customer.CustomerResponseDTO;
 import com.example.clothingstore.dto.customer.CustomerSummaryDTO;
@@ -13,9 +15,9 @@ public class CustomerMapper {
 
         customerResponseDTO.setCustomerId(customer.getCustomerId());
 
-        customerResponseDTO.setUserName(customer.getAccount().getUserName());
+        customerResponseDTO.setUserName(customer.getUserName());
 
-        customerResponseDTO.setPassword(customer.getAccount().getPassword());
+        customerResponseDTO.setPassword(customer.getPassword());
 
         customerResponseDTO.setFullName(customer.getFullName());
 
@@ -31,9 +33,9 @@ public class CustomerMapper {
 
         customerResponseDTO.setColorMembership(customer.getMembershipTier().getColor());
 
-        customerResponseDTO.setStatus(customer.getAccount().getStatus());
+        customerResponseDTO.setStatus(customer.getStatus());
 
-        customerResponseDTO.setLastLogin(customer.getAccount().getLastLogin());
+        customerResponseDTO.setLastLogin(customer.getLastLogin());
 
         return customerResponseDTO;
     }
@@ -44,9 +46,9 @@ public class CustomerMapper {
 
         customerSummaryDTO.setCustomerId(customer.getCustomerId());
 
-        customerSummaryDTO.setUserName(customer.getAccount().getUserName());
+        customerSummaryDTO.setUserName(customer.getUserName());
 
-        // customerSummaryDTO.setPassword(customer.getAccount().getPassword());
+        // customerSummaryDTO.setPassword(customer.getPassword());
 
         customerSummaryDTO.setEmail(customer.getEmail());
 
@@ -60,15 +62,24 @@ public class CustomerMapper {
 
         customerSummaryDTO.setColorMembership(customer.getMembershipTier().getColor());
 
-        customerSummaryDTO.setStatus(customer.getAccount().getStatus());
+        customerSummaryDTO.setStatus(customer.getStatus());
 
-        // customerSummaryDTO.setLastLogin(customer.getAccount().getLastLogin());
+        // customerSummaryDTO.setLastLogin(customer.getLastLogin());
 
         return customerSummaryDTO;
     }
 
     public static Customer convertCustomerRequestDTOToModel(CustomerRequestDTO customerRequestDTO,
             Customer customer) {
+
+        customer.setUserName(customerRequestDTO.getUserName());
+
+        // customer.setPassword(customerRequestDTO.getPassword());
+
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+        customer.setPassword(bCryptPasswordEncoder.encode(customerRequestDTO.getPassword()));
+
         customer.setEmail(customerRequestDTO.getEmail());
 
         customer.setGender(customerRequestDTO.getGender());
