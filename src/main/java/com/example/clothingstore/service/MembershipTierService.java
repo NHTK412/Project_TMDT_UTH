@@ -19,53 +19,54 @@ import jakarta.transaction.Transactional;
 @Service
 public class MembershipTierService {
 
-    @Autowired
-    private MembershipTierRepository membershipTierRepository;
+        @Autowired
+        private MembershipTierRepository membershipTierRepository;
 
-    public List<MembershipTierResponseDTO> getAllMembershipTier(Pageable pageable) {
-        Page<MembershipTier> membershipTiers = membershipTierRepository.findAll(pageable);
+        public List<MembershipTierResponseDTO> getAllMembershipTier(Pageable pageable) {
+                Page<MembershipTier> membershipTiers = membershipTierRepository.findAll(pageable);
 
-        return membershipTiers
-                .map((membershipTier) -> MembershipTierMapper.convertModelToMembershipTierResponseDTO(membershipTier))
-                .toList();
-    }
+                return membershipTiers
+                                .map((membershipTier) -> MembershipTierMapper
+                                                .convertModelToMembershipTierResponseDTO(membershipTier))
+                                .toList();
+        }
 
-    @Transactional
-    public MembershipTierResponseDTO createMembershipTier(MembershipTierRequestDTO membershipTierRequestDTO) {
-        MembershipTier membershipTier = new MembershipTier();
+        @Transactional
+        public MembershipTierResponseDTO createMembershipTier(MembershipTierRequestDTO membershipTierRequestDTO) {
+                MembershipTier membershipTier = new MembershipTier();
 
-        membershipTier = MembershipTierMapper.convertMembershipTierRequestDTOToModel(membershipTierRequestDTO,
-                membershipTier);
+                membershipTier = MembershipTierMapper.convertMembershipTierRequestDTOToModel(membershipTierRequestDTO,
+                                membershipTier);
 
-        membershipTierRepository.save(membershipTier);
+                membershipTierRepository.save(membershipTier);
 
-        return MembershipTierMapper.convertModelToMembershipTierResponseDTO(membershipTier);
-    }
+                return MembershipTierMapper.convertModelToMembershipTierResponseDTO(membershipTier);
+        }
 
-    @Transactional
-    public MembershipTierResponseDTO deleteMembershipTier(Integer membershipTieId) {
-        MembershipTier membershipTier = membershipTierRepository.findById(membershipTieId)
-                .orElseThrow(() -> new NotFoundException("Invalid membershipTie code"));
+        @Transactional
+        public MembershipTierResponseDTO deleteMembershipTier(Integer membershipTieId) {
+                MembershipTier membershipTier = membershipTierRepository.findById(membershipTieId)
+                                .orElseThrow(() -> new NotFoundException("Invalid membershipTie code"));
 
-        MembershipTierResponseDTO membershipTierResponseDTO = MembershipTierMapper
-                .convertModelToMembershipTierResponseDTO(membershipTier);
+                MembershipTierResponseDTO membershipTierResponseDTO = MembershipTierMapper
+                                .convertModelToMembershipTierResponseDTO(membershipTier);
 
-        membershipTierRepository.delete(membershipTier);
+                membershipTierRepository.delete(membershipTier);
 
-        return membershipTierResponseDTO;
-    }
+                return membershipTierResponseDTO;
+        }
 
-    @Transactional
-    public MembershipTierResponseDTO updateMembershipTier(Integer membershipTieId,
-            MembershipTierRequestDTO membershipTierRequestDTO) {
-        MembershipTier membershipTier = membershipTierRepository.findById(membershipTieId)
-                .orElseThrow(() -> new NotFoundException("Invalid membershipTie code"));
+        @Transactional
+        public MembershipTierResponseDTO updateMembershipTier(Integer membershipTieId,
+                        MembershipTierRequestDTO membershipTierRequestDTO) {
+                MembershipTier membershipTier = membershipTierRepository.findById(membershipTieId)
+                                .orElseThrow(() -> new NotFoundException("Invalid membershipTie code"));
 
-        membershipTier = MembershipTierMapper.convertMembershipTierRequestDTOToModel(membershipTierRequestDTO,
-                membershipTier);
+                membershipTier = MembershipTierMapper.convertMembershipTierRequestDTOToModel(membershipTierRequestDTO,
+                                membershipTier);
 
-        membershipTierRepository.save(membershipTier);
+                membershipTierRepository.save(membershipTier);
 
-        return MembershipTierMapper.convertModelToMembershipTierResponseDTO(membershipTier);
-    }
+                return MembershipTierMapper.convertModelToMembershipTierResponseDTO(membershipTier);
+        }
 }
