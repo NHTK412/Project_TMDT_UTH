@@ -35,6 +35,9 @@ public class MembershipTier extends Base {
     @Column(name = "Description")
     private String description;
 
+    @Column(name = "Color")
+    private String color;
+
     @OneToMany(mappedBy = "membershipTier")
     private List<Customer> customers;
 

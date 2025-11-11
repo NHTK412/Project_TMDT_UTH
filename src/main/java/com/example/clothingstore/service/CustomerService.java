@@ -1,0 +1,104 @@
+package com.example.clothingstore.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.example.clothingstore.dto.customer.CustomerRequestDTO;
+import com.example.clothingstore.dto.customer.CustomerResponseDTO;
+import com.example.clothingstore.dto.customer.CustomerSummaryDTO;
+import com.example.clothingstore.enums.AccountStatusEnum;
+import com.example.clothingstore.exception.customer.NotFoundException;
+import com.example.clothingstore.mapper.CustomerMapper;
+import com.example.clothingstore.model.Account;
+import com.example.clothingstore.model.Customer;
+import com.example.clothingstore.repository.AccountRepository;
+import com.example.clothingstore.repository.CustomerRepository;
+
+import jakarta.transaction.Transactional;
+
+@Service
+public class CustomerService {
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
+
+    public CustomerResponseDTO getCustomerById(Integer customerId) {
+
+        // Customer customer =
+        // customerRepository.findByIdWithAccountAndMembershipTier(customerId)
+        // .orElseThrow(() -> new NotFoundException("Mã khách hàng không hợp lệ"));
+
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new NotFoundException("Mã khách hàng không hợp lệ"));
+
+        return CustomerMapper.convertModelToCustomerResponseDTO(customer);
+
+    }
+
+    public List<CustomerSummaryDTO> getAllCustomer(Pageable pageable) {
+
+        // Page<Customer> customers =
+        // customerRepository.findAllWithAccountAndMembershipTier(pageable);
+
+        Page<Customer> customers = customerRepository.findAll(pageable);
+
+        return customers.stream()
+                .map((customer) -> CustomerMapper.convertModelToCustomerSummaryDTO(customer))
+                .toList();
+
+        // List<CustomerSummaryDTO> customerSummaryDTOs =
+        // customer.stream().map(customer)
+
+        // return CustomerMapper.convertModelToCustomerResponseDTO(customer);
+    }
+
+    @Transactional
+    public CustomerResponseDTO deleteCustomer(Integer customerId) {
+
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new NotFoundException("Mã khách hàng không hợp lệ"));
+
+        customer.getAccount().setStatus(AccountStatusEnum.INACTIVE);
+
+        customerRepository.save(customer);
+
+        return CustomerMapper.convertModelToCustomerResponseDTO(customer);
+    }
+
+    @Transactional
+    public CustomerResponseDTO createCustomer(Integer accountId, CustomerRequestDTO customerRequestDTO) {
+
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new NotFoundException("Tài khoản không tồn tại"));
+
+        Customer customer = new Customer();
+
+        customer.setAccount(account);
+
+        customer = CustomerMapper.convertCustomerRequestDTOToModel(customerRequestDTO, customer);
+
+        customerRepository.save(customer);
+
+        return CustomerMapper.convertModelToCustomerResponseDTO(customer);
+    }
+
+    @Transactional
+    public CustomerResponseDTO updateCustomer(Integer accountId, CustomerRequestDTO customerRequestDTO) {
+
+        Customer customer = customerRepository.findByAccount_AccountId(accountId)
+                .orElseThrow(() -> new NotFoundException("Không tìm ra khách hàng"));
+
+        customer = CustomerMapper.convertCustomerRequestDTOToModel(customerRequestDTO, customer);
+
+        customerRepository.save(customer);
+
+        return CustomerMapper.convertModelToCustomerResponseDTO(customer);
+    }
+}

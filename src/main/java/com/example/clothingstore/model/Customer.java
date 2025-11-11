@@ -3,6 +3,7 @@ package com.example.clothingstore.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -52,7 +53,7 @@ public class Customer extends Base {
     @OneToMany(mappedBy = "customer")
     private List<Review> reviews;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "AccountId")
     private Account account;
 
