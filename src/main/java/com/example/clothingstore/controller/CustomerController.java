@@ -1,0 +1,77 @@
+package com.example.clothingstore.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.clothingstore.dto.customer.CustomerRequestDTO;
+import com.example.clothingstore.dto.customer.CustomerResponseDTO;
+import com.example.clothingstore.dto.customer.CustomerSummaryDTO;
+import com.example.clothingstore.service.CustomerService;
+import com.example.clothingstore.util.ApiResponse;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
+@RestController
+@RequestMapping("/customer")
+public class CustomerController {
+
+    @Autowired
+    private CustomerService customerService;
+
+    @GetMapping("/{customerId}")
+    public ResponseEntity<ApiResponse<CustomerResponseDTO>> getCustomerByID(@PathVariable Integer customerId) {
+
+        CustomerResponseDTO customerResponseDTO = customerService.getCustomerById(customerId);
+
+        return ResponseEntity.ok(new ApiResponse<CustomerResponseDTO>(true, null, customerResponseDTO));
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<CustomerSummaryDTO>>> getAllCustomer(@RequestParam Integer page,
+            @RequestParam Integer size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        List<CustomerSummaryDTO> customerSummaryDTO = customerService.getAllCustomer(pageable);
+
+        return ResponseEntity.ok(new ApiResponse<List<CustomerSummaryDTO>>(true, null, customerSummaryDTO));
+    }
+
+    @PostMapping("/{accountId}")
+    public ResponseEntity<ApiResponse<CustomerResponseDTO>> createCustomer(@PathVariable Integer accountId,
+            @RequestBody CustomerRequestDTO customerRequestDTO) {
+
+        CustomerResponseDTO customerResponseDTO = customerService.createCustomer(accountId, customerRequestDTO);
+
+        return ResponseEntity.ok(new ApiResponse<CustomerResponseDTO>(true, null, customerResponseDTO));
+    }
+
+    @PutMapping("/{accountId}")
+    public ResponseEntity<ApiResponse<CustomerResponseDTO>> updateCustomer(@PathVariable Integer accountId,
+            @RequestBody CustomerRequestDTO customerRequestDTO) {
+
+        CustomerResponseDTO customerResponseDTO = customerService.updateCustomer(accountId, customerRequestDTO);
+
+        return ResponseEntity.ok(new ApiResponse<CustomerResponseDTO>(true, null, customerResponseDTO));
+    }
+
+    @DeleteMapping("/{customerId}")
+    public ResponseEntity<ApiResponse<CustomerResponseDTO>> deleteCustomer(@PathVariable Integer customerId) {
+
+        CustomerResponseDTO customerResponseDTO = customerService.deleteCustomer(customerId);
+
+        return ResponseEntity.ok(new ApiResponse<CustomerResponseDTO>(true, null, customerResponseDTO));
+    }
+
+}
