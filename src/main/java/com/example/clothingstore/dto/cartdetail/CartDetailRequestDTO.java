@@ -13,4 +13,6 @@ public class CartDetailRequestDTO {
 
     private Integer quantity;
 
+    private Boolean isSelect;
+
 }

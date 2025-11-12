@@ -1,8 +1,11 @@
 package com.example.clothingstore.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.clothingstore.dto.cart.CartRequestDTO;
 import com.example.clothingstore.dto.cart.CartResponseDTO;
 import com.example.clothingstore.dto.cartdetail.CartDetailRequestDTO;
 import com.example.clothingstore.dto.cartdetail.CartDetailResponseDTO;
@@ -126,4 +129,43 @@ public class CartService {
         return cartDetailResponseDTO;
     }
 
+    @Transactional
+    public CartResponseDTO updateCart(Integer customerId, CartRequestDTO cartRequestDTO) {
+
+        Cart cart = cartRepository.findByCustomerIdWithALLFetch(customerId)
+                .orElseThrow(() -> new NotFoundException("Invalue Cart By Customer"));
+
+        cart.getCartDetails().clear();
+
+        // cart.setCartDetails(null);
+
+        if (cartRequestDTO.getCartDetailRequestDTOs() != null) {
+            List<CartDetail> cartDetails = cartRequestDTO.getCartDetailRequestDTOs()
+                    .stream()
+                    .map((cartDetailRequest) -> {
+                        ProductDetail productDetail = productDetailRepository
+                                .findById(cartDetailRequest.getProductDetailId())
+                                .orElseThrow(() -> new NotFoundException("Invalue Product Detail Code"));
+
+                        if (cartDetailRequest.getQuantity() > productDetail.getQuantity()) {
+                            throw new ConflictException("MAX QUANTITY");
+                        }
+                        CartDetail cartDetail = new CartDetail();
+
+                        cartDetail.setProductDetail(productDetail);
+
+                        cartDetail.setIsSelected(cartDetailRequest.getIsSelect());
+
+                        cartDetail.setQuantity(cartDetailRequest.getQuantity());
+
+                        cartDetail.setCart(cart);
+                        return cartDetail;
+                    })
+                    .toList();
+
+            cart.setCartDetails(cartDetails);
+
+        }
+        return cartMapper.convertModelTOCartResponseDTO(cart);
+    }
 }

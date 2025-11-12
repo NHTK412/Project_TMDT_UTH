@@ -1,6 +1,8 @@
 package com.example.clothingstore.dto.cart;
 
-import com.example.clothingstore.model.Customer;
+import java.util.List;
+
+import com.example.clothingstore.dto.cartdetail.CartDetailRequestDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +13,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CartRequestDTO {
 
-    private Customer customer;
-
+    List<CartDetailRequestDTO> cartDetailRequestDTOs;
 }

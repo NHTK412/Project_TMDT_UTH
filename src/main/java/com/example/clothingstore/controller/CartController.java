@@ -4,13 +4,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.clothingstore.dto.cart.CartRequestDTO;
 import com.example.clothingstore.dto.cart.CartResponseDTO;
 import com.example.clothingstore.dto.cartdetail.CartDetailRequestDTO;
 import com.example.clothingstore.dto.cartdetail.CartDetailResponseDTO;
 import com.example.clothingstore.service.CartService;
 import com.example.clothingstore.util.ApiResponse;
-
-import jakarta.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("cart")
@@ -53,14 +52,26 @@ public class CartController {
 
     @PatchMapping("items/{cartDetailId}")
     public ResponseEntity<ApiResponse<CartDetailResponseDTO>> updateCartItem(
-            @PathVariable Integer cartDetailId, @RequestParam(required = false) Integer quantity, @RequestParam(required = false) Boolean isSelected) {
+            @PathVariable Integer cartDetailId, @RequestParam(required = false) Integer quantity,
+            @RequestParam(required = false) Boolean isSelected) {
 
         Integer customerId = 1;
 
-        CartDetailResponseDTO cartDetailResponseDTO = cartService.updateCartItem(customerId, cartDetailId, quantity,isSelected);
+        CartDetailResponseDTO cartDetailResponseDTO = cartService.updateCartItem(customerId, cartDetailId, quantity,
+                isSelected);
 
         return ResponseEntity.ok(new ApiResponse<CartDetailResponseDTO>(true, null, cartDetailResponseDTO));
 
+    }
+
+    @PutMapping
+    public ResponseEntity<ApiResponse<CartResponseDTO>> updateCart(@RequestBody CartRequestDTO cartRequestDTO) {
+
+        Integer customerId = 1;
+
+        CartResponseDTO cartResponseDTO = cartService.updateCart(customerId, cartRequestDTO);
+
+        return ResponseEntity.ok(new ApiResponse<CartResponseDTO>(true, null, cartResponseDTO));
     }
 
 }
