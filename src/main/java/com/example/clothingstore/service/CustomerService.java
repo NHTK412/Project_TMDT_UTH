@@ -29,6 +29,9 @@ public class CustomerService {
     // @Autowired
     // private AccountRepository accountRepository;
 
+    @Autowired
+    private CustomerMapper customerMapper;
+
     public CustomerResponseDTO getCustomerById(Integer customerId) {
 
         // Customer customer =
@@ -38,7 +41,7 @@ public class CustomerService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Mã khách hàng không hợp lệ"));
 
-        return CustomerMapper.convertModelToCustomerResponseDTO(customer);
+        return customerMapper.convertModelToCustomerResponseDTO(customer);
 
     }
 
@@ -50,7 +53,7 @@ public class CustomerService {
         Page<Customer> customers = customerRepository.findAll(pageable);
 
         return customers.stream()
-                .map((customer) -> CustomerMapper.convertModelToCustomerSummaryDTO(customer))
+                .map((customer) -> customerMapper.convertModelToCustomerSummaryDTO(customer))
                 .toList();
 
         // List<CustomerSummaryDTO> customerSummaryDTOs =
@@ -69,7 +72,7 @@ public class CustomerService {
 
         customerRepository.save(customer);
 
-        return CustomerMapper.convertModelToCustomerResponseDTO(customer);
+        return customerMapper.convertModelToCustomerResponseDTO(customer);
     }
 
     @Transactional
@@ -79,11 +82,11 @@ public class CustomerService {
         // .orElseThrow(() -> new NotFoundException("Tài khoản không tồn tại"));
         Customer customer = new Customer();
 
-        customer = CustomerMapper.convertCustomerRequestDTOToModel(customerRequestDTO, customer);
+        customer = customerMapper.convertCustomerRequestDTOToModel(customerRequestDTO, customer);
 
         customerRepository.save(customer);
 
-        return CustomerMapper.convertModelToCustomerResponseDTO(customer);
+        return customerMapper.convertModelToCustomerResponseDTO(customer);
     }
 
     @Transactional
@@ -92,10 +95,10 @@ public class CustomerService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Invalid review code"));
 
-        customer = CustomerMapper.convertCustomerRequestDTOToModel(customerRequestDTO, customer);
+        customer = customerMapper.convertCustomerRequestDTOToModel(customerRequestDTO, customer);
 
         customerRepository.save(customer);
 
-        return CustomerMapper.convertModelToCustomerResponseDTO(customer);
+        return customerMapper.convertModelToCustomerResponseDTO(customer);
     }
 }

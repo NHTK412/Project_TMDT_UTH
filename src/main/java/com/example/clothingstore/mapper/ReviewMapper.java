@@ -1,12 +1,15 @@
 package com.example.clothingstore.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.example.clothingstore.dto.review.ReviewRequestDTO;
 import com.example.clothingstore.dto.review.ReviewResponseDTO;
 import com.example.clothingstore.model.Review;
 
+@Component
 public class ReviewMapper {
 
-    public static ReviewResponseDTO convertModelToReviewResponseDTO(Review review) {
+    public ReviewResponseDTO convertModelToReviewResponseDTO(Review review) {
         ReviewResponseDTO reviewResponseDTO = new ReviewResponseDTO();
 
         reviewResponseDTO.setRating(review.getRating());
@@ -20,7 +23,7 @@ public class ReviewMapper {
         return reviewResponseDTO;
     }
 
-    public static Review convertReviewRequestDTOtoModel(ReviewRequestDTO reviewRequestDTO, Review review) {
+    public Review convertReviewRequestDTOtoModel(ReviewRequestDTO reviewRequestDTO, Review review) {
 
         review.setRating(reviewRequestDTO.getRating());
 

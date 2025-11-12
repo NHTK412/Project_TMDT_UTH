@@ -28,8 +28,11 @@ public class CartDetail extends Base {
     @Column(name = "Quantity")
     private Integer quantity;
 
-    @Column(name = "Price")
-    private Double price;
+    // @Column(name = "Price")
+    // private Double price;
+
+    @Column(name = "IsSelected")
+    private Boolean isSelected;
 
     @ManyToOne
     @JoinColumn(name = "ProductDetailId")

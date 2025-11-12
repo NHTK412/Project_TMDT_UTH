@@ -24,12 +24,15 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private CategoryMapper categoryMapper;
+
     public List<CategorySummaryDTO> getAllCategory(Pageable pageable) {
         // Page<Category> categories = categoryRepository.findAll(pageable);
         Page<Category> categories = categoryRepository.findByStatus(CategoryStatusEnum.ACTIVE, pageable);
 
         return categories.stream()
-                .map((category) -> CategoryMapper.convertCategoryToCategorySummaryDTO(category))
+                .map((category) -> categoryMapper.convertCategoryToCategorySummaryDTO(category))
                 .toList();
     }
 
@@ -37,18 +40,18 @@ public class CategoryService {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new NotFoundException("Invalid category code"));
 
-        return CategoryMapper.convertCategoryToCategoryResponseDTO(category);
+        return categoryMapper.convertCategoryToCategoryResponseDTO(category);
     }
 
     @Transactional
     public CategoryResponseDTO createCategory(CategoryRequestDTO categoryRequestDTO) {
         Category category = new Category();
 
-        category = CategoryMapper.convertCategoryRequestToModel(categoryRequestDTO, category);
+        category = categoryMapper.convertCategoryRequestToModel(categoryRequestDTO, category);
 
         categoryRepository.save(category);
 
-        return CategoryMapper.convertCategoryToCategoryResponseDTO(category);
+        return categoryMapper.convertCategoryToCategoryResponseDTO(category);
     }
 
     @Transactional
@@ -56,18 +59,18 @@ public class CategoryService {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new NotFoundException("Invalid category code"));
 
-        category = CategoryMapper.convertCategoryRequestToModel(categoryRequestDTO, category);
+        category = categoryMapper.convertCategoryRequestToModel(categoryRequestDTO, category);
 
         categoryRepository.save(category);
 
-        return CategoryMapper.convertCategoryToCategoryResponseDTO(category);
+        return categoryMapper.convertCategoryToCategoryResponseDTO(category);
     }
 
     @Transactional
     public CategoryResponseDTO deleteCategory(Integer categoryId) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new NotFoundException("Invalid category code"));
-        CategoryResponseDTO categoryResponseDTO = CategoryMapper.convertCategoryToCategoryResponseDTO(category);
+        CategoryResponseDTO categoryResponseDTO = categoryMapper.convertCategoryToCategoryResponseDTO(category);
 
         categoryRepository.delete(category);
 
@@ -77,7 +80,7 @@ public class CategoryService {
     public List<CategoryResponseDTO> getAllCategoriesDetailed(Pageable pageable) {
         Page<Category> categories = categoryRepository.findAll(pageable);
         return categories.stream()
-                .map((category) -> CategoryMapper.convertCategoryToCategoryResponseDTO(category))
+                .map((category) -> categoryMapper.convertCategoryToCategoryResponseDTO(category))
                 .toList();
     }
 
