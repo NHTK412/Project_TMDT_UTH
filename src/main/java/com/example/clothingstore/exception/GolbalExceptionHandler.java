@@ -38,4 +38,12 @@ public class GolbalExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ApiResponse<>(false, ex.getMessage(), null));
     }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiResponse<Object>> handleAccessDeniedException(AccessDeniedException ex) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(new ApiResponse<>(false, ex.getMessage(), null));
+    }
+
 }

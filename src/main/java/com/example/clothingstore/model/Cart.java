@@ -36,6 +36,6 @@ public class Cart extends Base {
     // @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval =
     // true, fetch = FetchType.EAGER)
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartDetail> cartDetails = new ArrayList<>();
+    private List<CartItem> cartItems = new ArrayList<>();
 
 }

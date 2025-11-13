@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartDetailRequestDTO {
+public class CartItemRequestDTO {
 
     private Integer productDetailId;
 
     private Integer quantity;
 
-    private Boolean isSelect;
+    // private Boolean isSelect;
 
 }

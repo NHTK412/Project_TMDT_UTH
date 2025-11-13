@@ -2,41 +2,41 @@ package com.example.clothingstore.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.example.clothingstore.dto.cartdetail.CartDetailResponseDTO;
-import com.example.clothingstore.model.CartDetail;
+import com.example.clothingstore.dto.cartdetail.CartItemResponseDTO;
+import com.example.clothingstore.model.CartItem;
 
 @Component
 public class CartDetailMapper {
 
-    public CartDetailResponseDTO convertModelToCartDetailResponseDTO(CartDetail cartDetail) {
-        CartDetailResponseDTO cartDetailResponseDTO = new CartDetailResponseDTO();
+    public CartItemResponseDTO convertModelToCartItemResponseDTO(CartItem cartItem) {
+        CartItemResponseDTO cartItemResponseDTO = new CartItemResponseDTO();
 
-        cartDetailResponseDTO.setCartDetailId(cartDetail.getCartDetailId());
+        cartItemResponseDTO.setCartItemId(cartItem.getCartItemId());
 
-        cartDetailResponseDTO.setProductId(cartDetail.getProductDetail().getProductColor().getProduct().getProductId());
+        cartItemResponseDTO.setProductId(cartItem.getProductDetail().getProductColor().getProduct().getProductId());
 
-        cartDetailResponseDTO.setProductDetailId(cartDetail.getProductDetail().getDetailId());
+        cartItemResponseDTO.setProductDetailId(cartItem.getProductDetail().getDetailId());
 
-        cartDetailResponseDTO.setProductColorId(cartDetail.getProductDetail().getProductColor().getColorId());
+        cartItemResponseDTO.setProductColorId(cartItem.getProductDetail().getProductColor().getColorId());
 
-        cartDetailResponseDTO
-                .setProductName(cartDetail.getProductDetail().getProductColor().getProduct().getProductName());
+        cartItemResponseDTO
+                .setProductName(cartItem.getProductDetail().getProductColor().getProduct().getProductName());
 
-        cartDetailResponseDTO.setColor(cartDetail.getProductDetail().getProductColor().getColor());
+        cartItemResponseDTO.setColor(cartItem.getProductDetail().getProductColor().getColor());
 
-        cartDetailResponseDTO.setProductDetailsize(cartDetail.getProductDetail().getSize());
+        cartItemResponseDTO.setProductDetailsize(cartItem.getProductDetail().getSize());
 
-        cartDetailResponseDTO.setProductImage(cartDetail.getProductDetail().getProductColor().getProductImage());
+        cartItemResponseDTO.setProductImage(cartItem.getProductDetail().getProductColor().getProductImage());
 
-        cartDetailResponseDTO.setIsSelected(cartDetail.getIsSelected());
+        // cartDetailResponseDTO.setIsSelected(cartDetail.getIsSelected());
 
-        cartDetailResponseDTO.setQuantity(cartDetail.getQuantity());
+        cartItemResponseDTO.setQuantity(cartItem.getQuantity());
 
-        cartDetailResponseDTO.setUnitPrice(cartDetail.getProductDetail().getProductColor().getProduct().getUnitPrice());
+        cartItemResponseDTO.setUnitPrice(cartItem.getProductDetail().getProductColor().getProduct().getUnitPrice());
 
-        cartDetailResponseDTO.setProductDetailQuantity(cartDetail.getProductDetail().getQuantity());
+        cartItemResponseDTO.setProductDetailQuantity(cartItem.getProductDetail().getQuantity());
 
-        return cartDetailResponseDTO;
+        return cartItemResponseDTO;
     }
 
 }

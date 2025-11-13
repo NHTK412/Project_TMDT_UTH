@@ -12,13 +12,13 @@ import com.example.clothingstore.model.Cart;
 public interface CartRepository extends JpaRepository<Cart, Integer> {
 
     @Query("""
-            SELECT c
+            SELECT DISTINCT c
             FROM Cart c
-            JOIN FETCH c.cartDetails cd
-            JOIN FETCH cd.productDetail pd
-            JOIN FETCH pd.productColor pc
-            JOIN FETCH pc.product p
-            JOIN FETCH c.customer cu
+            LEFT JOIN FETCH c.cartItems ci
+            LEFT JOIN FETCH ci.productDetail pd
+            LEFT JOIN FETCH pd.productColor pc
+            LEFT JOIN FETCH pc.product p
+            LEFT JOIN FETCH c.customer cu
             WHERE cu.customerId = :customerId
                 """)
     Optional<Cart> findByCustomerIdWithALLFetch(Integer customerId);

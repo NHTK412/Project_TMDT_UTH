@@ -5,13 +5,13 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.clothingstore.model.CartDetail;
+import com.example.clothingstore.model.CartItem;
 
 @Repository
-public interface CartDetailRepository extends JpaRepository<CartDetail, Integer> {
+public interface CartDetailRepository extends JpaRepository<CartItem, Integer> {
 
-    Optional<CartDetail> findByCart_CartIdAndProductDetail_DetailId(Integer cartId, Integer productDetailId);
+    Optional<CartItem> findByCart_CartIdAndProductDetail_DetailId(Integer cartId, Integer productDetailId);
 
-    Optional<CartDetail> findByCartDetailIdAndCart_CartId(Integer cartDetailId, Integer cartId);
+    Optional<CartItem> findByCartItemIdAndCart_CartId(Integer cartItemId, Integer cartId);
 
 }

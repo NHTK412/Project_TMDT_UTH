@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.clothingstore.dto.cart.CartResponseDTO;
-import com.example.clothingstore.dto.cartdetail.CartDetailResponseDTO;
+import com.example.clothingstore.dto.cartdetail.CartItemResponseDTO;
+// import com.example.clothingstore.dto.cartdetail.CartDetailResponseDTO;
 import com.example.clothingstore.model.Cart;
 
 @Component
@@ -20,13 +21,13 @@ public class CartMapper {
 
         cartResponseDTO.setCartId(cart.getCartId());
 
-        List<CartDetailResponseDTO> cartDetailResponseDTOs = cart.getCartDetails()
+        List<CartItemResponseDTO> cartItemResponseDTOs = cart.getCartItems()
                 .stream()
-                .map((cartDetailResponseDTO) -> cartDetailMapper
-                        .convertModelToCartDetailResponseDTO(cartDetailResponseDTO))
+                .map((cartItemResponseDTO) -> cartDetailMapper
+                        .convertModelToCartItemResponseDTO(cartItemResponseDTO))
                 .toList();
 
-        cartResponseDTO.setCartDetailResponseDTOs(cartDetailResponseDTOs);
+        cartResponseDTO.setCartItemResponseDTOs(cartItemResponseDTOs);
 
         return cartResponseDTO;
     }

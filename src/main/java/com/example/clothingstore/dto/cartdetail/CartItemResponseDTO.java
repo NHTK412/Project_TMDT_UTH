@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartDetailResponseDTO {
+public class CartItemResponseDTO {
 
     // Thông tin định danh
-    private Integer cartDetailId;
+    private Integer cartItemId;
     private Integer productId;
     private Integer productDetailId;
     private Integer productColorId;
@@ -22,7 +22,7 @@ public class CartDetailResponseDTO {
     private String productImage;
 
     // Thông tin giỏ hàng
-    private Boolean isSelected;
+    // private Boolean isSelected;
     private Integer quantity;
     private Double unitPrice;
     // private Double price;
