@@ -20,13 +20,16 @@ import jakarta.transaction.Transactional;
 public class MembershipTierService {
 
         @Autowired
+        private MembershipTierMapper membershipTierMapper;
+
+        @Autowired
         private MembershipTierRepository membershipTierRepository;
 
         public List<MembershipTierResponseDTO> getAllMembershipTier(Pageable pageable) {
                 Page<MembershipTier> membershipTiers = membershipTierRepository.findAll(pageable);
 
                 return membershipTiers
-                                .map((membershipTier) -> MembershipTierMapper
+                                .map((membershipTier) -> membershipTierMapper
                                                 .convertModelToMembershipTierResponseDTO(membershipTier))
                                 .toList();
         }
@@ -35,12 +38,12 @@ public class MembershipTierService {
         public MembershipTierResponseDTO createMembershipTier(MembershipTierRequestDTO membershipTierRequestDTO) {
                 MembershipTier membershipTier = new MembershipTier();
 
-                membershipTier = MembershipTierMapper.convertMembershipTierRequestDTOToModel(membershipTierRequestDTO,
+                membershipTier = membershipTierMapper.convertMembershipTierRequestDTOToModel(membershipTierRequestDTO,
                                 membershipTier);
 
                 membershipTierRepository.save(membershipTier);
 
-                return MembershipTierMapper.convertModelToMembershipTierResponseDTO(membershipTier);
+                return membershipTierMapper.convertModelToMembershipTierResponseDTO(membershipTier);
         }
 
         @Transactional
@@ -48,7 +51,7 @@ public class MembershipTierService {
                 MembershipTier membershipTier = membershipTierRepository.findById(membershipTieId)
                                 .orElseThrow(() -> new NotFoundException("Invalid membershipTie code"));
 
-                MembershipTierResponseDTO membershipTierResponseDTO = MembershipTierMapper
+                MembershipTierResponseDTO membershipTierResponseDTO = membershipTierMapper
                                 .convertModelToMembershipTierResponseDTO(membershipTier);
 
                 membershipTierRepository.delete(membershipTier);
@@ -62,11 +65,11 @@ public class MembershipTierService {
                 MembershipTier membershipTier = membershipTierRepository.findById(membershipTieId)
                                 .orElseThrow(() -> new NotFoundException("Invalid membershipTie code"));
 
-                membershipTier = MembershipTierMapper.convertMembershipTierRequestDTOToModel(membershipTierRequestDTO,
+                membershipTier = membershipTierMapper.convertMembershipTierRequestDTOToModel(membershipTierRequestDTO,
                                 membershipTier);
 
                 membershipTierRepository.save(membershipTier);
 
-                return MembershipTierMapper.convertModelToMembershipTierResponseDTO(membershipTier);
+                return membershipTierMapper.convertModelToMembershipTierResponseDTO(membershipTier);
         }
 }

@@ -14,22 +14,25 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "CartDetail")
+@Table(name = "CartItem")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CartDetail extends Base {
+public class CartItem extends Base {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CartDetailId")
-    private Integer cartDetailId;
+    private Integer cartItemId;
 
     @Column(name = "Quantity")
     private Integer quantity;
 
-    @Column(name = "Price")
-    private Double price;
+    // @Column(name = "Price")
+    // private Double price;
+
+    // @Column(name = "IsSelected")
+    // private Boolean isSelected;
 
     @ManyToOne
     @JoinColumn(name = "ProductDetailId")

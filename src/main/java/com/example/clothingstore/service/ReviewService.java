@@ -32,11 +32,14 @@ public class ReviewService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private ReviewMapper reviewMapper;
+
     public List<ReviewResponseDTO> getALLReviewByProductId(Integer productId, Pageable pageable) {
         Page<Review> reviews = reviewRepository.findByProduct_ProductId(productId, pageable);
 
         return reviews
-                .map((review) -> ReviewMapper.convertModelToReviewResponseDTO(review))
+                .map((review) -> reviewMapper.convertModelToReviewResponseDTO(review))
                 .toList();
     }
 
@@ -54,11 +57,11 @@ public class ReviewService {
 
         review.setCustomer(customer);
 
-        review = ReviewMapper.convertReviewRequestDTOtoModel(reviewRequestDTO, review);
+        review = reviewMapper.convertReviewRequestDTOtoModel(reviewRequestDTO, review);
 
         reviewRepository.save(review);
 
-        return ReviewMapper.convertModelToReviewResponseDTO(review);
+        return reviewMapper.convertModelToReviewResponseDTO(review);
 
     }
 
@@ -72,11 +75,11 @@ public class ReviewService {
         // Review review = reviewRepository.findById(reviewId)
         // .orElseThrow(() -> new NotFoundException("Invalid review code"));
 
-        review = ReviewMapper.convertReviewRequestDTOtoModel(reviewRequestDTO, review);
+        review = reviewMapper.convertReviewRequestDTOtoModel(reviewRequestDTO, review);
 
         reviewRepository.save(review);
 
-        return ReviewMapper.convertModelToReviewResponseDTO(review);
+        return reviewMapper.convertModelToReviewResponseDTO(review);
 
     }
 
@@ -86,7 +89,7 @@ public class ReviewService {
         Review review = reviewRepository.findByReviewIdAndProduct_ProductId(reviewId, productId)
                 .orElseThrow(() -> new NotFoundException("Invalid review code"));
 
-        ReviewResponseDTO reviewResponseDTO = ReviewMapper.convertModelToReviewResponseDTO(review);
+        ReviewResponseDTO reviewResponseDTO = reviewMapper.convertModelToReviewResponseDTO(review);
 
         reviewRepository.delete(review);
 

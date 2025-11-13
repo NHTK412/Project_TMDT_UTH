@@ -3,6 +3,7 @@ package com.example.clothingstore.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,7 +33,9 @@ public class Cart extends Base {
     @JoinColumn(name = "CustomerId")
     private Customer customer;
 
-    @OneToMany(mappedBy = "cart")
-    private List<CartDetail> CartDetails = new ArrayList<>();
+    // @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval =
+    // true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> cartItems = new ArrayList<>();
 
 }

@@ -1,12 +1,15 @@
 package com.example.clothingstore.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.example.clothingstore.dto.membershiptier.MembershipTierRequestDTO;
 import com.example.clothingstore.dto.membershiptier.MembershipTierResponseDTO;
 import com.example.clothingstore.model.MembershipTier;
 
+@Component
 public class MembershipTierMapper {
 
-    public static MembershipTier convertMembershipTierRequestDTOToModel(
+    public MembershipTier convertMembershipTierRequestDTOToModel(
             MembershipTierRequestDTO membershipTierRequestDTO, MembershipTier membershipTier) {
 
         membershipTier.setColor(membershipTierRequestDTO.getColor());
@@ -20,7 +23,7 @@ public class MembershipTierMapper {
         return membershipTier;
     }
 
-    public static MembershipTierResponseDTO convertModelToMembershipTierResponseDTO(MembershipTier membershipTier) {
+    public MembershipTierResponseDTO convertModelToMembershipTierResponseDTO(MembershipTier membershipTier) {
 
         MembershipTierResponseDTO membershipTierResponseDTO = new MembershipTierResponseDTO();
 

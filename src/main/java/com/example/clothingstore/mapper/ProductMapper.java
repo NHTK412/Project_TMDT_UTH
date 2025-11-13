@@ -1,11 +1,14 @@
 package com.example.clothingstore.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.example.clothingstore.dto.product.ProductSummaryDTO;
 import com.example.clothingstore.model.Product;
 
+@Component
 public class ProductMapper {
 
-    public static ProductSummaryDTO convertModelToProductSummaryDTO(Product product) {
+    public ProductSummaryDTO convertModelToProductSummaryDTO(Product product) {
         ProductSummaryDTO productSummaryDTO = new ProductSummaryDTO();
 
         productSummaryDTO.setProductId(product.getProductId());

@@ -27,11 +27,14 @@ public class ShippingAddressService {
         @Autowired
         private CustomerRepository customerRepository;
 
+        @Autowired
+        private ShippingAddressMapper shippingAddressMapper;
+
         public List<ShippingAddressResponseDTO> getAllShippingAddresses(Pageable pageable) {
                 Page<ShippingAddress> shippingAddresses = shippingAddressRepository.findAll(pageable);
 
                 return shippingAddresses
-                                .map((shippingAddress) -> ShippingAddressMapper
+                                .map((shippingAddress) -> shippingAddressMapper
                                                 .convertModelToShippingAddressResponseDTO(shippingAddress))
                                 .toList();
         }
@@ -45,14 +48,14 @@ public class ShippingAddressService {
 
                 ShippingAddress shippingAddress = new ShippingAddress();
 
-                shippingAddress = ShippingAddressMapper.convertShippingAddressRequestDTOToModel(
+                shippingAddress = shippingAddressMapper.convertShippingAddressRequestDTOToModel(
                                 shippingAddressRequestDTO, shippingAddress);
 
                 shippingAddress.setCustomer(customer);
 
                 shippingAddressRepository.save(shippingAddress);
 
-                return ShippingAddressMapper.convertModelToShippingAddressResponseDTO(shippingAddress);
+                return shippingAddressMapper.convertModelToShippingAddressResponseDTO(shippingAddress);
         }
 
         @Transactional
@@ -61,7 +64,7 @@ public class ShippingAddressService {
                                 .findByAddressIdAndCustomer_CustomerId(shippingAddressId, customerId)
                                 .orElseThrow(() -> new NotFoundException("Invalid shippingAddressId"));
 
-                ShippingAddressResponseDTO responseDTO = ShippingAddressMapper
+                ShippingAddressResponseDTO responseDTO = shippingAddressMapper
                                 .convertModelToShippingAddressResponseDTO(shippingAddress);
 
                 shippingAddressRepository.delete(shippingAddress);
@@ -76,12 +79,12 @@ public class ShippingAddressService {
                                 .findByAddressIdAndCustomer_CustomerId(shippingAddressId, customerId)
                                 .orElseThrow(() -> new NotFoundException("Invalid shippingAddressId"));
 
-                shippingAddress = ShippingAddressMapper.convertShippingAddressRequestDTOToModel(
+                shippingAddress = shippingAddressMapper.convertShippingAddressRequestDTOToModel(
                                 shippingAddressRequestDTO, shippingAddress);
 
                 shippingAddressRepository.save(shippingAddress);
 
-                return ShippingAddressMapper.convertModelToShippingAddressResponseDTO(shippingAddress);
+                return shippingAddressMapper.convertModelToShippingAddressResponseDTO(shippingAddress);
         }
 
         public List<ShippingAddressResponseDTO> getAddressesByCustomerId(Integer customerId, Pageable pageable) {
@@ -89,7 +92,7 @@ public class ShippingAddressService {
                                 .findByCustomer_CustomerId(customerId, pageable);
 
                 return shippingAddresses
-                                .map((shippingAddress) -> ShippingAddressMapper
+                                .map((shippingAddress) -> shippingAddressMapper
                                                 .convertModelToShippingAddressResponseDTO(shippingAddress))
                                 .toList();
         }

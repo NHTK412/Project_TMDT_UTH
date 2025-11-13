@@ -1,12 +1,15 @@
 package com.example.clothingstore.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.example.clothingstore.dto.shippingaddress.ShippingAddressRequestDTO;
 import com.example.clothingstore.dto.shippingaddress.ShippingAddressResponseDTO;
 import com.example.clothingstore.model.ShippingAddress;
 
+@Component
 public class ShippingAddressMapper {
 
-    public static ShippingAddress convertShippingAddressRequestDTOToModel(
+    public ShippingAddress convertShippingAddressRequestDTOToModel(
             ShippingAddressRequestDTO shippingAddressRequestDTO, ShippingAddress shippingAddress) {
         shippingAddress.setRecipientName(shippingAddressRequestDTO.getRecipientName());
 
@@ -20,7 +23,7 @@ public class ShippingAddressMapper {
         return shippingAddress;
     }
 
-    public static ShippingAddressResponseDTO convertModelToShippingAddressResponseDTO(ShippingAddress shippingAddress) {
+    public ShippingAddressResponseDTO convertModelToShippingAddressResponseDTO(ShippingAddress shippingAddress) {
         ShippingAddressResponseDTO shippingAddressResponseDTO = new ShippingAddressResponseDTO();
 
         shippingAddressResponseDTO.setAddressId(shippingAddress.getAddressId());

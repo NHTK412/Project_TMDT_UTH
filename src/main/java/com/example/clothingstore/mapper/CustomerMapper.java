@@ -1,15 +1,17 @@
 package com.example.clothingstore.mapper;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import com.example.clothingstore.dto.customer.CustomerRequestDTO;
 import com.example.clothingstore.dto.customer.CustomerResponseDTO;
 import com.example.clothingstore.dto.customer.CustomerSummaryDTO;
 import com.example.clothingstore.model.Customer;
 
+@Component
 public class CustomerMapper {
 
-    public static CustomerResponseDTO convertModelToCustomerResponseDTO(Customer customer) {
+    public CustomerResponseDTO convertModelToCustomerResponseDTO(Customer customer) {
 
         CustomerResponseDTO customerResponseDTO = new CustomerResponseDTO();
 
@@ -40,7 +42,7 @@ public class CustomerMapper {
         return customerResponseDTO;
     }
 
-    public static CustomerSummaryDTO convertModelToCustomerSummaryDTO(Customer customer) {
+    public CustomerSummaryDTO convertModelToCustomerSummaryDTO(Customer customer) {
 
         CustomerSummaryDTO customerSummaryDTO = new CustomerSummaryDTO();
 
@@ -69,7 +71,7 @@ public class CustomerMapper {
         return customerSummaryDTO;
     }
 
-    public static Customer convertCustomerRequestDTOToModel(CustomerRequestDTO customerRequestDTO,
+    public Customer convertCustomerRequestDTOToModel(CustomerRequestDTO customerRequestDTO,
             Customer customer) {
 
         customer.setUserName(customerRequestDTO.getUserName());

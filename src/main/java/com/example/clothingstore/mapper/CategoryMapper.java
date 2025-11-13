@@ -1,14 +1,17 @@
 package com.example.clothingstore.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.example.clothingstore.dto.category.CategoryRequestDTO;
 import com.example.clothingstore.dto.category.CategoryResponseDTO;
 import com.example.clothingstore.dto.category.CategorySummaryDTO;
 // import com.example.clothingstore.dto.category.CategorySummaryDTO;
 import com.example.clothingstore.model.Category;
 
+@Component
 public class CategoryMapper {
 
-    public static CategorySummaryDTO convertCategoryToCategorySummaryDTO(Category category) {
+    public CategorySummaryDTO convertCategoryToCategorySummaryDTO(Category category) {
         CategorySummaryDTO categorySummaryDTO = new CategorySummaryDTO();
 
         categorySummaryDTO.setCategoryId(category.getCategoryId());
@@ -18,7 +21,7 @@ public class CategoryMapper {
         return categorySummaryDTO;
     }
 
-    public static CategoryResponseDTO convertCategoryToCategoryResponseDTO(Category category) {
+    public CategoryResponseDTO convertCategoryToCategoryResponseDTO(Category category) {
         CategoryResponseDTO categoryResponseDTO = new CategoryResponseDTO();
 
         categoryResponseDTO.setCategoryId(category.getCategoryId());
@@ -32,7 +35,7 @@ public class CategoryMapper {
         return categoryResponseDTO;
     }
 
-    public static Category convertCategoryRequestToModel(CategoryRequestDTO categoryRequestDTO, Category category) {
+    public Category convertCategoryRequestToModel(CategoryRequestDTO categoryRequestDTO, Category category) {
 
         category.setCategoryName(categoryRequestDTO.getCategoryName());
 
