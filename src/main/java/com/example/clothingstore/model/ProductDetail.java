@@ -53,7 +53,7 @@ public class ProductDetail extends Base {
     private List<PromotionGroup> promotionGroups;
 
     @OneToMany(mappedBy = "productDetail")
-    private List<Git> gits;
+    private List<Gift> gits;
 
     @OneToMany(mappedBy = "productDetail")
     private List<OrderDetail> orderDetails;

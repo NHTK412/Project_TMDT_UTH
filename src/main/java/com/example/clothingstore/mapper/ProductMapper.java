@@ -2,6 +2,7 @@ package com.example.clothingstore.mapper;
 
 import org.springframework.stereotype.Component;
 
+import com.example.clothingstore.dto.product.ProductPromotionDTO;
 import com.example.clothingstore.dto.product.ProductSummaryDTO;
 import com.example.clothingstore.model.Product;
 
@@ -23,4 +24,9 @@ public class ProductMapper {
 
         return productSummaryDTO;
     }
+
+    // public ProductPromotionDTO convertModelToProductPromotionDTO(Product product)
+    // {
+        
+    // }
 }
