@@ -42,77 +42,68 @@ public class PromotionGroupMapper {
                                                 .getProduct().getProductId()))
                                 .entrySet()
                                 .stream()
-                                .map(
-                                                (productEntry) -> {
+                                .map((productEntry) -> {
 
-                                                        Product product = productEntry.getValue().get(0)
-                                                                        .getProductColor().getProduct();
+                                        Product product = productEntry.getValue().get(0).getProductColor().getProduct();
 
-                                                        ProductPromotionDTO productPromotionDTO = new ProductPromotionDTO();
+                                        ProductPromotionDTO productPromotionDTO = new ProductPromotionDTO();
 
-                                                        productPromotionDTO.setProductId(product.getProductId());
+                                        productPromotionDTO.setProductId(product.getProductId());
 
-                                                        productPromotionDTO.setProductName(product.getProductName());
+                                        productPromotionDTO.setProductName(product.getProductName());
 
-                                                        productPromotionDTO.setProductPrice(product.getUnitPrice());
+                                        productPromotionDTO.setProductPrice(product.getUnitPrice());
 
-                                                        List<ProductColorPromotionDTO> productColorPromotionDTOs = productEntry
-                                                                        .getValue()
-                                                                        .stream()
-                                                                        .collect(Collectors.groupingBy(
-                                                                                        (productDetail) -> productDetail
-                                                                                                        .getProductColor()
-                                                                                                        .getColorId()))
-                                                                        .entrySet()
-                                                                        .stream()
-                                                                        .map(
-                                                                                        (productColorEntry) -> {
+                                        List<ProductColorPromotionDTO> productColorPromotionDTOs = productEntry
+                                                        .getValue()
+                                                        .stream()
+                                                        .collect(Collectors.groupingBy((productDetail) -> productDetail
+                                                                        .getProductColor()
+                                                                        .getColorId()))
+                                                        .entrySet()
+                                                        .stream()
+                                                        .map((productColorEntry) -> {
 
-                                                                                                ProductColor productColor = productColorEntry
-                                                                                                                .getValue()
-                                                                                                                .get(0)
-                                                                                                                .getProductColor();
+                                                                ProductColor productColor = productColorEntry
+                                                                                .getValue()
+                                                                                .get(0)
+                                                                                .getProductColor();
 
-                                                                                                ProductColorPromotionDTO productColorPromotionDTO = new ProductColorPromotionDTO();
+                                                                ProductColorPromotionDTO productColorPromotionDTO = new ProductColorPromotionDTO();
 
-                                                                                                productColorPromotionDTO
-                                                                                                                .setColorId(productColor
-                                                                                                                                .getColorId());
+                                                                productColorPromotionDTO
+                                                                                .setColorId(productColor.getColorId());
 
-                                                                                                productColorPromotionDTO
-                                                                                                                .setColor(productColor
-                                                                                                                                .getColor());
+                                                                productColorPromotionDTO
+                                                                                .setColor(productColor.getColor());
 
-                                                                                                productColorPromotionDTO
-                                                                                                                .setColorImage(productColor
-                                                                                                                                .getColor());
+                                                                productColorPromotionDTO
+                                                                                .setColorImage(productColor.getColor());
 
-                                                                                                List<ProductDetailPromotionDTO> productDetailPromotionDTOs = productColorEntry
-                                                                                                                .getValue()
-                                                                                                                .stream()
-                                                                                                                .map(
-                                                                                                                                (productDetail) -> {
-                                                                                                                                        return productDetailMapper
-                                                                                                                                                        .convertModeDetailPromotionDTO(
-                                                                                                                                                                        productDetail);
-                                                                                                                                })
-                                                                                                                .toList();
+                                                                List<ProductDetailPromotionDTO> productDetailPromotionDTOs = productColorEntry
+                                                                                .getValue()
+                                                                                .stream()
+                                                                                .map((productDetail) -> {
+                                                                                        return productDetailMapper
+                                                                                                        .convertModeDetailPromotionDTO(
+                                                                                                                        productDetail);
+                                                                                })
+                                                                                .toList();
 
-                                                                                                productColorPromotionDTO
-                                                                                                                .setProductDetails(
-                                                                                                                                productDetailPromotionDTOs);
+                                                                productColorPromotionDTO.setProductDetails(
+                                                                                productDetailPromotionDTOs);
 
-                                                                                                return productColorPromotionDTO;
+                                                                return productColorPromotionDTO;
 
-                                                                                                // productColorPromotionDTO.setProductDetails(null);
+                                                                // productColorPromotionDTO.setProductDetails(null);
 
-                                                                                        })
-                                                                        .toList();
+                                                        })
+                                                        .toList();
 
-                                                        productPromotionDTO.setProductcolors(productColorPromotionDTOs);
+                                        productPromotionDTO.setProductcolors(productColorPromotionDTOs);
 
-                                                        return productPromotionDTO;
-                                                })
+                                        return productPromotionDTO;
+                                })
                                 .toList();
 
                 promotionGroupResponseDTO.setProductPromotionDTOs(productPromotionDTOs);
@@ -132,6 +123,5 @@ public class PromotionGroupMapper {
                 return promotionGroup;
         }
 
-
-        public PromotionGroup convertProductGroupRequestDTOToModel(ProductGro)
+        // public PromotionGroup convertProductGroupRequestDTOToModel(ProductGro)
 }

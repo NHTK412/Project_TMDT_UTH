@@ -55,8 +55,8 @@ public class ProductDetail extends Base {
     @OneToMany(mappedBy = "productDetail")
     private List<Gift> gits;
 
-    @OneToMany(mappedBy = "productDetail")
-    private List<OrderDetail> orderDetails;
+    // @OneToMany(mappedBy = "productDetail")
+    // private List<OrderDetail> orderDetails;
 
 }
 

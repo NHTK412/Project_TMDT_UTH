@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.clothingstore.dto.discount.DiscountResponseDTO;
 import com.example.clothingstore.dto.gift.GiftResponseDTO;
+import com.example.clothingstore.dto.promotion.PromotionRequestDTO;
 import com.example.clothingstore.dto.promotion.PromotionResponseDTO;
 import com.example.clothingstore.dto.promotiongroup.PromotionGroupResponseDTO;
 import com.example.clothingstore.enums.PromotionTypeEnum;
@@ -58,4 +59,17 @@ public class PromotionMapper {
         return promotionResponseDTO;
     }
 
+    public Promotion convertPromotionRequestDTOToModel(PromotionRequestDTO promotionRequestDTO, Promotion promotion) {
+        promotion.setPromotionName(promotionRequestDTO.getPromotionName());
+
+        promotion.setPromotionType(promotionRequestDTO.getPromotionType());
+
+        promotion.setDescription(promotionRequestDTO.getDescription());
+
+        promotion.setStartDate(promotionRequestDTO.getStartDate());
+
+        promotion.setEndDate(promotionRequestDTO.getEndDate());
+
+        return promotion;
+    }
 }

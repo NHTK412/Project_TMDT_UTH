@@ -13,29 +13,37 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * Lưu trữ thông tin quà tặng mà khách hàng nhận được khi mua hàng
+ * Đảm bảo tính toàn vẹn dữ liệu: nếu quà tặng bị xóa hoặc thay đổi,
+ * vẫn giữ được thông tin quà tặng lịch sử của order
+ */
 @Entity
-@Table(name = "Git")
+@Table(name = "OrderGift")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Gift extends Base {
+public class OrderGift extends Base {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "GiftId")
-    private Integer giftId;
+    @Column(name = "OrderGiftId")
+    private Integer orderGiftId;
+
+    // Thông tin quà tặng tại thời điểm mua (de-normalize)
+    @Column(name = "GiftName")
+    private String giftName;
 
     @Column(name = "GiftQuantity")
     private Integer giftQuantity;
 
-    @Column(name = "MaxGift")
-    private Integer maxGift;
+    @Column(name = "GiftImage")
+    private String giftImage;
+
+    @Column(name = "PromotionName")
+    private String promotionName;
 
     @ManyToOne
-    @JoinColumn(name = "PromotionId")
-    private Promotion promotion;
-
-    @ManyToOne
-    @JoinColumn(name = "DetailId")
-    private ProductDetail productDetail;
+    @JoinColumn(name = "OrderId")
+    private Order order;
 }

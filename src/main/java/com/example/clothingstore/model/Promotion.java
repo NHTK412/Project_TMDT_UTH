@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.clothingstore.enums.PromotionTypeEnum;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -54,13 +55,13 @@ public class Promotion extends Base {
     // @Column(name = "ApplyType")
     // private String applyType;
 
-    @OneToMany(mappedBy = "promotion")
+    @OneToMany(mappedBy = "promotion", cascade = CascadeType.ALL)
     private List<PromotionGroup> promotionGroups;
 
-    @OneToOne(mappedBy = "promotion")
+    @OneToOne(mappedBy = "promotion", cascade = CascadeType.ALL)
     private Discount discount;
 
-    @OneToMany(mappedBy = "promotion")
+    @OneToMany(mappedBy = "promotion", cascade = CascadeType.ALL)
     private List<Gift> gits;
 
 }

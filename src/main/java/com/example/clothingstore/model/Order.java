@@ -3,6 +3,7 @@ package com.example.clothingstore.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +32,9 @@ public class Order extends Base {
 
     @Column(name = "TotalAmount")
     private Double totalAmount;
+
+    @Column(name = "DiscountAmount")
+    private Double discountAmount;
 
     @Column(name = "ShippingFee")
     private Double shippingFee;
@@ -62,8 +66,11 @@ public class Order extends Base {
     @Column(name = "VnpayCode")
     private String vnpayCode;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderGift> orderGifts;
 
     @ManyToOne
     @JoinColumn(name = "CustomerId")

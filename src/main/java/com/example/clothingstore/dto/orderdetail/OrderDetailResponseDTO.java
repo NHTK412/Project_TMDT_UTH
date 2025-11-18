@@ -1,0 +1,24 @@
+package com.example.clothingstore.dto.orderdetail;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
+public class OrderDetailResponseDTO {
+
+    private String productName;
+
+    private String productImage;
+
+    private String color;
+
+    private String size;
+
+    private Integer quantity;
+
+    private Double price;
+
+}

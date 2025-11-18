@@ -34,10 +34,9 @@ public class PromotionController {
     public ResponseEntity<ApiResponse<PromotionResponseDTO>> createPromotion(
             @RequestBody PromotionRequestDTO promotionRequestDTO) {
 
-        // PromotionResponseDTO promotionResponseDTO =
-        // promotionService.getPromotionById(promotionId);
+        PromotionResponseDTO promotionResponseDTO = promotionService.createPromotion(promotionRequestDTO);
 
-        PromotionResponseDTO promotionResponseDTO = null;
+        // PromotionResponseDTO promotionResponseDTO = null;
 
         return ResponseEntity.ok(new ApiResponse<PromotionResponseDTO>(true, null, promotionResponseDTO));
     }
