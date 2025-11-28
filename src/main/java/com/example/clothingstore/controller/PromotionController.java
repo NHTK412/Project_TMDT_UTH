@@ -3,10 +3,14 @@ package com.example.clothingstore.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.clothingstore.dto.cart.CartCheckPromotionDTO;
 import com.example.clothingstore.dto.promotion.PromotionRequestDTO;
 import com.example.clothingstore.dto.promotion.PromotionResponseDTO;
+import com.example.clothingstore.dto.promotion.PromotionSummaryDTO;
 import com.example.clothingstore.service.PromotionService;
 import com.example.clothingstore.util.ApiResponse;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/admin/promotion")
@@ -39,6 +44,20 @@ public class PromotionController {
         // PromotionResponseDTO promotionResponseDTO = null;
 
         return ResponseEntity.ok(new ApiResponse<PromotionResponseDTO>(true, null, promotionResponseDTO));
+    }
+
+    // Kiểm tra mã khuyến mãi nào áp dụng được cho đơn hàng này (loại khuyến mãi
+    // giảm giá)
+    @PostMapping("/applicable-discount")
+    public ResponseEntity<ApiResponse<List<PromotionSummaryDTO>>> getApplicableDiscountPromotion(
+            @RequestBody CartCheckPromotionDTO cartCheckPromotionDTO) {
+        List<PromotionSummaryDTO> promotionSummaryDTOs = promotionService
+                .getApplicableDiscountPromotion(cartCheckPromotionDTO);
+
+        ApiResponse<List<PromotionSummaryDTO>> apiResponse = new ApiResponse<List<PromotionSummaryDTO>>(true, null, promotionSummaryDTOs);
+
+        return ResponseEntity.ok(apiResponse);
+
     }
 
 }

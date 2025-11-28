@@ -9,6 +9,7 @@ import com.example.clothingstore.dto.discount.DiscountResponseDTO;
 import com.example.clothingstore.dto.gift.GiftResponseDTO;
 import com.example.clothingstore.dto.promotion.PromotionRequestDTO;
 import com.example.clothingstore.dto.promotion.PromotionResponseDTO;
+import com.example.clothingstore.dto.promotion.PromotionSummaryDTO;
 import com.example.clothingstore.dto.promotiongroup.PromotionGroupResponseDTO;
 import com.example.clothingstore.enums.PromotionTypeEnum;
 import com.example.clothingstore.model.Promotion;
@@ -71,5 +72,32 @@ public class PromotionMapper {
         promotion.setEndDate(promotionRequestDTO.getEndDate());
 
         return promotion;
+    }
+
+    public PromotionSummaryDTO convertModelToPromotionSummaryDTO(Promotion promotion) {
+        PromotionSummaryDTO promotionSummaryDTO = new PromotionSummaryDTO();
+
+        promotionSummaryDTO.setPromotionId(promotion.getPromotionId());
+
+        promotionSummaryDTO.setPromotionName(promotion.getPromotionName());
+
+        promotionSummaryDTO.setPromotionType(promotion.getPromotionType());
+
+        promotionSummaryDTO.setDescription(promotion.getDescription());
+
+        promotionSummaryDTO.setStartDate(promotion.getStartDate());
+
+        promotionSummaryDTO.setEndDate(promotion.getEndDate());
+
+        if (promotion.getPromotionType() == PromotionTypeEnum.DISCOUNT_AMOUNT) {
+
+            promotionSummaryDTO.setDiscountAmount(promotion.getDiscount().getDiscountAmount());
+
+
+        } else if (promotion.getPromotionType() == PromotionTypeEnum.DISCOUNT_PERCENTAGE) {
+            promotionSummaryDTO.setDiscountPercentage(promotion.getDiscount().getDiscountPercentage());
+        }
+
+        return promotionSummaryDTO;
     }
 }

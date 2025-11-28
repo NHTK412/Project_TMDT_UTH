@@ -3,9 +3,16 @@ package com.example.clothingstore.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.clothingstore.enums.OrderPaymentStatusEnum;
+import com.example.clothingstore.enums.OrderStatusEnum;
+import com.example.clothingstore.enums.PaymentMethodEnum;
+// import com.example.clothingstore.enums.PaymentMethodStatusEnum;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -42,8 +49,9 @@ public class Order extends Base {
     @Column(name = "DeliveryDate")
     private LocalDateTime deliveryDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "Status")
-    private String status;
+    private OrderStatusEnum status;
 
     @Column(name = "RecipientName")
     private String recipientName;
@@ -60,8 +68,13 @@ public class Order extends Base {
     @Column(name = "Province")
     private String province;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "PaymentStatus")
+    private OrderPaymentStatusEnum paymentStatus;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "PaymentMethod")
-    private String paymentMethod;
+    private PaymentMethodEnum paymentMethod;
 
     @Column(name = "VnpayCode")
     private String vnpayCode;

@@ -1,13 +1,19 @@
 package com.example.clothingstore.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.clothingstore.dto.cart.CartCheckPromotionDTO;
 import com.example.clothingstore.dto.promotion.PromotionRequestDTO;
 import com.example.clothingstore.dto.promotion.PromotionResponseDTO;
+import com.example.clothingstore.dto.promotion.PromotionSummaryDTO;
 import com.example.clothingstore.enums.PromotionTypeEnum;
 import com.example.clothingstore.exception.customer.NotFoundException;
 import com.example.clothingstore.mapper.DiscountMapper;
@@ -124,4 +130,88 @@ public class PromotionService {
         return promotionMapper.convertModelToPromotionResponseDTO(promotion);
     }
 
+    @Transactional
+    public List<PromotionSummaryDTO> getApplicableDiscountPromotion(CartCheckPromotionDTO cartCheckPromotionDTO) {
+
+        List<Promotion> promotions = promotionRepository
+                .findByPromotionTypeIn(
+                        List.of(PromotionTypeEnum.DISCOUNT_AMOUNT, PromotionTypeEnum.DISCOUNT_PERCENTAGE));
+
+        List<PromotionSummaryDTO> promotionSummaryDTOs = new ArrayList<>();
+
+        List<Integer> productDetailIds = cartCheckPromotionDTO.getCartItems()
+                .stream()
+                .map(item -> item.getProductDetailId())
+                .collect(Collectors.toList());
+
+        Map<Integer, ProductDetail> productDetailsInCart = productDetailRepository.findAllById(productDetailIds)
+                .stream()
+                .collect(Collectors.toMap(
+                        productDetail -> productDetail.getDetailId(),
+                        productDetail -> productDetail
+                    ));
+
+
+
+
+        Map<ProductDetail, Integer> productDetailsInCartMap = cartCheckPromotionDTO
+                .getCartItems()
+                .stream()
+                .collect(Collectors.toMap(cartItem -> productDetailsInCart.get(cartItem.getProductDetailId()),
+                        cartItem -> cartItem.getQuantity()));
+
+        // List<Integer> productDetailIds = cartCheckPromotionDTO.getCartItems()
+        // .stream()
+        // .map(item -> item.getProductDetailId())
+        // .collect(Collectors.toList());
+
+        // List<ProductDetail> productDetailsInCart = productDetailRepository
+        // .findAllById(productDetailIds);
+
+        // Map<ProductDetail, Integer> productDetailQuantityMap =
+        // productDetailRepository
+        // .findAllById(productDetailIds).stream()
+        // .collect(Collectors.toMap(
+        // productDetail -> productDetail
+        // ,
+        // ));
+
+        for (Promotion promotion : promotions) {
+            if (isProductInPromotionGroup(productDetailsInCartMap, promotion)) {
+
+                PromotionSummaryDTO promotionSummaryDTO = promotionMapper.convertModelToPromotionSummaryDTO(promotion);
+
+                promotionSummaryDTOs.add(promotionSummaryDTO);
+
+            }
+        }
+
+        return promotionSummaryDTOs;
+    }
+
+    // Hàm này check xem ProductDetail có trong PromotionGroup của Promotion không
+    // private Boolean isProductInPromotionGroup(List<ProductDetail> productDetailsInCart, Promotion promotion) {
+    private Boolean isProductInPromotionGroup(Map<ProductDetail, Integer> productDetailsInCartMap, Promotion promotion) {
+
+
+        List<PromotionGroup> promotionGroups = promotion.getPromotionGroups();
+
+        Set<ProductDetail> productDetails = productDetailsInCartMap.keySet();
+
+        for (PromotionGroup group : promotionGroups) {
+
+            Integer count = 0;
+
+            for (ProductDetail productDetailInCart : productDetails) {
+                if (group.getProductDetails().contains(productDetailInCart)) {
+                    count = count + productDetailsInCartMap.get(productDetailInCart);
+                }
+            }
+            if (count < group.getMinPurchaseQuantity()) {
+                return false;
+            }
+
+        }
+        return true;
+    }
 }

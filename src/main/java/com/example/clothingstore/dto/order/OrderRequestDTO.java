@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.clothingstore.dto.orderdetail.OrderDetailRequestDTO;
+import com.example.clothingstore.enums.PaymentMethodEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class OrderRequestDTO {
 
     private LocalDateTime deliveryDate;
 
-    private String status;
+    // private String status;
 
     // private String recipientName;
 
@@ -34,7 +35,7 @@ public class OrderRequestDTO {
 
     private Integer addressShippingId;
 
-    private String paymentMethod;
+    private PaymentMethodEnum paymentMethod;
 
     private String vnpayCode;
 

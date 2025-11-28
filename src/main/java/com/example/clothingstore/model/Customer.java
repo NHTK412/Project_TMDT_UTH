@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.clothingstore.enums.AccountStatusEnum;
+import com.example.clothingstore.enums.GenderEnum;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Column;
@@ -48,8 +49,9 @@ public class Customer extends Base {
     @Column(name = "Email")
     private String email;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "Gender")
-    private String gender;
+    private GenderEnum gender;
 
     @Column(name = "FullName")
     private String fullName;

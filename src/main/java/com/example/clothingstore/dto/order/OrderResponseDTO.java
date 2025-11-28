@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.example.clothingstore.dto.orderdetail.OrderDetailResponseDTO;
 import com.example.clothingstore.dto.ordergift.OrderGiftResponseDTO;
+import com.example.clothingstore.enums.OrderPaymentStatusEnum;
+import com.example.clothingstore.enums.OrderStatusEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +27,7 @@ public class OrderResponseDTO {
 
     private LocalDateTime deliveryDate;
 
-    private String status;
+    private OrderStatusEnum status;
 
     private String recipientName;
 
@@ -37,7 +39,8 @@ public class OrderResponseDTO {
 
     private String province;
 
-    private String paymentMethod;
+    // private String paymentMethod;
+    private OrderPaymentStatusEnum paymentStatus;
 
     private String vnpayCode;
 

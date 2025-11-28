@@ -2,6 +2,8 @@ package com.example.clothingstore.dto.customer;
 
 import java.time.LocalDateTime;
 
+import com.example.clothingstore.enums.GenderEnum;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +19,7 @@ public class CustomerRequestDTO {
 
     private String email;
 
-    private String gender;
+    private GenderEnum gender;
 
     private String fullName;
 

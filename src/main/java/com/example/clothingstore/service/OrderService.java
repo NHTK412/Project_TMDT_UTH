@@ -11,6 +11,7 @@ import com.example.clothingstore.dto.order.OrderRequestDTO;
 import com.example.clothingstore.dto.order.OrderResponseDTO;
 import com.example.clothingstore.dto.orderdetail.OrderDetailResponseDTO;
 import com.example.clothingstore.dto.ordergift.OrderGiftResponseDTO;
+import com.example.clothingstore.enums.OrderStatusEnum;
 import com.example.clothingstore.enums.PromotionTypeEnum;
 import com.example.clothingstore.exception.customer.NotFoundException;
 import com.example.clothingstore.model.Customer;
@@ -53,7 +54,9 @@ public class OrderService {
 
         order.setDeliveryDate(orderRequestDTO.getDeliveryDate());
 
-        order.setStatus(orderRequestDTO.getStatus());
+        // order.setStatus(orderRequestDTO.getStatus());
+
+        order.setStatus(OrderStatusEnum.PLACED);
 
         // order.setRecipientName(orderRequestDTO.getRecipientName());
 
@@ -65,7 +68,7 @@ public class OrderService {
 
         // order.setProvince(orderRequestDTO.getProvince());
 
-        order.setPaymentMethod(orderRequestDTO.getPaymentMethod());
+        // order.setPaymentMethod(orderRequestDTO.getPaymentMethod());
 
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Customer not found"));
@@ -190,7 +193,9 @@ public class OrderService {
 
         orderResponseDTO.setProvince(order.getProvince());
 
-        orderResponseDTO.setPaymentMethod(order.getPaymentMethod());
+        // orderResponseDTO.setPayment(order.getPaymentMethod());
+
+        orderResponseDTO.setPaymentStatus(order.getPaymentStatus());
 
         orderResponseDTO.setVnpayCode(order.getVnpayCode());
 
