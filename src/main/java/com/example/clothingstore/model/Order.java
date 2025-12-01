@@ -68,9 +68,9 @@ public class Order extends Base {
     @Column(name = "Province")
     private String province;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "PaymentStatus")
-    private OrderPaymentStatusEnum paymentStatus;
+    // @Enumerated(EnumType.STRING)
+    // @Column(name = "PaymentStatus")
+    // private OrderPaymentStatusEnum paymentStatus;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "PaymentMethod")

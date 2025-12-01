@@ -34,6 +34,9 @@ public class Product extends Base {
     @Column(name = "UnitPrice")
     private Double unitPrice;
 
+    @Column(name = "Discount")
+    private Double discount;
+
     @Column(name = "Description")
     private String description;
 

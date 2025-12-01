@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.example.clothingstore.dto.cart.CartCheckPromotionDTO;
@@ -148,11 +150,7 @@ public class PromotionService {
                 .stream()
                 .collect(Collectors.toMap(
                         productDetail -> productDetail.getDetailId(),
-                        productDetail -> productDetail
-                    ));
-
-
-
+                        productDetail -> productDetail));
 
         Map<ProductDetail, Integer> productDetailsInCartMap = cartCheckPromotionDTO
                 .getCartItems()
@@ -190,9 +188,10 @@ public class PromotionService {
     }
 
     // Hàm này check xem ProductDetail có trong PromotionGroup của Promotion không
-    // private Boolean isProductInPromotionGroup(List<ProductDetail> productDetailsInCart, Promotion promotion) {
-    private Boolean isProductInPromotionGroup(Map<ProductDetail, Integer> productDetailsInCartMap, Promotion promotion) {
-
+    // private Boolean isProductInPromotionGroup(List<ProductDetail>
+    // productDetailsInCart, Promotion promotion) {
+    private Boolean isProductInPromotionGroup(Map<ProductDetail, Integer> productDetailsInCartMap,
+            Promotion promotion) {
 
         List<PromotionGroup> promotionGroups = promotion.getPromotionGroups();
 
@@ -213,5 +212,86 @@ public class PromotionService {
 
         }
         return true;
+    }
+
+    @Transactional
+    public List<PromotionSummaryDTO> getApplicablePromotion(CartCheckPromotionDTO cartCheckPromotionDTO,
+            List<PromotionTypeEnum> promotionTypes) {
+
+        List<Promotion> promotions = promotionRepository
+                .findByPromotionTypeIn(promotionTypes);
+
+        List<PromotionSummaryDTO> promotionSummaryDTOs = new ArrayList<>();
+
+        List<Integer> productDetailIds = cartCheckPromotionDTO.getCartItems()
+                .stream()
+                .map(item -> item.getProductDetailId())
+                .collect(Collectors.toList());
+
+        Map<Integer, ProductDetail> productDetailsInCart = productDetailRepository.findAllById(productDetailIds)
+                .stream()
+                .collect(Collectors.toMap(
+                        productDetail -> productDetail.getDetailId(),
+                        productDetail -> productDetail));
+
+        Map<ProductDetail, Integer> productDetailsInCartMap = cartCheckPromotionDTO
+                .getCartItems()
+                .stream()
+                .collect(Collectors.toMap(cartItem -> productDetailsInCart.get(cartItem.getProductDetailId()),
+                        cartItem -> cartItem.getQuantity()));
+
+        // List<Integer> productDetailIds = cartCheckPromotionDTO.getCartItems()
+        // .stream()
+        // .map(item -> item.getProductDetailId())
+        // .collect(Collectors.toList());
+
+        // List<ProductDetail> productDetailsInCart = productDetailRepository
+        // .findAllById(productDetailIds);
+
+        // Map<ProductDetail, Integer> productDetailQuantityMap =
+        // productDetailRepository
+        // .findAllById(productDetailIds).stream()
+        // .collect(Collectors.toMap(
+        // productDetail -> productDetail
+        // ,
+        // ));
+
+        for (Promotion promotion : promotions) {
+            if (isProductInPromotionGroup(productDetailsInCartMap, promotion)) {
+
+                PromotionSummaryDTO promotionSummaryDTO = promotionMapper.convertModelToPromotionSummaryDTO(promotion);
+
+                promotionSummaryDTOs.add(promotionSummaryDTO);
+
+            }
+        }
+
+        return promotionSummaryDTOs;
+    }
+
+
+    public List<PromotionSummaryDTO> getAllPromotions(PageRequest pageable) {
+
+        Page<Promotion> promotions = promotionRepository.findAll(pageable);
+
+        List<PromotionSummaryDTO> promotionSummaryDTOs = promotions
+                .stream()
+                .map(promotion -> promotionMapper.convertModelToPromotionSummaryDTO(promotion))
+                .collect(Collectors.toList());
+
+        return promotionSummaryDTOs;
+    }
+
+    @Transactional
+    public PromotionResponseDTO deletePromotion(Integer promotionId) {
+
+        Promotion promotion = promotionRepository.findById(promotionId)
+                .orElseThrow(() -> new NotFoundException("Invalue Promotion Code"));
+
+        PromotionResponseDTO promotionResponseDTO = promotionMapper.convertModelToPromotionResponseDTO(promotion);
+
+        promotionRepository.delete(promotion);
+
+        return promotionResponseDTO;
     }
 }

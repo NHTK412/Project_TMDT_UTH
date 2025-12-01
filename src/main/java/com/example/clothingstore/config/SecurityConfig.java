@@ -2,58 +2,82 @@ package com.example.clothingstore.config;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 
+import com.example.clothingstore.exception.customer.AccessDeniedHandlerException;
+import com.example.clothingstore.exception.customer.AuthenticationEntryPointException;
+import com.example.clothingstore.filter.JwtAuthFilter;
+
+@EnableMethodSecurity
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        @Autowired
+        private JwtAuthFilter jwtAuthFilter;
 
-        httpSecurity.cors(cors -> cors.configurationSource((request) -> {
+        @Autowired
+        private AuthenticationEntryPointException authenticationEntryPointException;
 
-            CorsConfiguration corsConfiguration = new CorsConfiguration();
+        @Autowired
+        private AccessDeniedHandlerException accessDeniedHandlerException;
 
-            corsConfiguration.setAllowedOrigins(List.of("*"));
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
-            corsConfiguration.setAllowedMethods(List.of(
-                    "GET",
-                    "POST",
-                    "PUT",
-                    "DELETE",
-                    "OPTIONS"));
+                httpSecurity.cors(cors -> cors.configurationSource((request) -> {
 
-            corsConfiguration.setAllowedHeaders(List.of(
-                    "Authorization",
-                    "Content-Type",
-                    "Accept",
-                    "Cache-Control",
-                    "X-Requested-With",
-                    "X-Client-Version",
-                    "X-Refresh-Token"));
+                        CorsConfiguration corsConfiguration = new CorsConfiguration();
 
-            corsConfiguration.setExposedHeaders(List.of("Authorization"));
+                        corsConfiguration.setAllowedOrigins(List.of("*"));
 
-            corsConfiguration.setAllowCredentials(null);
+                        corsConfiguration.setAllowedMethods(List.of(
+                                        "GET",
+                                        "POST",
+                                        "PUT",
+                                        "DELETE",
+                                        "OPTIONS"));
 
-            return corsConfiguration;
+                        corsConfiguration.setAllowedHeaders(List.of(
+                                        "Authorization",
+                                        "Content-Type",
+                                        "Accept",
+                                        "Cache-Control",
+                                        "X-Requested-With",
+                                        "X-Client-Version",
+                                        "X-Refresh-Token"));
 
-        }));
+                        corsConfiguration.setExposedHeaders(List.of("Authorization"));
 
-        httpSecurity.csrf((csrf) -> csrf.disable());
+                        corsConfiguration.setAllowCredentials(null);
 
-        httpSecurity.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        return corsConfiguration;
 
-        httpSecurity.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/**").permitAll()
-                .anyRequest().permitAll());
+                }));
 
-        return httpSecurity.build();
-    }
+                httpSecurity.csrf((csrf) -> csrf.disable());
+
+                httpSecurity.sessionManagement(
+                                (session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+                httpSecurity.authorizeHttpRequests(auth -> auth
+                                .requestMatchers("/api/**").permitAll()
+                                .anyRequest().permitAll());
+
+                httpSecurity.exceptionHandling(ex -> ex
+                                .authenticationEntryPoint(authenticationEntryPointException) // 401
+                                .accessDeniedHandler(accessDeniedHandlerException)); // 403
+
+                httpSecurity.addFilterBefore(jwtAuthFilter,
+                                UsernamePasswordAuthenticationFilter.class);
+
+                return httpSecurity.build();
+        }
 }

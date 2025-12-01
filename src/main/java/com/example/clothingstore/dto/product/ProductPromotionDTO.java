@@ -12,12 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductPromotionDTO {
+
     private Integer productId;
 
     private String productName;
 
     private Double productPrice;
 
-    private List<ProductColorPromotionDTO> productcolors; 
+    private List<ProductColorPromotionDTO> productcolors;
 
 }

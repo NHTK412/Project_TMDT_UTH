@@ -7,14 +7,18 @@ import com.example.clothingstore.dto.cart.CartCheckPromotionDTO;
 import com.example.clothingstore.dto.promotion.PromotionRequestDTO;
 import com.example.clothingstore.dto.promotion.PromotionResponseDTO;
 import com.example.clothingstore.dto.promotion.PromotionSummaryDTO;
+import com.example.clothingstore.enums.PromotionTypeEnum;
+import com.example.clothingstore.model.Promotion;
 import com.example.clothingstore.service.PromotionService;
 import com.example.clothingstore.util.ApiResponse;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,10 +58,59 @@ public class PromotionController {
         List<PromotionSummaryDTO> promotionSummaryDTOs = promotionService
                 .getApplicableDiscountPromotion(cartCheckPromotionDTO);
 
-        ApiResponse<List<PromotionSummaryDTO>> apiResponse = new ApiResponse<List<PromotionSummaryDTO>>(true, null, promotionSummaryDTOs);
+        ApiResponse<List<PromotionSummaryDTO>> apiResponse = new ApiResponse<List<PromotionSummaryDTO>>(true, null,
+                promotionSummaryDTOs);
 
         return ResponseEntity.ok(apiResponse);
 
     }
+
+    @PostMapping("/applicable")
+    public ResponseEntity<ApiResponse<List<PromotionSummaryDTO>>> getApplicablePromotion(
+            @RequestBody CartCheckPromotionDTO cartCheckPromotionDTO,
+            @RequestParam List<PromotionTypeEnum> promotionTypes) {
+        List<PromotionSummaryDTO> promotionSummaryDTOs = promotionService
+                .getApplicablePromotion(cartCheckPromotionDTO, promotionTypes);
+
+        ApiResponse<List<PromotionSummaryDTO>> apiResponse = new ApiResponse<List<PromotionSummaryDTO>>(true, null,
+                promotionSummaryDTOs);
+
+        return ResponseEntity.ok(apiResponse);
+
+    }
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<PromotionSummaryDTO>>> getAllPromotions(@RequestParam Integer page,
+            @RequestParam Integer size) {
+
+        PageRequest pageable = PageRequest.of(page, size);
+
+        List<PromotionSummaryDTO> promotionSummaryDTOs = promotionService.getAllPromotions(pageable);
+
+        ApiResponse<List<PromotionSummaryDTO>> apiResponse = new ApiResponse<List<PromotionSummaryDTO>>(true, null,
+                promotionSummaryDTOs);
+
+        return ResponseEntity.ok(apiResponse);
+
+    }
+
+    @PatchMapping("/{promotionId}")
+    public ResponseEntity<ApiResponse<PromotionResponseDTO>> deletePromotion(@PathVariable Integer promotionId) {
+
+        PromotionResponseDTO promotionResponseDTO = promotionService.deletePromotion(promotionId);
+
+        return ResponseEntity.ok(new ApiResponse<PromotionResponseDTO>(true, null, promotionResponseDTO));
+    }
+
+    // @PatchMapping("/{promotionId}")
+    // public ResponseEntity<ApiResponse<PromotionResponseDTO>>
+    // deletePromotion(@PathVariable Integer promotionId, @RequestParam
+    // PromotionStatusEnum status) {
+
+    // promotionService.deletePromotion(promotionId);
+
+    // return ResponseEntity.ok(new ApiResponse<PromotionResponseDTO>(true,
+    // "Promotion deleted successfully", null));
+    // }
 
 }

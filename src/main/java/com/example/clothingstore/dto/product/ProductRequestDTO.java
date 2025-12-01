@@ -21,6 +21,8 @@ public class ProductRequestDTO {
 
     private String productImage;
 
+    private Double discount;
+
     private List<Integer> categoryId; // Dùng để gắn danh mục
 
     private List<ProductColorRequestDTO> productColors;
