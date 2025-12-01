@@ -13,6 +13,7 @@ import com.example.clothingstore.enums.AccountStatusEnum;
 import com.example.clothingstore.enums.RoleEnum;
 import com.example.clothingstore.exception.customer.ConflictException;
 import com.example.clothingstore.exception.customer.InvalidRefreshTokenException;
+import com.example.clothingstore.exception.customer.NotFoundException;
 import com.example.clothingstore.model.Admin;
 import com.example.clothingstore.model.Customer;
 import com.example.clothingstore.repository.AdminRepository;
@@ -66,12 +67,53 @@ public class AuthService {
 
         customerRepository.save(customer);
 
-        return login(userName, password);
+        return login(userName, password, false);
     }
 
-    public AuthResponseDTO login(String userName, String password) {
+    // public AuthResponseDTO login(String userName, String password) {
+    //     Customer customer = customerRepository.findByUserName(userName)
+    //             .orElseThrow(() -> new RuntimeException("Tên đăng nhập không tồn tại"));
+
+    //     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    //     String code = encoder.encode(password);
+    //     System.out.println(code);
+
+    //     // if (!employee.getPassword().equals(password)) {
+    //     if (!encoder.matches(password, customer.getPassword())) {
+    //         throw new InvalidRefreshTokenException("Mật khẩu không hợp lệ");
+    //     }
+
+    //     String accessToken = jwtUtil.generateToken(customer.getUserName(), RoleEnum.ROLE_CUSTOMER.name(),
+    //             expiration);
+
+    //     byte[] bytes = new byte[50];
+
+    //     secureRandom.nextBytes(bytes);
+
+    //     // String refreshToken = Hex.encodeHexString(bytes);
+
+    //     String refreshToken = new String(Hex.encode(bytes));
+
+    //     // redisTemplate.opsForValue().set("refreshToken::" + refreshToken,
+    //     // employee.getUsername(), 7, TimeUnit.DAYS);
+
+    //     AuthResponseDTO authResponseDTO = new AuthResponseDTO();
+    //     authResponseDTO.setUsername(customer.getUserName());
+    //     authResponseDTO.setRole(RoleEnum.ROLE_CUSTOMER.name());
+    //     authResponseDTO.setAccessToken(accessToken);
+    //     authResponseDTO.setRefreshToken(refreshToken);
+    //     authResponseDTO.setExpiresIn(expiration);
+    //     return authResponseDTO;
+    // }
+
+    public AuthResponseDTO login(String userName, String password, Boolean admin) {
+
+        if (admin) {
+            return loginAdmin(userName, password);
+        }
         Customer customer = customerRepository.findByUserName(userName)
-                .orElseThrow(() -> new RuntimeException("Tên đăng nhập không tồn tại"));
+                .orElseThrow(() -> new NotFoundException("Tên đăng nhập không tồn tại"));
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -108,7 +150,7 @@ public class AuthService {
 
     public AuthResponseDTO loginAdmin(String userName, String password) {
         Admin admin = adminRepository.findByUserName(userName)
-                .orElseThrow(() -> new RuntimeException("Tên đăng nhập không tồn tại"));
+                .orElseThrow(() -> new NotFoundException("Tên đăng nhập không tồn tại"));
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 

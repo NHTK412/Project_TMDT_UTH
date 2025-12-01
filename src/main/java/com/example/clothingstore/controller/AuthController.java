@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.clothingstore.dto.auth.AuthRequestDTO;
@@ -19,9 +20,20 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
+    // @PostMapping("/login")
+    // public ResponseEntity<ApiResponse<AuthResponseDTO>> login(@RequestBody
+    // AuthRequestDTO authRequestDTO) {
+    // AuthResponseDTO authResponseDTO =
+    // authService.login(authRequestDTO.getUsername(),
+    // authRequestDTO.getPassword());
+    // return ResponseEntity.ok(new ApiResponse<AuthResponseDTO>(true, null,
+    // authResponseDTO));
+    // }
+
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<AuthResponseDTO>> login(@RequestBody AuthRequestDTO authRequestDTO) {
-        AuthResponseDTO authResponseDTO = authService.login(authRequestDTO.getUsername(), authRequestDTO.getPassword());
+    public ResponseEntity<ApiResponse<AuthResponseDTO>> login(@RequestParam(defaultValue = "false") Boolean admin,
+            @RequestBody AuthRequestDTO authRequestDTO) {
+        AuthResponseDTO authResponseDTO = authService.login(authRequestDTO.getUsername(), authRequestDTO.getPassword(), admin);
         return ResponseEntity.ok(new ApiResponse<AuthResponseDTO>(true, null, authResponseDTO));
     }
 
