@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Git extends Base {
+public class Gift extends Base {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "GiftId")
@@ -38,5 +38,4 @@ public class Git extends Base {
     @ManyToOne
     @JoinColumn(name = "DetailId")
     private ProductDetail productDetail;
-
 }

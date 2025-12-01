@@ -1,6 +1,5 @@
 package com.example.clothingstore.model;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,9 +31,23 @@ public class OrderDetail extends Base {
     @Column(name = "Price")
     private Double price;
 
-    @ManyToOne
-    @JoinColumn(name = "ProductDetailId")
-    private ProductDetail productDetail;
+    // Lưu thông tin sản phẩm tại thời điểm mua (de-normalize)
+    @Column(name = "ProductName")
+    private String productName;
+
+    @Column(name = "ProductImage")
+    private String productImage;
+
+    @Column(name = "Color")
+    private String color;
+
+    @Column(name = "Size")
+    private String size;
+
+    // Reference đến ProductDetail (dùng cho tham khảo, không dùng cập nhật giá)
+    // @ManyToOne
+    // @JoinColumn(name = "ProductDetailId")
+    // private ProductDetail productDetail;
 
     @ManyToOne
     @JoinColumn(name = "OrderId")

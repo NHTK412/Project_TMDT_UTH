@@ -113,6 +113,8 @@ public class ProductService {
 
         product.setUnitPrice(productRequest.getUnitPrice());
 
+        product.setDiscount(productRequest.getDiscount());
+
         product.setDescription(productRequest.getDescription());
 
         product.setProductImage(productRequest.getProductImage());
@@ -138,54 +140,12 @@ public class ProductService {
                 productDetails.add(productDetail);
             }
 
-            // List<ProductDetail> productDetails =
-            // productColorRequest.getProductDetails().stream()
-            // .map((productDetailRequest) -> {
-            // ProductDetail productDetail = new ProductDetail();
-
-            // productDetail.setSize(productDetailRequest.getSize());
-            // productDetail.setQuantity(productDetailRequest.getQuantity());
-
-            // // Thiết lập cha cho nó
-            // productDetail.setProductColor(productColor);
-            // return productDetail;
-            // }).toList();
-
             productColor.setProductDetails(productDetails);
 
             // Thiết lập cha cho nó
             productColor.setProduct(product);
             productColors.add(productColor);
         }
-
-        // List<ProductColor> productColors = productRequest.getProductColors()
-        // .stream()
-        // .map((productColorRequest) -> {
-        // ProductColor productColor = new ProductColor();
-        // productColor.setColor(productColorRequest.getColor());
-        // productColor.setProductImage(productColorRequest.getProductImage());
-
-        // List<ProductDetail> productDetails =
-        // productColorRequest.getProductDetails().stream()
-        // .map((productDetailRequest) -> {
-        // ProductDetail productDetail = new ProductDetail();
-
-        // productDetail.setSize(productDetailRequest.getSize());
-        // productDetail.setQuantity(productDetailRequest.getQuantity());
-
-        // // Thiết lập cha cho nó
-        // productDetail.setProductColor(productColor);
-        // return productDetail;
-        // }).toList();
-
-        // productColor.setProductDetails(productDetails);
-
-        // // Thiết lập cha cho nó
-        // productColor.setProduct(product);
-        // return productColor;
-        // }).toList();
-
-        // product.setProductColors(productColors);
 
     }
 }

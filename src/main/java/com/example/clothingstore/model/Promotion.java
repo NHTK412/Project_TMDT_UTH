@@ -3,8 +3,13 @@ package com.example.clothingstore.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.clothingstore.enums.PromotionTypeEnum;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,14 +36,15 @@ public class Promotion extends Base {
     @Column(name = "PromotionName")
     private String promotionName;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "PromotionType")
-    private String promotionType;
+    private PromotionTypeEnum promotionType;
 
     @Column(name = "Description")
     private String description;
 
-    @Column(name = "ApplyCondition")
-    private String applyCondition;
+    // @Column(name = "ApplyCondition")
+    // private String applyCondition;
 
     @Column(name = "StartDate")
     private LocalDateTime startDate;
@@ -46,16 +52,16 @@ public class Promotion extends Base {
     @Column(name = "EndDate")
     private LocalDateTime endDate;
 
-    @Column(name = "ApplyType")
-    private String applyType;
+    // @Column(name = "ApplyType")
+    // private String applyType;
 
-    @OneToMany(mappedBy = "promotion")
+    @OneToMany(mappedBy = "promotion", cascade = CascadeType.ALL)
     private List<PromotionGroup> promotionGroups;
 
-    @OneToOne(mappedBy = "promotion")
+    @OneToOne(mappedBy = "promotion", cascade = CascadeType.ALL)
     private Discount discount;
 
-    @OneToMany(mappedBy = "promotion")
-    private List<Git> gits;
+    @OneToMany(mappedBy = "promotion", cascade = CascadeType.ALL)
+    private List<Gift> gits;
 
 }

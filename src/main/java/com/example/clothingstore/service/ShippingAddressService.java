@@ -30,8 +30,10 @@ public class ShippingAddressService {
         @Autowired
         private ShippingAddressMapper shippingAddressMapper;
 
-        public List<ShippingAddressResponseDTO> getAllShippingAddresses(Pageable pageable) {
-                Page<ShippingAddress> shippingAddresses = shippingAddressRepository.findAll(pageable);
+        public List<ShippingAddressResponseDTO> getAllShippingAddresses(Integer customerId, Pageable pageable) {
+
+                Page<ShippingAddress> shippingAddresses = shippingAddressRepository
+                                .findByCustomer_CustomerId(customerId, pageable);
 
                 return shippingAddresses
                                 .map((shippingAddress) -> shippingAddressMapper

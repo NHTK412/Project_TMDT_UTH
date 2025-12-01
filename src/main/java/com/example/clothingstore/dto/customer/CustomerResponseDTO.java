@@ -3,6 +3,7 @@ package com.example.clothingstore.dto.customer;
 import java.time.LocalDateTime;
 
 import com.example.clothingstore.enums.AccountStatusEnum;
+import com.example.clothingstore.enums.GenderEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class CustomerResponseDTO {
 
     private String email;
 
-    private String gender;
+    private GenderEnum gender;
 
     private String fullName;
 

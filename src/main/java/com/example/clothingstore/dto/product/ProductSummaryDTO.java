@@ -16,6 +16,8 @@ public class ProductSummaryDTO {
 
     private Double unitPrice;
 
+    private Double discount;
+
     private String description;
 
     private String productImage;

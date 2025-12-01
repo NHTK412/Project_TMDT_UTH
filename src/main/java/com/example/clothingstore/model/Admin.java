@@ -3,6 +3,7 @@ package com.example.clothingstore.model;
 import java.time.LocalDateTime;
 
 import com.example.clothingstore.enums.AccountStatusEnum;
+import com.example.clothingstore.enums.GenderEnum;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,8 +27,9 @@ public class Admin extends Base {
     @Column(name = "Email")
     private String email;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "Gender")
-    private String gender;
+    private GenderEnum gender;
 
     @Column(name = "FullName")
     private String fullName;

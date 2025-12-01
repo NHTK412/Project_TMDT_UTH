@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
     @GetMapping("/{productId}")
     public ResponseEntity<ApiResponse<ProductResponseDTO>> getProductDetailById(@PathVariable Integer productId) {
         ProductResponseDTO productResponseDTO = productService.getProductDetailById(productId);
@@ -38,6 +40,7 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse<ProductResponseDTO>(true, null, productResponseDTO));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
     @GetMapping
     public ResponseEntity<ApiResponse<List<ProductSummaryDTO>>> getAllProduct(
             @RequestParam(defaultValue = "1") Integer page,
@@ -50,6 +53,7 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse<List<ProductSummaryDTO>>(true, null, productSummaryDTOs));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ApiResponse<ProductSummaryDTO>> createProduct(@RequestBody ProductRequestDTO productRequest) {
         return ResponseEntity
@@ -57,6 +61,7 @@ public class ProductController {
                         productService.createProduct(productRequest)));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{productId}")
     public ResponseEntity<ApiResponse<ProductSummaryDTO>> deleteProduct(@PathVariable Integer productId) {
         ProductSummaryDTO productSummaryDTO = productService.deleteProduct(productId);
@@ -64,6 +69,7 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse<ProductSummaryDTO>(true, null, productSummaryDTO));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{productId}")
     public ResponseEntity<ApiResponse<ProductSummaryDTO>> updateProduct(@PathVariable Integer productId,
             @RequestBody ProductRequestDTO productRequest) {

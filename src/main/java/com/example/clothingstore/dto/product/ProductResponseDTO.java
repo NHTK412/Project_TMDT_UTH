@@ -21,6 +21,8 @@ public class ProductResponseDTO {
 
     private Double unitPrice;
 
+    private Double discount;
+
     private String description;
 
     private String productImage;
@@ -33,6 +35,7 @@ public class ProductResponseDTO {
         this.productId = product.getProductId();
         this.productName = product.getProductName();
         this.unitPrice = product.getUnitPrice();
+        this.discount = product.getDiscount();
         this.description = product.getDescription();
         this.productImage = product.getProductImage();
         this.productColors = product.getProductColors()
