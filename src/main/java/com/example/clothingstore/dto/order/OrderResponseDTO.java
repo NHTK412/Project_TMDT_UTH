@@ -42,7 +42,7 @@ public class OrderResponseDTO {
     // private String paymentMethod;
     private OrderPaymentStatusEnum paymentStatus;
 
-    private String vnpayCode;
+    private String zaloAppTransId;
 
     private List<OrderDetailResponseDTO> orderDetails;
 

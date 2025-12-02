@@ -76,8 +76,9 @@ public class Order extends Base {
     @Column(name = "PaymentMethod")
     private PaymentMethodEnum paymentMethod;
 
-    @Column(name = "VnpayCode")
-    private String vnpayCode;
+    @Column(name = "ZaloAppTransId") 
+    private String zaloAppTransId;
+
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails;

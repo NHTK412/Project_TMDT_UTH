@@ -18,6 +18,8 @@ public class CategoryMapper {
 
         categorySummaryDTO.setCategoryName(category.getCategoryName());
 
+        categorySummaryDTO.setProductCount(category.getProducts().size());
+
         return categorySummaryDTO;
     }
 

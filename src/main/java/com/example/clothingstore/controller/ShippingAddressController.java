@@ -15,6 +15,7 @@ import com.example.clothingstore.dto.shippingaddress.ShippingAddressResponseDTO;
 import com.example.clothingstore.security.CustomerUserDetails;
 import com.example.clothingstore.service.ShippingAddressService;
 import com.example.clothingstore.util.ApiResponse;
+
 @PreAuthorize("hasRole('CUSTOMER')")
 @RestController
 @RequestMapping("/shipping-address")
@@ -23,7 +24,7 @@ public class ShippingAddressController {
         @Autowired
         private ShippingAddressService shippingAddressService;
 
-        
+        @PreAuthorize("hasRole('CUSTOMER')")
         @GetMapping
         public ResponseEntity<ApiResponse<List<ShippingAddressResponseDTO>>> getAddressesByCustomerId(
                         @AuthenticationPrincipal CustomerUserDetails userDetails,
@@ -40,27 +41,26 @@ public class ShippingAddressController {
                 return ResponseEntity.ok(new ApiResponse<>(true, null, addresses));
         }
 
-        
+        @PreAuthorize("hasRole('CUSTOMER')")
         @GetMapping("/all")
         public ResponseEntity<ApiResponse<List<ShippingAddressResponseDTO>>> getAllShippingAddresses(
                         @AuthenticationPrincipal CustomerUserDetails userDetails,
                         @RequestParam(defaultValue = "1") Integer page,
                         @RequestParam(defaultValue = "10") Integer size) {
 
-
                 Pageable pageable = PageRequest.of(page - 1, size);
 
                 Integer customerId = userDetails.getUserId();
 
                 List<ShippingAddressResponseDTO> shippingAddressResponseDTOs = shippingAddressService
-                                .getAllShippingAddresses(customerId,pageable);
+                                .getAllShippingAddresses(customerId, pageable);
 
                 return ResponseEntity.ok(
                                 new ApiResponse<List<ShippingAddressResponseDTO>>(true, null,
                                                 shippingAddressResponseDTOs));
         }
 
-        
+        @PreAuthorize("hasRole('CUSTOMER')")
         @PostMapping
         public ResponseEntity<ApiResponse<ShippingAddressResponseDTO>> createShippingAddress(
                         @AuthenticationPrincipal CustomerUserDetails userDetails,
@@ -77,7 +77,7 @@ public class ShippingAddressController {
                                 new ApiResponse<ShippingAddressResponseDTO>(true, null, shippingAddressResponseDTO));
         }
 
-        
+        @PreAuthorize("hasRole('CUSTOMER')")
         @DeleteMapping("/{shippingAddressId}")
         public ResponseEntity<ApiResponse<ShippingAddressResponseDTO>> deleteShippingAddress(
                         @AuthenticationPrincipal CustomerUserDetails userDetails,
@@ -93,7 +93,7 @@ public class ShippingAddressController {
                                 new ApiResponse<ShippingAddressResponseDTO>(true, null, shippingAddressResponseDTO));
         }
 
-        
+        @PreAuthorize("hasRole('CUSTOMER')")
         @PutMapping("/{shippingAddressId}")
         public ResponseEntity<ApiResponse<ShippingAddressResponseDTO>> updateShippingAddress(
                         @AuthenticationPrincipal CustomerUserDetails userDetails,

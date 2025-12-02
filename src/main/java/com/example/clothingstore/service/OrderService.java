@@ -228,7 +228,7 @@ public class OrderService {
 
                 // orderResponseDTO.setPaymentStatus(order.getPaymentStatus());
 
-                orderResponseDTO.setVnpayCode(order.getVnpayCode());
+                orderResponseDTO.setZaloAppTransId(order.getZaloAppTransId());
 
                 // Map order detail
                 List<OrderDetailResponseDTO> orderDetailResponseDTOs = order.getOrderDetails()
@@ -312,7 +312,7 @@ public class OrderService {
 
                 // orderResponseDTO.setPaymentStatus(order.getPaymentStatus());
 
-                orderResponseDTO.setVnpayCode(order.getVnpayCode());
+                orderResponseDTO.setZaloAppTransId(order.getZaloAppTransId());
 
                 // Map order detail
                 List<OrderDetailResponseDTO> orderDetailResponseDTOs = order.getOrderDetails()

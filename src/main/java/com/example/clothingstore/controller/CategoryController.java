@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+
     @GetMapping
     public ResponseEntity<ApiResponse<List<CategorySummaryDTO>>> getAllCategory(@RequestParam Integer page,
             @RequestParam Integer size) {
@@ -49,6 +51,7 @@ public class CategoryController {
         return ResponseEntity.ok(new ApiResponse<CategoryResponseDTO>(true, null, categoryResponseDTO));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ApiResponse<CategoryResponseDTO>> createCategory(
             @RequestBody CategoryRequestDTO categoryRequestDTO) {
@@ -58,6 +61,7 @@ public class CategoryController {
         return ResponseEntity.ok(new ApiResponse<CategoryResponseDTO>(true, null, categoryResponseDTO));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{categoryId}")
     public ResponseEntity<ApiResponse<CategoryResponseDTO>> updateCategory(@PathVariable Integer categoryId,
             @RequestBody CategoryRequestDTO categoryRequestDTO) {
@@ -67,6 +71,7 @@ public class CategoryController {
         return ResponseEntity.ok(new ApiResponse<CategoryResponseDTO>(true, null, categoryResponseDTO));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{categoryId}")
     public ResponseEntity<ApiResponse<CategoryResponseDTO>> deleteCategory(@PathVariable Integer categoryId) {
 

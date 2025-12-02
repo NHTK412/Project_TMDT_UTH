@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.clothingstore.dto.cart.CartResponseDTO;
 import com.example.clothingstore.dto.cartdetail.CartItemRequestDTO;
 import com.example.clothingstore.dto.cartdetail.CartItemResponseDTO;
+import com.example.clothingstore.security.CustomerUserDetails;
 import com.example.clothingstore.service.CartService;
 import com.example.clothingstore.util.ApiResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
+@PreAuthorize("hasRole('CUSTOMER')")
 @RestController
 @RequestMapping("customer/cart")
 public class CartController {
@@ -27,9 +31,10 @@ public class CartController {
     private CartService cartService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<CartResponseDTO>> getCartByCustomer() {
+    public ResponseEntity<ApiResponse<CartResponseDTO>> getCartByCustomer(
+            @AuthenticationPrincipal CustomerUserDetails userDetails) {
         // return new String();
-        Integer customerId = 1;
+        Integer customerId = userDetails.getUserId();
 
         CartResponseDTO cartResponseDTO = cartService.getCartByCustomer(customerId);
 
@@ -39,9 +44,10 @@ public class CartController {
 
     @PostMapping("items")
     public ResponseEntity<ApiResponse<CartItemResponseDTO>> addCartItemByCart(
-            @RequestBody CartItemRequestDTO cartDetailRequestDTO) {
+            @RequestBody CartItemRequestDTO cartDetailRequestDTO,
+            @AuthenticationPrincipal CustomerUserDetails userDetails) {
 
-        Integer customerId = 1;
+        Integer customerId = userDetails.getUserId();
 
         CartItemResponseDTO cartItemResponseDTO = cartService.addCartItemByCart(customerId, cartDetailRequestDTO);
 
@@ -51,9 +57,10 @@ public class CartController {
 
     @PatchMapping("items/{cartDetailId}")
     public ResponseEntity<ApiResponse<CartItemResponseDTO>> updateCartItem(
-            @PathVariable Integer cartDetailId, @RequestParam(required = false) Integer quantity) {
+            @PathVariable Integer cartDetailId, @RequestParam(required = false) Integer quantity,
+            @AuthenticationPrincipal CustomerUserDetails userDetails) {
 
-        Integer customerId = 1;
+        Integer customerId = userDetails.getUserId();
 
         CartItemResponseDTO cartItemResponseDTO = cartService.updateCartItem(customerId, cartDetailId, quantity);
 
@@ -63,9 +70,9 @@ public class CartController {
 
     @DeleteMapping("items/{cartDetailId}")
     public ResponseEntity<ApiResponse<CartItemResponseDTO>> deleteCartItem(
-            @PathVariable Integer cartDetailId) {
+            @PathVariable Integer cartDetailId, @AuthenticationPrincipal CustomerUserDetails userDetails) {
 
-        Integer customerId = 1;
+        Integer customerId = userDetails.getUserId();
 
         CartItemResponseDTO cartItemResponseDTO = cartService.deleteCartItem(customerId, cartDetailId);
 
