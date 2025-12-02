@@ -19,6 +19,7 @@ import com.example.clothingstore.enums.OrderPaymentStatusEnum;
 import com.example.clothingstore.enums.OrderStatusEnum;
 import com.example.clothingstore.enums.PaymentMethodEnum;
 import com.example.clothingstore.enums.PromotionTypeEnum;
+import com.example.clothingstore.exception.customer.ConflictException;
 import com.example.clothingstore.exception.customer.NotFoundException;
 import com.example.clothingstore.model.Customer;
 import com.example.clothingstore.model.Order;
@@ -91,7 +92,8 @@ public class OrderService {
                                 .stream()
                                 .map(pd -> {
                                         if (pd.getQuantity() < productDetailMaps.get(pd.getDetailId())) {
-                                                throw new NotFoundException("Product detail with id " + pd.getDetailId() + " is out of stock");
+                                                throw new NotFoundException("Product detail with id " + pd.getDetailId()
+                                                                + " is out of stock");
                                         }
                                         OrderDetail od = new OrderDetail();
                                         od.setProductName(pd.getProductColor().getProduct().getProductName());
@@ -104,6 +106,8 @@ public class OrderService {
                                                                                                  // đặt 1 cái, có thể mở
                                                                                                  // rộng sau
                                         od.setOrder(order);
+
+                                        od.setProductDetail(pd);
 
                                         pd.setQuantity(pd.getQuantity() - productDetailMaps.get(pd.getDetailId()));
 
@@ -418,10 +422,23 @@ public class OrderService {
                 return orderSummaries;
         }
 
+        @Transactional
         public OrderResponseDTO updateStatus(Integer orderId, OrderStatusEnum status) {
 
                 Order order = orderRepository.findById(orderId)
                                 .orElseThrow(() -> new NotFoundException("Order not found"));
+
+                if (status == OrderStatusEnum.CANCELED && order.getStatus() == OrderStatusEnum.PLACED) {
+                        for (OrderDetail od : order.getOrderDetails()) {
+                                ProductDetail pd = od.getProductDetail();
+                                pd.setQuantity(pd.getQuantity() + od.getQuantity());
+                                productDetailRepository.save(pd);
+                        }
+                }
+                else
+                {
+                        throw new ConflictException("Only orders with status PLACED can be canceled");
+                }
 
                 order.setStatus(status);
 

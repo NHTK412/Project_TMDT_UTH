@@ -110,4 +110,15 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @PatchMapping("/{orderId}/canceled")
+    public ResponseEntity<ApiResponse<OrderResponseDTO>> updateStatus(@PathVariable Integer orderId) {
+
+        OrderResponseDTO updatedOrder = orderService.updateStatus(orderId, OrderStatusEnum.CANCELED);
+
+        ApiResponse<OrderResponseDTO> response = new ApiResponse<>(true, null, updatedOrder);
+
+        return ResponseEntity.ok(response);
+    }
+
 }

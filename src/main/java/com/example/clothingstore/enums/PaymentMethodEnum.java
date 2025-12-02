@@ -2,7 +2,7 @@ package com.example.clothingstore.enums;
 
 public enum PaymentMethodEnum {
     COD, // Thanh toán tiền mặt
-    VNPAY // Thanh toán qua VNPAY
+    ZALOPAY // Thanh toán qua VNPAY
 
 }
 

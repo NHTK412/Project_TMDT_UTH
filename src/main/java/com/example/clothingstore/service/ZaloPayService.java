@@ -15,6 +15,8 @@ import com.example.clothingstore.config.ZaloPayConfig;
 import com.example.clothingstore.crypto.HMACUtil;
 import com.example.clothingstore.dto.zalopay.CreateOrderRequest;
 import com.example.clothingstore.dto.zalopay.ZaloPayResponseDTO;
+import com.example.clothingstore.enums.OrderStatusEnum;
+import com.example.clothingstore.exception.customer.ConflictException;
 import com.example.clothingstore.exception.customer.NotFoundException;
 import com.example.clothingstore.model.Order;
 import com.example.clothingstore.repository.OrderRepository;
@@ -70,6 +72,10 @@ public class ZaloPayService {
 
         Order o = orderRepository.findById(req.getOrderId())
                 .orElseThrow(() -> new NotFoundException("Order not found"));
+
+        if (o.getStatus() != OrderStatusEnum.PLACED) {
+            throw new ConflictException("Only orders with status PLACED can be paid via ZaloPay");
+        }
 
         // Tạo Map chứa các tham số đơn hàng theo yêu cầu của ZaloPay
         Map<String, Object> order = new HashMap<>();
@@ -310,6 +316,10 @@ public class ZaloPayService {
 
             Order o = orderRepository.findById(orderId)
                     .orElseThrow(() -> new NotFoundException("Order not found"));
+
+            if (o.getStatus() != OrderStatusEnum.PLACED) {
+                throw new ConflictException("Only orders with status PLACED can be paid via ZaloPay");
+            }
 
             // o.setVnpayCode(zapTransId.toString());
             o.setZaloAppTransId(appTransId);

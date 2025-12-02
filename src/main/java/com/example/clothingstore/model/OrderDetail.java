@@ -45,9 +45,9 @@ public class OrderDetail extends Base {
     private String size;
 
     // Reference đến ProductDetail (dùng cho tham khảo, không dùng cập nhật giá)
-    // @ManyToOne
-    // @JoinColumn(name = "ProductDetailId")
-    // private ProductDetail productDetail;
+    @ManyToOne
+    @JoinColumn(name = "ProductDetailId")
+    private ProductDetail productDetail;
 
     @ManyToOne
     @JoinColumn(name = "OrderId")
