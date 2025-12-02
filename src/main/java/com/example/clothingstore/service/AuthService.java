@@ -18,6 +18,7 @@ import com.example.clothingstore.model.Admin;
 import com.example.clothingstore.model.Customer;
 import com.example.clothingstore.repository.AdminRepository;
 import com.example.clothingstore.repository.CustomerRepository;
+import com.example.clothingstore.repository.MembershipTierRepository;
 import com.example.clothingstore.util.JwtUtil;
 
 import jakarta.transaction.Transactional;
@@ -35,6 +36,9 @@ public class AuthService {
 
     @Autowired
     private AdminRepository adminRepository;
+
+    @Autowired
+    private MembershipTierRepository membershipTierRepository;
 
     @Autowired
     JwtUtil jwtUtil;
@@ -65,46 +69,49 @@ public class AuthService {
 
         customer.setStatus(AccountStatusEnum.ACTIVE);
 
+        customer.setMembershipTier(membershipTierRepository.findByTierName("SILVER").get());
+
         customerRepository.save(customer);
 
         return login(userName, password, false);
     }
 
     // public AuthResponseDTO login(String userName, String password) {
-    //     Customer customer = customerRepository.findByUserName(userName)
-    //             .orElseThrow(() -> new RuntimeException("Tên đăng nhập không tồn tại"));
+    // Customer customer = customerRepository.findByUserName(userName)
+    // .orElseThrow(() -> new RuntimeException("Tên đăng nhập không tồn tại"));
 
-    //     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    // BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    //     String code = encoder.encode(password);
-    //     System.out.println(code);
+    // String code = encoder.encode(password);
+    // System.out.println(code);
 
-    //     // if (!employee.getPassword().equals(password)) {
-    //     if (!encoder.matches(password, customer.getPassword())) {
-    //         throw new InvalidRefreshTokenException("Mật khẩu không hợp lệ");
-    //     }
+    // // if (!employee.getPassword().equals(password)) {
+    // if (!encoder.matches(password, customer.getPassword())) {
+    // throw new InvalidRefreshTokenException("Mật khẩu không hợp lệ");
+    // }
 
-    //     String accessToken = jwtUtil.generateToken(customer.getUserName(), RoleEnum.ROLE_CUSTOMER.name(),
-    //             expiration);
+    // String accessToken = jwtUtil.generateToken(customer.getUserName(),
+    // RoleEnum.ROLE_CUSTOMER.name(),
+    // expiration);
 
-    //     byte[] bytes = new byte[50];
+    // byte[] bytes = new byte[50];
 
-    //     secureRandom.nextBytes(bytes);
+    // secureRandom.nextBytes(bytes);
 
-    //     // String refreshToken = Hex.encodeHexString(bytes);
+    // // String refreshToken = Hex.encodeHexString(bytes);
 
-    //     String refreshToken = new String(Hex.encode(bytes));
+    // String refreshToken = new String(Hex.encode(bytes));
 
-    //     // redisTemplate.opsForValue().set("refreshToken::" + refreshToken,
-    //     // employee.getUsername(), 7, TimeUnit.DAYS);
+    // // redisTemplate.opsForValue().set("refreshToken::" + refreshToken,
+    // // employee.getUsername(), 7, TimeUnit.DAYS);
 
-    //     AuthResponseDTO authResponseDTO = new AuthResponseDTO();
-    //     authResponseDTO.setUsername(customer.getUserName());
-    //     authResponseDTO.setRole(RoleEnum.ROLE_CUSTOMER.name());
-    //     authResponseDTO.setAccessToken(accessToken);
-    //     authResponseDTO.setRefreshToken(refreshToken);
-    //     authResponseDTO.setExpiresIn(expiration);
-    //     return authResponseDTO;
+    // AuthResponseDTO authResponseDTO = new AuthResponseDTO();
+    // authResponseDTO.setUsername(customer.getUserName());
+    // authResponseDTO.setRole(RoleEnum.ROLE_CUSTOMER.name());
+    // authResponseDTO.setAccessToken(accessToken);
+    // authResponseDTO.setRefreshToken(refreshToken);
+    // authResponseDTO.setExpiresIn(expiration);
+    // return authResponseDTO;
     // }
 
     public AuthResponseDTO login(String userName, String password, Boolean admin) {
