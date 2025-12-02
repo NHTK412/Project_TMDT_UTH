@@ -39,6 +39,8 @@ public class CustomerMapper {
 
         customerResponseDTO.setLastLogin(customer.getLastLogin());
 
+        customerResponseDTO.setImage(customer.getImage());
+
         return customerResponseDTO;
     }
 
@@ -91,6 +93,8 @@ public class CustomerMapper {
         customer.setDate(customerRequestDTO.getDate());
 
         customer.setPhone(customerRequestDTO.getPhone());
+
+        customer.setImage(customerRequestDTO.getImage());
 
         return customer;
     }

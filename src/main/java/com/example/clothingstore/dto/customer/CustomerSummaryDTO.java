@@ -1,6 +1,5 @@
 package com.example.clothingstore.dto.customer;
 
-
 import com.example.clothingstore.enums.AccountStatusEnum;
 
 import lombok.AllArgsConstructor;

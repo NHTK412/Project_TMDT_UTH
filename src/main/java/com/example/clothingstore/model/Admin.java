@@ -60,4 +60,7 @@ public class Admin extends Base {
     @Column(name = "LastLogin")
     private LocalDateTime lastLogin;
 
+    @Column(name = "Image")
+    private String image;
+
 }

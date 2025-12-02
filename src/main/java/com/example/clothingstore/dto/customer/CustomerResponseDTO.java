@@ -38,6 +38,8 @@ public class CustomerResponseDTO {
 
     private LocalDateTime lastLogin;
 
+    private String image;
+
     // private List<Review> reviews;
 
     // private List<Order> orders;

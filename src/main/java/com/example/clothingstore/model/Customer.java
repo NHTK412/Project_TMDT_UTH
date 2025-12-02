@@ -84,4 +84,7 @@ public class Customer extends Base {
 
     @OneToMany(mappedBy = "customer")
     private List<ShippingAddress> shippingAddresses;
+
+    @Column(name = "Image")
+    private String image;
 }
