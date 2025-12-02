@@ -1,13 +1,13 @@
-package com.example.clothingstore.controller;
+// package com.example.clothingstore.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+// import org.springframework.web.bind.annotation.RequestMapping;
+// import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/account")
-public class AccountController {
+// @RestController
+// @RequestMapping("/account")
+// public class AccountController {
     
 
-    // ACCOUNT Customer
+//     // ACCOUNT Customer
     
-}
+// }

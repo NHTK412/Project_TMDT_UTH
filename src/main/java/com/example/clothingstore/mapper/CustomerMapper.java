@@ -19,7 +19,7 @@ public class CustomerMapper {
 
         customerResponseDTO.setUserName(customer.getUserName());
 
-        customerResponseDTO.setPassword(customer.getPassword());
+        // customerResponseDTO.setPassword(customer.getPassword());
 
         customerResponseDTO.setFullName(customer.getFullName());
 
@@ -80,7 +80,7 @@ public class CustomerMapper {
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-        customer.setPassword(bCryptPasswordEncoder.encode(customerRequestDTO.getPassword()));
+        // customer.setPassword(bCryptPasswordEncoder.encode(customerRequestDTO.getPassword()));
 
         customer.setEmail(customerRequestDTO.getEmail());
 

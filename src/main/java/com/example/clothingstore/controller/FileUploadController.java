@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ public class FileUploadController {
     @Autowired
     private FileUploadService fileUploadService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     // Consumer để nói kiểu gửi lên
     @PostMapping(value = "/image", consumes = "multipart/form-data")
     public ResponseEntity<ApiResponse<FileUploadResponseDTO>> uploadImage(@RequestParam("file") MultipartFile file) {
@@ -37,6 +39,7 @@ public class FileUploadController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/multiple", consumes = "multipart/form-data")
     public ResponseEntity<ApiResponse<List<FileUploadResponseDTO>>> uploadMultipleImage(
             @RequestParam("files") List<MultipartFile> files) {
@@ -49,6 +52,7 @@ public class FileUploadController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{fileName}")
     public ResponseEntity<ApiResponse<FileUploadResponseDTO>> deleteImage(@PathVariable String fileName) {
         FileUploadResponseDTO fileUploadResponseDTO = fileUploadService.deleteImage(fileName);

@@ -32,7 +32,7 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+    // @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
     @GetMapping("/{productId}")
     public ResponseEntity<ApiResponse<ProductResponseDTO>> getProductDetailById(@PathVariable Integer productId) {
         ProductResponseDTO productResponseDTO = productService.getProductDetailById(productId);
@@ -40,7 +40,7 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse<ProductResponseDTO>(true, null, productResponseDTO));
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
+    // @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
     @GetMapping
     public ResponseEntity<ApiResponse<List<ProductSummaryDTO>>> getAllProduct(
             @RequestParam(defaultValue = "1") Integer page,

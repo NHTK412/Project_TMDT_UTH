@@ -33,7 +33,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @PreAuthorize("hashAnyRole('ROLE_CUSTOMER')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     @PostMapping
     public ResponseEntity<ApiResponse<OrderResponseDTO>> createOrder(@AuthenticationPrincipal UserDetails userDetails,
             @RequestBody OrderRequestDTO orderRequestDTO) {
@@ -49,6 +49,7 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMIN')")
     @GetMapping("/{orderId}")
     public ResponseEntity<ApiResponse<OrderResponseDTO>> getOrderById(@PathVariable Integer orderId) {
 
@@ -59,6 +60,7 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<List<OrderSummaryDTO>>> getAllOrderByCustomer(@RequestParam Integer page,
             @RequestParam Integer size) {
@@ -78,6 +80,7 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<ApiResponse<List<OrderSummaryDTO>>> getAllOrder(@RequestParam Integer page,
             @RequestParam Integer size) {
@@ -95,6 +98,7 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{orderId}")
     public ResponseEntity<ApiResponse<OrderResponseDTO>> updateStatus(@PathVariable Integer orderId,
             @RequestParam OrderStatusEnum status) {

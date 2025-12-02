@@ -17,6 +17,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ public class PromotionController {
     @Autowired
     private PromotionService promotionService;
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')")
     @GetMapping("/{promotionId}")
     public ResponseEntity<ApiResponse<PromotionResponseDTO>> getPromotionById(@PathVariable Integer promotionId) {
 
@@ -39,6 +41,7 @@ public class PromotionController {
         return ResponseEntity.ok(new ApiResponse<PromotionResponseDTO>(true, null, promotionResponseDTO));
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ApiResponse<PromotionResponseDTO>> createPromotion(
             @RequestBody PromotionRequestDTO promotionRequestDTO) {
@@ -52,6 +55,7 @@ public class PromotionController {
 
     // Kiểm tra mã khuyến mãi nào áp dụng được cho đơn hàng này (loại khuyến mãi
     // giảm giá)
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     @PostMapping("/applicable-discount")
     public ResponseEntity<ApiResponse<List<PromotionSummaryDTO>>> getApplicableDiscountPromotion(
             @RequestBody CartCheckPromotionDTO cartCheckPromotionDTO) {
@@ -64,7 +68,7 @@ public class PromotionController {
         return ResponseEntity.ok(apiResponse);
 
     }
-
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
     @PostMapping("/applicable")
     public ResponseEntity<ApiResponse<List<PromotionSummaryDTO>>> getApplicablePromotion(
             @RequestBody CartCheckPromotionDTO cartCheckPromotionDTO,
@@ -78,7 +82,8 @@ public class PromotionController {
         return ResponseEntity.ok(apiResponse);
 
     }
-
+    
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<ApiResponse<List<PromotionSummaryDTO>>> getAllPromotions(@RequestParam Integer page,
             @RequestParam Integer size) {
@@ -94,6 +99,7 @@ public class PromotionController {
 
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PatchMapping("/{promotionId}")
     public ResponseEntity<ApiResponse<PromotionResponseDTO>> deletePromotion(@PathVariable Integer promotionId) {
 

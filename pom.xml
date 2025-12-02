@@ -76,6 +76,49 @@
 		</dependency>
 		<!-- JWT -->
 
+		<!-- Spring Boot Validation -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        
+        
+        <!-- Gson (for JSON processing) -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
+		  <!-- JSON -->
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20240303</version>
+    </dependency>
+
+    <!-- Apache HttpClient -->
+    <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.14</version>
+    </dependency>
+
+    <!-- ZaloPay HMACUtil -->
+    <!-- <dependency>
+        <groupId>vn.zalopay</groupId>
+        <artifactId>zalopay-crypto</artifactId>
+        <version>1.0.0</version>
+        <scope>system</scope>
+        <systemPath>${project.basedir}/libs/zalopay-crypto.jar</systemPath>
+    </dependency> -->
+
+    <!-- JAXB (Java 11+) -->
+    <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>2.3.1</version>
+    </dependency>
+
 
 		<!-- <dependency>
 			<groupId>org.mapstruct</groupId>

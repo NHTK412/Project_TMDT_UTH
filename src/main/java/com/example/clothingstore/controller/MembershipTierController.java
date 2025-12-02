@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +30,7 @@ public class MembershipTierController {
         @Autowired
         private MembershipTierService membershipTierService;
 
+        @PreAuthorize("hasRole('ADMIN')")
         @GetMapping
         public ResponseEntity<ApiResponse<List<MembershipTierResponseDTO>>> getAllMembershipTier(
                         @RequestParam(defaultValue = "1") Integer page,
@@ -44,6 +46,7 @@ public class MembershipTierController {
                                                 membershipTierResponseDTOs));
         }
 
+        @PreAuthorize("hasRole('ADMIN')")
         @PostMapping
         public ResponseEntity<ApiResponse<MembershipTierResponseDTO>> createMembershipTier(
                         @RequestBody MembershipTierRequestDTO membershipTierRequestDTO) {
@@ -55,6 +58,7 @@ public class MembershipTierController {
                                 .ok(new ApiResponse<MembershipTierResponseDTO>(true, null, membershipTierResponseDTO));
         }
 
+        @PreAuthorize("hasRole('ADMIN')")
         @DeleteMapping("/{membershipTieId}")
         public ResponseEntity<ApiResponse<MembershipTierResponseDTO>> deleteMembershipTier(
                         @PathVariable Integer membershipTieId) {
@@ -66,6 +70,7 @@ public class MembershipTierController {
                                 .ok(new ApiResponse<MembershipTierResponseDTO>(true, null, membershipTierResponseDTO));
         }
 
+        @PreAuthorize("hasRole('ADMIN')")
         @PutMapping("/{membershipTieId}")
         public ResponseEntity<ApiResponse<MembershipTierResponseDTO>> updateMembershipTier(
                         @PathVariable Integer membershipTieId,
