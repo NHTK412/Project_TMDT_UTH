@@ -127,7 +127,7 @@ public class OrderService {
 
                 order.setPaymentMethod(orderRequestDTO.getPaymentMethod());
 
-                order.setShippingFee(30000.0);
+                order.setShippingFee((order.getTotalAmount() >= 1000000.0) ? 0.0 : 30000.0);
 
                 // if (orderRequestDTO.getPromotionGiftIds() != null &&
                 // !orderRequestDTO.getPromotionGiftIds().isEmpty()) {
