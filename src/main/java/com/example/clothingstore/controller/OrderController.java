@@ -22,6 +22,7 @@ import com.example.clothingstore.dto.order.OrderResponseDTO;
 import com.example.clothingstore.dto.order.OrderSummaryDTO;
 import com.example.clothingstore.enums.OrderStatusEnum;
 import com.example.clothingstore.model.Order;
+import com.example.clothingstore.security.CustomerUserDetails;
 import com.example.clothingstore.service.OrderService;
 import com.example.clothingstore.util.ApiResponse;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,12 +64,13 @@ public class OrderController {
     @PreAuthorize("hasRole('CUSTOMER')")
     @GetMapping("/me")
     public ResponseEntity<ApiResponse<List<OrderSummaryDTO>>> getAllOrderByCustomer(@RequestParam Integer page,
-            @RequestParam Integer size) {
+            @RequestParam Integer size, @AuthenticationPrincipal CustomerUserDetails userDetails) {
         // return new String();
 
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        Integer customerId = 1; // Temporary hardcoded customer ID for testing
+        Integer customerId = userDetails.getUserId(); // Temporary hardcoded customer ID for testing
+        // String userName = userDetails.getUsername();
 
         List<OrderSummaryDTO> orderSummaries = orderService.getAllOrdersByCustomer(customerId, pageable); // Temporary
                                                                                                           // hardcoded
