@@ -42,7 +42,7 @@ public class SecurityConfig {
                                         "GET",
                                         "POST",
                                         "PUT",
-                                        "DELETE",
+                                        "DELETE","PATCH"
                                         "OPTIONS"));
 
                         corsConfiguration.setAllowedHeaders(List.of(
