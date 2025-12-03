@@ -30,6 +30,8 @@ public class OrderSummaryDTO {
 
     private String orderFirstImage;
 
+    private Integer orderQuantity;
+
     // private String recipientName; // Nghĩa tiếng việt: Tên người nhận
 
     // private String phoneNumber; // Nghĩa tiếng việt: Số điện thoại người nhận

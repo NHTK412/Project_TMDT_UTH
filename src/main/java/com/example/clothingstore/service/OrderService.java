@@ -461,6 +461,9 @@ public class OrderService {
 
                                         orderSummaryDTO.setOrderFirstImage(
                                                         order.getOrderDetails().get(0).getProductImage());
+
+                                        orderSummaryDTO.setOrderQuantity(order.getOrderDetails().size());
+
                                         // orderSummaryDTO.setPaymentStatus(order.getPaymentStatus());
 
                                         return orderSummaryDTO;
@@ -495,6 +498,8 @@ public class OrderService {
 
                                         orderSummaryDTO.setOrderFirstImage(
                                                         order.getOrderDetails().get(0).getProductImage());
+
+                                        orderSummaryDTO.setOrderQuantity(order.getOrderDetails().size());
 
                                         // orderSummaryDTO.setPaymentStatus(order.getPaymentStatus());
 
