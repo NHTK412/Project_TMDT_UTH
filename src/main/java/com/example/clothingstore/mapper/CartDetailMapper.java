@@ -32,7 +32,9 @@ public class CartDetailMapper {
 
         cartItemResponseDTO.setQuantity(cartItem.getQuantity());
 
-        cartItemResponseDTO.setUnitPrice(cartItem.getProductDetail().getProductColor().getProduct().getUnitPrice());
+        cartItemResponseDTO.setPrice(cartItem.getProductDetail().getProductColor().getProduct().getUnitPrice());
+
+        cartItemResponseDTO.setDiscount(cartItem.getProductDetail().getProductColor().getProduct().getDiscount());
 
         cartItemResponseDTO.setProductDetailQuantity(cartItem.getProductDetail().getQuantity());
 

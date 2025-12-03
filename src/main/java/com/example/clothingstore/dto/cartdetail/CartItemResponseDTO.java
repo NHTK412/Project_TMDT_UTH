@@ -24,7 +24,9 @@ public class CartItemResponseDTO {
     // Thông tin giỏ hàng
     // private Boolean isSelected;
     private Integer quantity;
-    private Double unitPrice;
+    private Double price;
+    private Double discount; 
+
     // private Double price;
 
     // Thông tin tồn kho

@@ -26,6 +26,10 @@ public class OrderSummaryDTO {
 
     private OrderStatusEnum status; // Nghĩa tiếng việt: Trạng thái đơn hàng
 
+    private String orderFirstName;
+
+    private String orderFirstImage;
+
     // private String recipientName; // Nghĩa tiếng việt: Tên người nhận
 
     // private String phoneNumber; // Nghĩa tiếng việt: Số điện thoại người nhận

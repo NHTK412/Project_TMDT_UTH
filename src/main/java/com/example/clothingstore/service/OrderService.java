@@ -21,6 +21,7 @@ import com.example.clothingstore.enums.PaymentMethodEnum;
 import com.example.clothingstore.enums.PromotionTypeEnum;
 import com.example.clothingstore.exception.customer.ConflictException;
 import com.example.clothingstore.exception.customer.NotFoundException;
+import com.example.clothingstore.model.Cart;
 import com.example.clothingstore.model.Customer;
 import com.example.clothingstore.model.Order;
 import com.example.clothingstore.model.OrderDetail;
@@ -28,6 +29,7 @@ import com.example.clothingstore.model.OrderGift;
 import com.example.clothingstore.model.ProductDetail;
 import com.example.clothingstore.model.Promotion;
 import com.example.clothingstore.model.ShippingAddress;
+import com.example.clothingstore.repository.CartRepository;
 import com.example.clothingstore.repository.CustomerRepository;
 import com.example.clothingstore.repository.OrderRepository;
 import com.example.clothingstore.repository.ProductDetailRepository;
@@ -50,243 +52,305 @@ public class OrderService {
         @Autowired
         private CustomerRepository customerRepository;
 
+        @Autowired
+        private CartRepository cartRepository;
+
+        // @Transactional
+        // public OrderResponseDTO createOrder(String userName, OrderRequestDTO
+        // orderRequestDTO) {
+
+        // Order order = new Order();
+
+        // order.setDeliveryDate(LocalDateTime.now().plusDays(3));
+
+        // order.setStatus(OrderStatusEnum.PLACED);
+
+        // Customer customer = customerRepository.findByUserName(userName)
+        // .orElseThrow(() -> new NotFoundException("Customer not found"));
+
+        // order.setCustomer(customer);
+
+        // ShippingAddress shippingAddress = customer.getShippingAddresses()
+        // .stream()
+        // .filter(addr ->
+        // addr.getAddressId().equals(orderRequestDTO.getAddressShippingId()))
+        // .findFirst()
+        // .orElseThrow(() -> new NotFoundException("Address shipping not found"));
+
+        // order.setRecipientName(shippingAddress.getRecipientName());
+
+        // order.setPhoneNumber(shippingAddress.getPhoneNumber());
+
+        // order.setDetailedAddress(shippingAddress.getDetailedAdress());
+
+        // order.setWard(shippingAddress.getWard());
+
+        // order.setProvince(shippingAddress.getProvince());
+
+        // Map<Integer, Integer> productDetailMaps =
+        // orderRequestDTO.getOrderDetailRequestDTOs()
+        // .stream()
+        // .collect(Collectors.toMap(odr -> odr.getProductDetailId(), odr ->
+        // odr.getQuantity()));
+
+        // List<ProductDetail> productDetails =
+        // productDetailRepository.findAllById(productDetailMaps.keySet());
+
+        // List<OrderDetail> orderDetails = productDetails
+        // .stream()
+        // .map(pd -> {
+        // if (pd.getQuantity() < productDetailMaps.get(pd.getDetailId())) {
+        // throw new NotFoundException("Product detail with id " + pd.getDetailId()
+        // + " is out of stock");
+        // }
+        // OrderDetail od = new OrderDetail();
+        // od.setProductName(pd.getProductColor().getProduct().getProductName());
+        // od.setProductImage(pd.getProductColor().getProductImage());
+        // od.setColor(pd.getProductColor().getColor());
+        // od.setSize(pd.getSize());
+        // od.setPrice(pd.getProductColor().getProduct().getUnitPrice()
+        // * (1 - pd.getProductColor().getProduct().getDiscount() / 100));
+        // od.setQuantity(productDetailMaps.get(pd.getDetailId())); // Giả sử mỗi sản
+        // phẩm
+        // // đặt 1 cái, có thể mở
+        // // rộng sau
+        // od.setOrder(order);
+
+        // od.setProductDetail(pd);
+
+        // pd.setQuantity(pd.getQuantity() - productDetailMaps.get(pd.getDetailId()));
+
+        // return od;
+        // })
+        // .toList();
+
+        // Double totalAmount = orderDetails
+        // .stream()
+        // .mapToDouble(od -> od.getPrice() * od.getQuantity())
+        // .sum();
+
+        // order.setTotalAmount(totalAmount);
+
+        // order.setOrderDetails(orderDetails);
+
+        // order.setPaymentMethod(orderRequestDTO.getPaymentMethod());
+
+        // order.setShippingFee((order.getTotalAmount() >= 1000000.0) ? 0.0 : 30000.0);
+
+        // order.setDiscountAmount(0.0);
+
+        // productDetailRepository.saveAll(productDetails);
+
+        // orderRepository.save(order);
+
+        // OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
+
+        // orderResponseDTO.setOrderId(order.getOrderId());
+
+        // orderResponseDTO.setTotalAmount(order.getTotalAmount());
+
+        // orderResponseDTO.setDiscountAmount(order.getDiscountAmount());
+
+        // orderResponseDTO.setShippingFee(order.getShippingFee());
+
+        // orderResponseDTO.setDeliveryDate(order.getDeliveryDate());
+
+        // orderResponseDTO.setStatus(order.getStatus());
+
+        // orderResponseDTO.setRecipientName(order.getRecipientName());
+
+        // orderResponseDTO.setPhoneNumber(order.getPhoneNumber());
+
+        // orderResponseDTO.setDetailedAddress(order.getDetailedAddress());
+
+        // orderResponseDTO.setWard(order.getWard());
+
+        // orderResponseDTO.setProvince(order.getProvince());
+
+        // orderResponseDTO.setZaloAppTransId(order.getZaloAppTransId());
+
+        // // Map order detail
+        // List<OrderDetailResponseDTO> orderDetailResponseDTOs =
+        // order.getOrderDetails()
+        // .stream()
+        // .map(od -> {
+        // OrderDetailResponseDTO orderDetailResponseDTO = new OrderDetailResponseDTO();
+
+        // orderDetailResponseDTO.setProductName(od.getProductName());
+
+        // orderDetailResponseDTO.setProductImage(od.getProductImage());
+
+        // orderDetailResponseDTO.setColor(od.getColor());
+
+        // orderDetailResponseDTO.setSize(od.getSize());
+
+        // orderDetailResponseDTO.setQuantity(od.getQuantity());
+
+        // orderDetailResponseDTO.setPrice(od.getPrice());
+
+        // return orderDetailResponseDTO;
+        // })
+        // .toList();
+
+        // orderResponseDTO.setOrderDetails(orderDetailResponseDTOs);
+
+        // // Map order gift
+        // if (order.getOrderGifts() != null) {
+        // List<OrderGiftResponseDTO> orderGiftDTOs = order.getOrderGifts()
+        // .stream()
+        // .map(og -> {
+        // OrderGiftResponseDTO ogDTO = new OrderGiftResponseDTO();
+
+        // ogDTO.setGiftName(og.getGiftName());
+
+        // ogDTO.setGiftQuantity(og.getGiftQuantity());
+
+        // ogDTO.setGiftImage(og.getGiftImage());
+
+        // ogDTO.setPromotionName(og.getPromotionName());
+
+        // return ogDTO;
+        // })
+        // .toList();
+        // orderResponseDTO.setOrderGifts(orderGiftDTOs);
+
+        // }
+
+        // // Điều chỉnh cart
+        // Cart cart =
+        // cartRepository.findByCustomer_CustomerId(order.getCustomer().getCustomerId())
+        // .orElseThrow(() -> new NotFoundException("Cart not found"));
+
+        // cart.getCartItems().removeIf(
+        // cartItem ->
+        // productDetailMaps.containsKey(cartItem.getProductDetail().getDetailId()));
+
+        // cartRepository.save(cart);
+
+        // return orderResponseDTO;
+        // }
+
         @Transactional
         public OrderResponseDTO createOrder(String userName, OrderRequestDTO orderRequestDTO) {
 
-                Order order = new Order();
-
-                // order.setShippingFee(orderRequestDTO.getShippingFee());
-
-                order.setDeliveryDate(LocalDateTime.now().plusDays(3)); // Dự kiến giao hàng sau 3 ngày
-
-                order.setStatus(OrderStatusEnum.PLACED);
-
+                // 1. Lấy thông tin customer
                 Customer customer = customerRepository.findByUserName(userName)
                                 .orElseThrow(() -> new NotFoundException("Customer not found"));
 
-                order.setCustomer(customer);
-
+                // 2. Lấy địa chỉ giao hàng
                 ShippingAddress shippingAddress = customer.getShippingAddresses()
                                 .stream()
                                 .filter(addr -> addr.getAddressId().equals(orderRequestDTO.getAddressShippingId()))
                                 .findFirst()
                                 .orElseThrow(() -> new NotFoundException("Address shipping not found"));
 
+                // 3. Khởi tạo order
+                Order order = new Order();
+                order.setCustomer(customer);
+                order.setDeliveryDate(LocalDateTime.now().plusDays(3));
+                order.setStatus(OrderStatusEnum.PLACED);
+
+                // 4. Set thông tin giao hàng
                 order.setRecipientName(shippingAddress.getRecipientName());
-
                 order.setPhoneNumber(shippingAddress.getPhoneNumber());
-
                 order.setDetailedAddress(shippingAddress.getDetailedAdress());
-
                 order.setWard(shippingAddress.getWard());
-
                 order.setProvince(shippingAddress.getProvince());
 
+                // 5. Chuẩn bị dữ liệu sản phẩm
                 Map<Integer, Integer> productDetailMaps = orderRequestDTO.getOrderDetailRequestDTOs()
                                 .stream()
                                 .collect(Collectors.toMap(odr -> odr.getProductDetailId(), odr -> odr.getQuantity()));
 
                 List<ProductDetail> productDetails = productDetailRepository.findAllById(productDetailMaps.keySet());
 
-                List<OrderDetail> orderDetails = productDetails
-                                .stream()
-                                .map(pd -> {
-                                        if (pd.getQuantity() < productDetailMaps.get(pd.getDetailId())) {
-                                                throw new NotFoundException("Product detail with id " + pd.getDetailId()
-                                                                + " is out of stock");
-                                        }
-                                        OrderDetail od = new OrderDetail();
-                                        od.setProductName(pd.getProductColor().getProduct().getProductName());
-                                        od.setProductImage(pd.getProductColor().getProductImage());
-                                        od.setColor(pd.getProductColor().getColor());
-                                        od.setSize(pd.getSize());
-                                        od.setPrice(pd.getProductColor().getProduct().getUnitPrice()
-                                                        * (1 - pd.getProductColor().getProduct().getDiscount() / 100));
-                                        od.setQuantity(productDetailMaps.get(pd.getDetailId())); // Giả sử mỗi sản phẩm
-                                                                                                 // đặt 1 cái, có thể mở
-                                                                                                 // rộng sau
-                                        od.setOrder(order);
+                // 6. Tạo orderDetails và trừ tồn kho
+                List<OrderDetail> orderDetails = productDetails.stream().map(pd -> {
+                        if (pd.getQuantity() < productDetailMaps.get(pd.getDetailId())) {
+                                throw new NotFoundException(
+                                                "Product detail with id " + pd.getDetailId() + " is out of stock");
+                        }
+                        OrderDetail od = new OrderDetail();
+                        od.setProductName(pd.getProductColor().getProduct().getProductName());
+                        od.setProductImage(pd.getProductColor().getProductImage());
+                        od.setColor(pd.getProductColor().getColor());
+                        od.setSize(pd.getSize());
+                        od.setPrice(pd.getProductColor().getProduct().getUnitPrice()
+                                        * (1 - pd.getProductColor().getProduct().getDiscount() / 100));
+                        od.setQuantity(productDetailMaps.get(pd.getDetailId()));
+                        od.setOrder(order);
+                        od.setProductDetail(pd);
 
-                                        od.setProductDetail(pd);
+                        // Trừ số lượng tồn kho
+                        pd.setQuantity(pd.getQuantity() - productDetailMaps.get(pd.getDetailId()));
 
-                                        pd.setQuantity(pd.getQuantity() - productDetailMaps.get(pd.getDetailId()));
+                        return od;
+                }).toList();
 
-                                        return od;
-                                })
-                                .toList();
-
-                // Double totalAmount = productDetails
-                //                 .stream()
-                //                 .mapToDouble(pd -> pd.getProductColor().getProduct().getUnitPrice()
-                //                                 * productDetailMaps.get(pd.getDetailId()))
-                //                 .sum();
-
-
-                Double totalAmount = orderDetails
-                                .stream()
+                // 7. Tính tổng tiền và set các thông tin khác
+                Double totalAmount = orderDetails.stream()
                                 .mapToDouble(od -> od.getPrice() * od.getQuantity())
-                                .sum(); 
+                                .sum();
 
                 order.setTotalAmount(totalAmount);
-
                 order.setOrderDetails(orderDetails);
-
                 order.setPaymentMethod(orderRequestDTO.getPaymentMethod());
-
                 order.setShippingFee((order.getTotalAmount() >= 1000000.0) ? 0.0 : 30000.0);
-
                 order.setDiscountAmount(0.0);
 
-                // if (orderRequestDTO.getPromotionGiftIds() != null &&
-                // !orderRequestDTO.getPromotionGiftIds().isEmpty()) {
-                // Promotion promotion =
-                // promotionRepository.findById(orderRequestDTO.getPromotionDiscountId())
-                // .orElseThrow(() -> new NotFoundException("Promotion not found"));
-
-                // if (promotion.getPromotionType() == PromotionTypeEnum.GIFT) {
-                // List<OrderGift> orderGifts = promotion.getGits()
-                // .stream()
-                // .map(gift -> {
-                // OrderGift og = new OrderGift();
-                // og.setGiftName(gift.getProductDetail().getProductColor().getProduct().getProductName());
-                // og.setGiftQuantity(gift.getGiftQuantity()); // Giả sử mỗi quà tặng 1 cái, có
-                // thể mở rộng sau
-                // og.setGiftImage(gift.getProductDetail().getProductColor().getProductImage());
-                // og.setPromotionName(promotion.getPromotionName());
-                // og.setOrder(order);
-
-                // // pd.setQuantity(pd.getQuantity() -
-                // productDetailMaps.get(pd.getDetailId()));
-
-                // return og;
-                // })
-                // .toList();
-                // order.setOrderGifts(orderGifts);
-                // }
-
-                // }
-
-                // if (orderRequestDTO.getPromotionDiscountId() != null) {
-                // Promotion promotion =
-                // promotionRepository.findById(orderRequestDTO.getPromotionDiscountId())
-                // .orElseThrow(() -> new NotFoundException("Promotion not found"));
-
-                // if (promotion.getPromotionType() == PromotionTypeEnum.GIFT) {
-                // List<OrderGift> orderGifts = promotion.getGits()
-                // .stream()
-                // .map(gift -> {
-                // OrderGift og = new OrderGift();
-                // og.setGiftName(gift.getProductDetail().getProductColor().getProduct().getProductName());
-                // og.setGiftQuantity(1); // Giả sử mỗi quà tặng 1 cái, có thể mở rộng sau
-                // og.setGiftImage(gift.getProductDetail().getProductColor().getProductImage());
-                // og.setPromotionName(promotion.getPromotionName());
-                // og.setOrder(order);
-
-                // // pd.setQuantity(pd.getQuantity() -
-                // productDetailMaps.get(pd.getDetailId()));
-
-                // return og;
-                // })
-                // .toList();
-                // order.setOrderGifts(orderGifts);
-
-                // } else {
-                // Double discountAmount = null;
-                // if (promotion.getPromotionType() == PromotionTypeEnum.DISCOUNT_PERCENTAGE) {
-                // discountAmount = order.getTotalAmount() *
-                // (promotion.getDiscount().getDiscountPercentage() / 100.0);
-                // } else {
-                // discountAmount = promotion.getDiscount().getDiscountAmount();
-                // }
-
-                // order.setDiscountAmount(discountAmount);
-
-                // // else if (promotion.getPromotionType() == PromotionTypeEnum.FREE_SHIPPING)
-                // {
-                // // order.setShippingFee(0.0);
-                // // }
-                // }
-                // }
-
+                // 8. Lưu dữ liệu
                 productDetailRepository.saveAll(productDetails);
-
                 orderRepository.save(order);
 
+                // 9. Tạo response DTO
                 OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
-
                 orderResponseDTO.setOrderId(order.getOrderId());
-
                 orderResponseDTO.setTotalAmount(order.getTotalAmount());
-
                 orderResponseDTO.setDiscountAmount(order.getDiscountAmount());
-
                 orderResponseDTO.setShippingFee(order.getShippingFee());
-
                 orderResponseDTO.setDeliveryDate(order.getDeliveryDate());
-
                 orderResponseDTO.setStatus(order.getStatus());
-
                 orderResponseDTO.setRecipientName(order.getRecipientName());
-
                 orderResponseDTO.setPhoneNumber(order.getPhoneNumber());
-
                 orderResponseDTO.setDetailedAddress(order.getDetailedAddress());
-
                 orderResponseDTO.setWard(order.getWard());
-
                 orderResponseDTO.setProvince(order.getProvince());
-
-                // orderResponseDTO.setPayment(order.getPaymentMethod());
-
-                // orderResponseDTO.setPaymentStatus(order.getPaymentStatus());
-
                 orderResponseDTO.setZaloAppTransId(order.getZaloAppTransId());
 
-                // Map order detail
-                List<OrderDetailResponseDTO> orderDetailResponseDTOs = order.getOrderDetails()
-                                .stream()
-                                .map(od -> {
-                                        OrderDetailResponseDTO orderDetailResponseDTO = new OrderDetailResponseDTO();
-
-                                        orderDetailResponseDTO.setProductName(od.getProductName());
-
-                                        orderDetailResponseDTO.setProductImage(od.getProductImage());
-
-                                        orderDetailResponseDTO.setColor(od.getColor());
-
-                                        orderDetailResponseDTO.setSize(od.getSize());
-
-                                        orderDetailResponseDTO.setQuantity(od.getQuantity());
-
-                                        orderDetailResponseDTO.setPrice(od.getPrice());
-
-                                        return orderDetailResponseDTO;
-                                })
-                                .toList();
-
+                // 10. Map order detail
+                List<OrderDetailResponseDTO> orderDetailResponseDTOs = order.getOrderDetails().stream().map(od -> {
+                        OrderDetailResponseDTO orderDetailResponseDTO = new OrderDetailResponseDTO();
+                        orderDetailResponseDTO.setProductName(od.getProductName());
+                        orderDetailResponseDTO.setProductImage(od.getProductImage());
+                        orderDetailResponseDTO.setColor(od.getColor());
+                        orderDetailResponseDTO.setSize(od.getSize());
+                        orderDetailResponseDTO.setQuantity(od.getQuantity());
+                        orderDetailResponseDTO.setPrice(od.getPrice());
+                        return orderDetailResponseDTO;
+                }).toList();
                 orderResponseDTO.setOrderDetails(orderDetailResponseDTOs);
 
-                // Map order gift
+                // 11. Map order gift
                 if (order.getOrderGifts() != null) {
-                        List<OrderGiftResponseDTO> orderGiftDTOs = order.getOrderGifts()
-                                        .stream()
-                                        .map(og -> {
-                                                OrderGiftResponseDTO ogDTO = new OrderGiftResponseDTO();
-
-                                                ogDTO.setGiftName(og.getGiftName());
-
-                                                ogDTO.setGiftQuantity(og.getGiftQuantity());
-
-                                                ogDTO.setGiftImage(og.getGiftImage());
-
-                                                ogDTO.setPromotionName(og.getPromotionName());
-
-                                                return ogDTO;
-                                        })
-                                        .toList();
+                        List<OrderGiftResponseDTO> orderGiftDTOs = order.getOrderGifts().stream().map(og -> {
+                                OrderGiftResponseDTO ogDTO = new OrderGiftResponseDTO();
+                                ogDTO.setGiftName(og.getGiftName());
+                                ogDTO.setGiftQuantity(og.getGiftQuantity());
+                                ogDTO.setGiftImage(og.getGiftImage());
+                                ogDTO.setPromotionName(og.getPromotionName());
+                                return ogDTO;
+                        }).toList();
                         orderResponseDTO.setOrderGifts(orderGiftDTOs);
-
                 }
+
+                // 12. Điều chỉnh cart
+                Cart cart = cartRepository.findByCustomer_CustomerId(order.getCustomer().getCustomerId())
+                                .orElseThrow(() -> new NotFoundException("Cart not found"));
+
+                cart.getCartItems().removeIf(
+                                cartItem -> productDetailMaps.containsKey(cartItem.getProductDetail().getDetailId()));
+
+                cartRepository.save(cart);
 
                 return orderResponseDTO;
         }
@@ -392,6 +456,11 @@ public class OrderService {
 
                                         orderSummaryDTO.setStatus(order.getStatus());
 
+                                        orderSummaryDTO.setOrderFirstName(
+                                                        order.getOrderDetails().get(0).getProductName());
+
+                                        orderSummaryDTO.setOrderFirstImage(
+                                                        order.getOrderDetails().get(0).getProductImage());
                                         // orderSummaryDTO.setPaymentStatus(order.getPaymentStatus());
 
                                         return orderSummaryDTO;
@@ -421,6 +490,12 @@ public class OrderService {
 
                                         orderSummaryDTO.setStatus(order.getStatus());
 
+                                        orderSummaryDTO.setOrderFirstName(
+                                                        order.getOrderDetails().get(0).getProductName());
+
+                                        orderSummaryDTO.setOrderFirstImage(
+                                                        order.getOrderDetails().get(0).getProductImage());
+
                                         // orderSummaryDTO.setPaymentStatus(order.getPaymentStatus());
 
                                         return orderSummaryDTO;
@@ -442,9 +517,7 @@ public class OrderService {
                                 pd.setQuantity(pd.getQuantity() + od.getQuantity());
                                 productDetailRepository.save(pd);
                         }
-                }
-                else
-                {
+                } else {
                         throw new ConflictException("Only orders with status PLACED can be canceled");
                 }
 
