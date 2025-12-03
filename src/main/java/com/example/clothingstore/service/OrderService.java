@@ -115,11 +115,17 @@ public class OrderService {
                                 })
                                 .toList();
 
-                Double totalAmount = productDetails
+                // Double totalAmount = productDetails
+                //                 .stream()
+                //                 .mapToDouble(pd -> pd.getProductColor().getProduct().getUnitPrice()
+                //                                 * productDetailMaps.get(pd.getDetailId()))
+                //                 .sum();
+
+
+                Double totalAmount = orderDetails
                                 .stream()
-                                .mapToDouble(pd -> pd.getProductColor().getProduct().getUnitPrice()
-                                                * productDetailMaps.get(pd.getDetailId()))
-                                .sum();
+                                .mapToDouble(od -> od.getPrice() * od.getQuantity())
+                                .sum(); 
 
                 order.setTotalAmount(totalAmount);
 
@@ -128,6 +134,8 @@ public class OrderService {
                 order.setPaymentMethod(orderRequestDTO.getPaymentMethod());
 
                 order.setShippingFee((order.getTotalAmount() >= 1000000.0) ? 0.0 : 30000.0);
+
+                order.setDiscountAmount(0.0);
 
                 // if (orderRequestDTO.getPromotionGiftIds() != null &&
                 // !orderRequestDTO.getPromotionGiftIds().isEmpty()) {
