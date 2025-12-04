@@ -44,11 +44,11 @@ public class ReviewService {
     }
 
     @Transactional
-    public ReviewResponseDTO createReviewByProductId(Integer productId, ReviewRequestDTO reviewRequestDTO) {
+    public ReviewResponseDTO createReviewByProductId(Integer customerId, Integer productId, ReviewRequestDTO reviewRequestDTO) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException("Invalid product code"));
 
-        Customer customer = customerRepository.findById(1) // CODE CUNG CHO LAM XONG SPRING SECURIY CONTEXT
+        Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Invalid customer code"));
 
         Review review = new Review();
