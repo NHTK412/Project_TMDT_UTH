@@ -27,6 +27,8 @@ public class ProductSummaryDTO {
 
     private List<ProductColorResponseDTO> productColors;
 
+    private Double averageRating;
+
     public ProductSummaryDTO(Product product) {
         this.productId = product.getProductId();
         this.productName = product.getProductName();
@@ -40,5 +42,10 @@ public class ProductSummaryDTO {
                     return new ProductColorResponseDTO(productColor);
                 })
                 .toList();
+
+        this.averageRating = product.getReviews().stream()
+                .mapToInt((review) -> review.getRating())
+                .average()
+                .orElse(0.0);
     }
 }

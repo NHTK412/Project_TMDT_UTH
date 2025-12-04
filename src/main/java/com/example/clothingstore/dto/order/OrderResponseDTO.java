@@ -47,4 +47,8 @@ public class OrderResponseDTO {
     private List<OrderDetailResponseDTO> orderDetails;
 
     private List<OrderGiftResponseDTO> orderGifts;
+
+    private Boolean isReview;
+
+
 }

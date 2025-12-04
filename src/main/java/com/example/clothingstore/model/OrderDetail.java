@@ -49,7 +49,10 @@ public class OrderDetail extends Base {
     @JoinColumn(name = "ProductDetailId")
     private ProductDetail productDetail;
 
-    @ManyToOne
+    @ManyToOne(cascade = jakarta.persistence.CascadeType.MERGE)
     @JoinColumn(name = "OrderId")
     private Order order;
+
+    @Column(name = "IsReview")
+    private Boolean isReview;
 }

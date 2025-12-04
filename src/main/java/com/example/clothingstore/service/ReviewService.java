@@ -12,9 +12,11 @@ import com.example.clothingstore.dto.review.ReviewResponseDTO;
 import com.example.clothingstore.exception.customer.NotFoundException;
 import com.example.clothingstore.mapper.ReviewMapper;
 import com.example.clothingstore.model.Customer;
+import com.example.clothingstore.model.OrderDetail;
 import com.example.clothingstore.model.Product;
 import com.example.clothingstore.model.Review;
 import com.example.clothingstore.repository.CustomerRepository;
+import com.example.clothingstore.repository.OrderDetailRepository;
 import com.example.clothingstore.repository.ProductRepository;
 import com.example.clothingstore.repository.ReviewRepository;
 
@@ -33,6 +35,9 @@ public class ReviewService {
     private CustomerRepository customerRepository;
 
     @Autowired
+    private OrderDetailRepository orderDetailRepository;
+
+    @Autowired
     private ReviewMapper reviewMapper;
 
     public List<ReviewResponseDTO> getALLReviewByProductId(Integer productId, Pageable pageable) {
@@ -44,12 +49,16 @@ public class ReviewService {
     }
 
     @Transactional
-    public ReviewResponseDTO createReviewByProductId(Integer customerId, Integer productId, ReviewRequestDTO reviewRequestDTO) {
+    public ReviewResponseDTO createReviewByProductId(Integer orderDetailId, Integer customerId, Integer productId,
+            ReviewRequestDTO reviewRequestDTO) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotFoundException("Invalid product code"));
 
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NotFoundException("Invalid customer code"));
+
+        OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId)
+                .orElseThrow(() -> new NotFoundException("Invalid order detail code"));
 
         Review review = new Review();
 
@@ -60,6 +69,25 @@ public class ReviewService {
         review = reviewMapper.convertReviewRequestDTOtoModel(reviewRequestDTO, review);
 
         reviewRepository.save(review);
+
+        // Cập nhật isReview trong OrderDetail
+        orderDetail.setIsReview(true);
+        orderDetailRepository.save(orderDetail);
+
+        // for (OrderDetail od : orderDetail.getOrder().getOrderDetails())
+        // {
+        // if ()
+        // }
+
+        for (int i = 0; i < orderDetail.getOrder().getOrderDetails().size(); i++) {
+            if (orderDetail.getIsReview() == false) {
+                // return reviewMapper.convertModelToReviewResponseDTO(review);
+                break;
+            }
+            if (i == orderDetail.getOrder().getOrderDetails().size() - 1) {
+                orderDetail.getOrder().setIsReview(true);
+            }
+        }
 
         return reviewMapper.convertModelToReviewResponseDTO(review);
 

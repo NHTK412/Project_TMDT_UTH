@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.example.clothingstore.enums.OrderPaymentStatusEnum;
 import com.example.clothingstore.enums.OrderStatusEnum;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,8 @@ public class OrderSummaryDTO {
 
     private Integer orderQuantity;
 
+    private Boolean isReview;
+
     // private String recipientName; // Nghĩa tiếng việt: Tên người nhận
 
     // private String phoneNumber; // Nghĩa tiếng việt: Số điện thoại người nhận
@@ -42,5 +45,6 @@ public class OrderSummaryDTO {
 
     // private String province; // Nghĩa tiếng việt: Tỉnh/Thành phố
 
-    // private OrderPaymentStatusEnum paymentStatus; // Nghĩa tiếng việt: Trạng thái thanh toán
+    // private OrderPaymentStatusEnum paymentStatus; // Nghĩa tiếng việt: Trạng thái
+    // thanh toán
 }

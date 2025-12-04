@@ -89,4 +89,8 @@ public class Order extends Base {
     @ManyToOne
     @JoinColumn(name = "CustomerId")
     private Customer customer;
+
+    @Column(name = "IsReview")
+    private Boolean isReview;
+
 }

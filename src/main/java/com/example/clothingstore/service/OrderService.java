@@ -249,6 +249,7 @@ public class OrderService {
                 order.setCustomer(customer);
                 order.setDeliveryDate(LocalDateTime.now().plusDays(3));
                 order.setStatus(OrderStatusEnum.PLACED);
+                order.setIsReview(false);
 
                 // 4. Set thông tin giao hàng
                 order.setRecipientName(shippingAddress.getRecipientName());

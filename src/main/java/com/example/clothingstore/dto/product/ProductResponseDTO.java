@@ -34,6 +34,9 @@ public class ProductResponseDTO {
 
     private StatusEnum status;
 
+    // Trung bình rating
+    private Double averageRating;
+
     public ProductResponseDTO(Product product) {
         this.productId = product.getProductId();
         this.productName = product.getProductName();
@@ -47,12 +50,18 @@ public class ProductResponseDTO {
                     return new ProductColorResponseDTO(producrColor);
                 })
                 .toList();
+
         this.reviews = product.getReviews()
                 .stream()
                 .map((review) -> {
                     return new ReviewResponseDTO(review);
                 })
                 .toList();
+
+        this.averageRating = product.getReviews().stream()
+                .mapToInt((review) -> review.getRating())
+                .average()
+                .orElse(0.0);
 
         this.status = product.getStatus();
     }

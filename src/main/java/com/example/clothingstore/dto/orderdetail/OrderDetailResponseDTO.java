@@ -25,4 +25,6 @@ public class OrderDetailResponseDTO {
 
     private Integer productId;
 
+    private Boolean isReview;
+
 }
