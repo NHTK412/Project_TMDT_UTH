@@ -23,4 +23,6 @@ public class OrderDetailResponseDTO {
 
     private Double price;
 
+    private Integer productId;
+
 }
