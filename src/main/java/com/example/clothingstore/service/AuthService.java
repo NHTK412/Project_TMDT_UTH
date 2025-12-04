@@ -15,8 +15,10 @@ import com.example.clothingstore.exception.customer.ConflictException;
 import com.example.clothingstore.exception.customer.InvalidRefreshTokenException;
 import com.example.clothingstore.exception.customer.NotFoundException;
 import com.example.clothingstore.model.Admin;
+import com.example.clothingstore.model.Cart;
 import com.example.clothingstore.model.Customer;
 import com.example.clothingstore.repository.AdminRepository;
+import com.example.clothingstore.repository.CartRepository;
 import com.example.clothingstore.repository.CustomerRepository;
 import com.example.clothingstore.repository.MembershipTierRepository;
 import com.example.clothingstore.util.JwtUtil;
@@ -39,6 +41,9 @@ public class AuthService {
 
     @Autowired
     private MembershipTierRepository membershipTierRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
 
     @Autowired
     JwtUtil jwtUtil;
@@ -72,6 +77,10 @@ public class AuthService {
         customer.setMembershipTier(membershipTierRepository.findByTierName("SILVER").get());
 
         customerRepository.save(customer);
+
+        Cart cart = new Cart();
+        cart.setCustomer(customer);
+        cartRepository.save(cart);
 
         return login(userName, password, false);
     }

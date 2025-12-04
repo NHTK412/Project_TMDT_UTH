@@ -327,7 +327,8 @@ public class OrderService {
                         orderDetailResponseDTO.setQuantity(od.getQuantity());
                         orderDetailResponseDTO.setPrice(od.getPrice());
                         orderDetailResponseDTO.setOrderDetailId(od.getDetailId());
-                        orderDetailResponseDTO.setProductId(od.getProductDetail().getProductColor().getProduct().getProductId());
+                        orderDetailResponseDTO.setProductId(
+                                        od.getProductDetail().getProductColor().getProduct().getProductId());
                         return orderDetailResponseDTO;
                 }).toList();
                 orderResponseDTO.setOrderDetails(orderDetailResponseDTOs);
@@ -412,7 +413,8 @@ public class OrderService {
 
                                         orderDetailResponseDTO.setOrderDetailId(od.getDetailId());
 
-                                        orderDetailResponseDTO.setProductId(od.getProductDetail().getProductColor().getProduct().getProductId());
+                                        orderDetailResponseDTO.setProductId(od.getProductDetail().getProductColor()
+                                                        .getProduct().getProductId());
 
                                         return orderDetailResponseDTO;
                                 })
@@ -522,21 +524,23 @@ public class OrderService {
                 Order order = orderRepository.findById(orderId)
                                 .orElseThrow(() -> new NotFoundException("Order not found"));
 
-                if (status == OrderStatusEnum.CANCELED && order.getStatus() == OrderStatusEnum.PLACED) {
+                if (status == OrderStatusEnum.CANCELED) {
+                        if (order.getStatus() != OrderStatusEnum.PLACED) {
+                                throw new ConflictException("Only orders with status PLACED can be canceled");
+                        }
+
+                        // Hoàn lại số lượng vào kho
                         for (OrderDetail od : order.getOrderDetails()) {
                                 ProductDetail pd = od.getProductDetail();
                                 pd.setQuantity(pd.getQuantity() + od.getQuantity());
                                 productDetailRepository.save(pd);
                         }
-                } else {
-                        throw new ConflictException("Only orders with status PLACED can be canceled");
                 }
 
                 order.setStatus(status);
+                orderRepository.save(order);
 
-                Order updatedOrder = orderRepository.save(order);
-
-                return getOrderById(updatedOrder.getOrderId());
+                return getOrderById(order.getOrderId());
         }
 
 }
