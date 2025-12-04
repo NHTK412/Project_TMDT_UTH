@@ -5,6 +5,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.clothingstore.dto.product.ProductRequestDTO;
 import com.example.clothingstore.dto.product.ProductResponseDTO;
 import com.example.clothingstore.dto.product.ProductSummaryDTO;
+import com.example.clothingstore.dto.product.ProductUpdateDTO;
+import com.example.clothingstore.dto.productcolor.ProductColorRequestDTO;
+import com.example.clothingstore.dto.productcolor.ProductColorResponseDTO;
+import com.example.clothingstore.dto.productdetail.ProductDetailRequestDTO;
+import com.example.clothingstore.dto.productdetail.ProductDetailResponseDTO;
+import com.example.clothingstore.model.Product;
 import com.example.clothingstore.service.ProductService;
 import com.example.clothingstore.util.ApiResponse;
 
@@ -69,12 +75,91 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse<ProductSummaryDTO>(true, null, productSummaryDTO));
     }
 
+    // @PreAuthorize("hasRole('ADMIN')")
+    // @PutMapping("/{productId}")
+    // public ResponseEntity<ApiResponse<ProductSummaryDTO>> updateProduct(@PathVariable Integer productId,
+    //         @RequestBody ProductRequestDTO productRequest) {
+    //     return ResponseEntity
+    //             .ok(new ApiResponse<ProductSummaryDTO>(true, null,
+    //                     productService.updateProduct(productId, productRequest)));
+    // }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{productId}")
     public ResponseEntity<ApiResponse<ProductSummaryDTO>> updateProduct(@PathVariable Integer productId,
-            @RequestBody ProductRequestDTO productRequest) {
+            @RequestBody ProductUpdateDTO productUpdate) {
         return ResponseEntity
                 .ok(new ApiResponse<ProductSummaryDTO>(true, null,
-                        productService.updateProduct(productId, productRequest)));
+                        productService.updateProduct(productId, productUpdate)));
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/product-color/{productColorId}")
+    public ResponseEntity<ApiResponse<ProductColorResponseDTO>> updateProductColor(
+            @PathVariable Integer productColorId,
+            @RequestBody ProductColorRequestDTO productColorRequest) {
+
+        return ResponseEntity
+                .ok(new ApiResponse<ProductColorResponseDTO>(true, null,
+                        productService.updateProductColor(productColorId, productColorRequest)));
+
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/product-color/{productColorId}")
+    public ResponseEntity<ApiResponse<ProductColorResponseDTO>> deleteProductColor(
+            @PathVariable Integer productColorId) {
+        ProductColorResponseDTO productColorResponseDTO = productService.deleteProductColor(productColorId);
+
+        return ResponseEntity.ok(new ApiResponse<ProductColorResponseDTO>(true, null, productColorResponseDTO));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/product-color")
+    public ResponseEntity<ApiResponse<ProductColorResponseDTO>> createProductColor(
+            @RequestBody ProductColorRequestDTO productColorRequest) {
+
+        return ResponseEntity
+                .ok(new ApiResponse<ProductColorResponseDTO>(true, null,
+                        productService.createProductColor(productColorRequest)));
+
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/product-color/{productColorId}/product-detail")
+    public ResponseEntity<ApiResponse<ProductDetailResponseDTO>> createProductDetail(@RequestBody ProductDetailRequestDTO productDetailRequest, 
+            @PathVariable Integer productColorId) {
+
+        return ResponseEntity
+                .ok(new ApiResponse<ProductDetailResponseDTO>(true, null,
+                        productService.createProductDetail(productColorId, productDetailRequest)));
+
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/product-color/{productColorId}/product-detail/{productDetailId}")
+    public ResponseEntity<ApiResponse<ProductDetailResponseDTO>> updateProductDetail(
+            @PathVariable Integer productColorId,
+            @PathVariable Integer productDetailId,
+            @RequestBody ProductDetailRequestDTO productDetailRequest) {
+
+        return ResponseEntity
+                .ok(new ApiResponse<ProductDetailResponseDTO>(true, null,
+                        productService.updateProductDetail(productColorId, productDetailId, productDetailRequest)));
+
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/product-color/{productColorId}/product-detail/{productDetailId}")
+    public ResponseEntity<ApiResponse<ProductDetailResponseDTO>> deleteProductDetail(
+            @PathVariable Integer productColorId,
+            @PathVariable Integer productDetailId) {
+
+        ProductDetailResponseDTO productDetailResponseDTO = productService.deleteProductDetail(productColorId,
+                productDetailId);
+
+        return ResponseEntity.ok(new ApiResponse<ProductDetailResponseDTO>(true, null, productDetailResponseDTO));
+    }
+    
+
 }

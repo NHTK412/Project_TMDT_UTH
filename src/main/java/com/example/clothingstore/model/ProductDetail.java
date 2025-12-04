@@ -2,8 +2,11 @@ package com.example.clothingstore.model;
 
 import java.util.List;
 
+import com.example.clothingstore.enums.StatusEnum;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -58,6 +61,8 @@ public class ProductDetail extends Base {
     // @OneToMany(mappedBy = "productDetail")
     // private List<OrderDetail> orderDetails;
 
+    @Enumerated(jakarta.persistence.EnumType.STRING)
+    @Column(name = "Status", columnDefinition = "varchar(255) default 'ACTIVE'")
+    private StatusEnum status;
+
 }
-
-

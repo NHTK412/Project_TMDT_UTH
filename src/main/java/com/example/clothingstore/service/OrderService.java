@@ -326,6 +326,7 @@ public class OrderService {
                         orderDetailResponseDTO.setSize(od.getSize());
                         orderDetailResponseDTO.setQuantity(od.getQuantity());
                         orderDetailResponseDTO.setPrice(od.getPrice());
+                        orderDetailResponseDTO.setOrderDetailId(od.getDetailId());
                         return orderDetailResponseDTO;
                 }).toList();
                 orderResponseDTO.setOrderDetails(orderDetailResponseDTOs);
@@ -407,6 +408,8 @@ public class OrderService {
                                         orderDetailResponseDTO.setQuantity(od.getQuantity());
 
                                         orderDetailResponseDTO.setPrice(od.getPrice());
+
+                                        orderDetailResponseDTO.setOrderDetailId(od.getDetailId());
 
                                         return orderDetailResponseDTO;
                                 })

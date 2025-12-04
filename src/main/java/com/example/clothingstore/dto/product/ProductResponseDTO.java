@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.clothingstore.dto.productcolor.ProductColorResponseDTO;
 import com.example.clothingstore.dto.review.ReviewResponseDTO;
+import com.example.clothingstore.enums.StatusEnum;
 import com.example.clothingstore.model.Product;
 
 import lombok.AllArgsConstructor;
@@ -31,6 +32,8 @@ public class ProductResponseDTO {
 
     private List<ReviewResponseDTO> reviews;
 
+    private StatusEnum status;
+
     public ProductResponseDTO(Product product) {
         this.productId = product.getProductId();
         this.productName = product.getProductName();
@@ -50,5 +53,7 @@ public class ProductResponseDTO {
                     return new ReviewResponseDTO(review);
                 })
                 .toList();
+
+        this.status = product.getStatus();
     }
 }

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderDetailResponseDTO {
 
+    private Integer orderDetailId;
+
     private String productName;
 
     private String productImage;

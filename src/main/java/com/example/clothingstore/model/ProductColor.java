@@ -1,10 +1,14 @@
 package com.example.clothingstore.model;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.example.clothingstore.enums.StatusEnum;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,5 +41,9 @@ public class ProductColor {
     private Product product;
 
     @OneToMany(mappedBy = "productColor", cascade = CascadeType.ALL)
-    private List<ProductDetail> productDetails;
+    private List<ProductDetail> productDetails = new ArrayList<>();
+
+    @Enumerated(jakarta.persistence.EnumType.STRING)
+    @Column(name = "Status", columnDefinition = "varchar(255) default 'ACTIVE'")
+    private StatusEnum status;
 }

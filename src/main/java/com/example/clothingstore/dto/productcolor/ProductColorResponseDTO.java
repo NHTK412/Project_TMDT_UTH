@@ -3,6 +3,7 @@ package com.example.clothingstore.dto.productcolor;
 import java.util.List;
 
 import com.example.clothingstore.dto.productdetail.ProductDetailResponseDTO;
+import com.example.clothingstore.enums.StatusEnum;
 import com.example.clothingstore.model.ProductColor;
 
 import lombok.AllArgsConstructor;
@@ -22,10 +23,14 @@ public class ProductColorResponseDTO {
 
     private List<ProductDetailResponseDTO> productDetails;
 
+
+    private StatusEnum status;
+
     public ProductColorResponseDTO(ProductColor productColor) {
         this.colorId = productColor.getColorId();
         this.color = productColor.getColor();
         this.productImage = productColor.getProductImage();
+        this.status = productColor.getStatus();
         this.productDetails = productColor.getProductDetails()
                 .stream()
                 .map((productDetail) -> {

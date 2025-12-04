@@ -1,10 +1,16 @@
 package com.example.clothingstore.model;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.tool.schema.internal.exec.GenerationTarget;
+
+import com.example.clothingstore.enums.StatusEnum;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -48,12 +54,19 @@ public class Product extends Base {
     // private List<ProductDetail> productDetails;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<ProductColor> productColors;
+    private List<ProductColor> productColors = new ArrayList<>();
 
     @ManyToMany(mappedBy = "products")
     private List<Category> categories;
 
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
+
+
+    @Enumerated(jakarta.persistence.EnumType.STRING)
+    @Column(name = "Status", columnDefinition = "varchar(255) default 'ACTIVE'")
+    private StatusEnum status;
+
+    
 
 }

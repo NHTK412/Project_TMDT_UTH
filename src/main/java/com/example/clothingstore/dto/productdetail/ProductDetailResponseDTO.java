@@ -1,5 +1,8 @@
 package com.example.clothingstore.dto.productdetail;
 
+import java.io.ObjectInputFilter.Status;
+
+import com.example.clothingstore.enums.StatusEnum;
 import com.example.clothingstore.model.ProductDetail;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +22,8 @@ public class ProductDetailResponseDTO {
 
     private Integer quantity;
 
+    private StatusEnum status;
+
     // private String productImage;
 
     public ProductDetailResponseDTO(ProductDetail productDetail) {
@@ -27,6 +32,8 @@ public class ProductDetailResponseDTO {
         this.size = productDetail.getSize();
         this.quantity = productDetail.getQuantity();
         // this.productImage = productDetail.getProductImage();
+
+        this.status = productDetail.getStatus();
     }
 
 }
