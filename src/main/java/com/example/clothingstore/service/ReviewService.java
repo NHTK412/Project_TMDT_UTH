@@ -72,7 +72,7 @@ public class ReviewService {
 
         // Cập nhật isReview trong OrderDetail
         orderDetail.setIsReview(true);
-        orderDetailRepository.save(orderDetail);
+    
 
         // for (OrderDetail od : orderDetail.getOrder().getOrderDetails())
         // {
@@ -89,6 +89,7 @@ public class ReviewService {
             }
         }
 
+    orderDetailRepository.save(orderDetail);
         return reviewMapper.convertModelToReviewResponseDTO(review);
 
     }
