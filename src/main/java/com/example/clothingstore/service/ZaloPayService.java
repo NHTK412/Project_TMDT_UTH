@@ -93,7 +93,7 @@ public class ZaloPayService {
 
         // amount: Số tiền thanh toán (VNĐ)
         // order.put("amount", req.getAmount());
-        order.put("amount", o.getTotalAmount().longValue());
+        order.put("amount", o.getTotalAmount().longValue() + o.getShippingFee().longValue());
 
         // app_time: Timestamp tạo đơn hàng (milliseconds)
         order.put("app_time", System.currentTimeMillis());

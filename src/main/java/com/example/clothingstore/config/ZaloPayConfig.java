@@ -53,7 +53,8 @@ public class ZaloPayConfig {
      * 2. Chạy: ngrok http 8080
      * 3. Copy URL forwarding (https://xxx.ngrok.io) và thay thế bên dưới
      */
-    // public static final String CALLBACK_URL = "http://127.0.0.1:8080/api/zalopay/callback";
+    // public static final String CALLBACK_URL =
+    // "http://127.0.0.1:8080/api/zalopay/callback";
 
     public static final String CALLBACK_URL = "https://bilateral-misunderstandingly-veola.ngrok-free.dev/api/zalopay/callback";
 
@@ -64,5 +65,5 @@ public class ZaloPayConfig {
      * 
      * Ví dụ: "https://yourdomain.com/payment-result"
      */
-    public static final String REDIRECT_URL = "https://yourdomain.com/payment-result";
+    public static final String REDIRECT_URL = "http://localhost:5173/my-orders";
 }
